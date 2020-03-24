@@ -9,6 +9,8 @@
   <script src="./skill_tree_files/go.js.download"></script>
   <!-- <script src="../assets/js/goSamples.js"></script> -->  <!-- this is only for the GoJS Samples framework -->
   <script id="code">
+    var global_diagram = null;
+
     // This variation on ForceDirectedLayout does not move any selected Nodes
     // but does move all other nodes (vertexes).
     function ContinuousForceDirectedLayout() {
@@ -52,6 +54,7 @@
       // doLayout normally discards the LayoutNetwork by setting Layout.network to null;
       // here we remember it for next time
       this.network = net;
+      global_network = this.network
     }
     // end ContinuousForceDirectedLayout
 
@@ -76,1907 +79,1554 @@
 
 
       // Upgrades dictionary
-      var upgrades = {
-        "Brawling": [
-          {
-            "name": "Heavy swing",
-            "desc": "+1+L damage. 2FP",
-            "lvl": "22",
-            "links": [
-              "Brawling"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Charging tackle",
-            "desc": "Attempt to take opponent down to ground at -4+2L. 2FP",
-            "lvl": 44,
-            "links": [
-              "Brawling"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Furious fists",
-            "desc": "Attempt up to L extra strikes at target on miss/defend. 1FP per extra strike. Cannot combine.",
-            "lvl": 22,
-            "links": [
-              "Brawling"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Beserker",
-            "desc": "Extra action at 2FP each, either whilst attacking or defending. Up to 4 extra actions per turn",
-            "lvl": 6,
-            "links": [
-              "Brawling"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "Pin": [
-          {
-            "name": "Scuffler",
-            "desc": "Can roll any standard combat roll whilst pinning someone. ",
-            "lvl": 4,
-            "links": [
-              "Pin"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Subdue",
-            "desc": "",
-            "lvl": "",
-            "links": [
-              "Pin"
-            ],
-            "type": "U2"
-          }
-        ],
-        "Carousing": [
-          {
-            "name": "Heavy drinker",
-            "desc": "Ability to drink most others under the table without major exertion. Heavy drinking has 5% chance of causing alcoholism",
-            "lvl": 4,
-            "links": [
-              "Carousing"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Life of the party",
-            "desc": "Exhude charisma at social events, improving all attendee's opinions of you",
-            "lvl": 3,
-            "links": [
-              "Carousing"
-            ],
-            "type": "U2"
-          }
-        ],
-        "Sex appeal": [
-          {
-            "name": "Homoerotic",
-            "desc": "Even those not normally attracted to your gender can be influenced at -4+2L",
-            "lvl": 44,
-            "links": [
-              "Sex appeal"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "All things to all",
-            "desc": "Even those not normally attracted to your race can be influenced at -4+2L",
-            "lvl": 4,
-            "links": [
-              "Sex appeal"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Marketable (Sex appeal)",
-            "desc": "Can sell services for money. Target must be interested in purchase. Use lower of this skill and Bartering.",
-            "lvl": 4,
-            "links": [
-              "Sex appeal",
-              "Bartering"
-            ],
-            "type": "U3"
-          }
-        ],
-        "Acquatics": [
-          {
-            "name": "Seafare",
-            "desc": "Working knowledge of sailing, rowing",
-            "lvl": 4,
-            "links": [
-              "Acquatics"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Speed",
-            "desc": "",
-            "lvl": 24,
-            "links": [
-              "Acquatics"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Endurance",
-            "desc": "Holding breath, and prolonged swimming",
-            "lvl": 24,
-            "links": [
-              "Acquatics"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Terror of the Sea",
-            "desc": "Must be fully upgraded. Can stealth easily underwater, and no penalty to attacks.",
-            "lvl": 0,
-            "links": [
-              "Acquatics"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "Energy": [
-          {
-            "name": "Adrenaline",
-            "desc": "Roll to regain L FP when combat initiates. 5% chance of gaining bloodlust until combat finishes",
-            "lvl": 44,
-            "links": [
-              "Energy"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Pacifist",
-            "desc": "Regain an extra LFP if you go a whole day without fighting. Lose 1FP every time you enter combat",
-            "lvl": 44,
-            "links": [
-              "Energy"
-            ],
-            "type": "U2"
-          }
-        ],
-        "Willpower": [
-          {
-            "name": "Meditation",
-            "desc": "Regain 2FP for every 15 minute meditation. Can perform up to L times per day.",
-            "lvl": 44,
-            "links": [
-              "Willpower"
-            ],
-            "type": "U1"
-          }
-        ],
-        "Martial arts": [
-          {
-            "name": "Non-lethal takedown",
-            "desc": "-8+2L to immediately incapicitate opponent. 2FP. Crit fails may kill opponent",
-            "lvl": 48,
-            "links": [
-              "Martial arts"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Stealth subdue",
-            "desc": "If undetected, incapicitate opponent at -2+L",
-            "lvl": 48,
-            "links": [
-              "Martial arts"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Brutalise",
-            "desc": "Attempt attack that inflicts maximum pain for 2FP. Opponent rolls Willpower to not be stunned. Nearby enemies also roll Will+2",
-            "lvl": 4,
-            "links": [
-              "Martial arts"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Fighting Master",
-            "desc": "Must be fully upgraded. If opponent has weapon, all defences are +2. Roll -2 to disarm and take enemy to the ground. 2FP",
-            "lvl": "Quest",
-            "links": [
-              "Martial arts"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "Melee combat": [
-          {
-            "name": "Melee specialist",
-            "desc": "+1 to melee attacks. Cannot have ranged skills.",
-            "lvl": "5",
-            "links": [
-              "Melee combat"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Close-quarter expert",
-            "desc": "Act as if lvl L on all melee weapons, even if you do not have the skill",
-            "lvl": 44,
-            "links": [
-              "Melee combat"
-            ],
-            "type": "U2"
-          }
-        ],
-        "Fencing": [
-          {
-            "name": "Rapid strike",
-            "desc": "Attempt up to L extra strikes at target on miss/defend. 1FP per extra strike. Cannot combine.",
-            "lvl": 44,
-            "links": [
-              "Fencing"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Parry and strike",
-            "desc": "Successful parries can be immediately followed up by an attack at -3+L for 1FP. Parry attacks cannot use other bonuses/upgrades.",
-            "lvl": 44,
-            "links": [
-              "Fencing"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Overextend",
-            "desc": "+3 damage on success, but no defense roll next turn. 1FP",
-            "lvl": "4",
-            "links": [
-              "Fencing"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Breakthrough",
-            "desc": "Attempt a strike, opponent does not get defence roll. Costs 2FP",
-            "lvl": "Quest",
-            "links": [
-              "Fencing"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "Flail": [
-          {
-            "name": "Overhead swing",
-            "desc": "+1+L damage. 2FP",
-            "lvl": "24",
-            "links": [
-              "Flail"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Overextend",
-            "desc": "+3 damage on success, but no defense roll next turn. 1FP",
-            "lvl": "4",
-            "links": [
-              "Flail"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Disarm",
-            "desc": "Attempt to disarm opponent's weapon at -4+L. Opponent cannot use parry. 2FP",
-            "lvl": 44,
-            "links": [
-              "Flail"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Round and round",
-            "desc": "On successful hit, attempt another hit at -1 for 1FP. Cannot combine.",
-            "lvl": "Quest",
-            "links": [
-              "Flail"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "Impact": [
-          {
-            "name": "Crushing blow",
-            "desc": "+1+L damage. 2FP",
-            "lvl": "24",
-            "links": [
-              "Impact"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Wide swing",
-            "desc": "Can roll an additional L targets in range for 1FP each",
-            "lvl": 234,
-            "links": [
-              "Impact"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Disorientate",
-            "desc": "Attempt hit - if successful, opponent must roll Willpower-L to not be stunned. 1FP",
-            "lvl": 44,
-            "links": [
-              "Impact"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Bonebreaker",
-            "desc": "Attempt a devestating blow at -2 that incapitates a limb if successful. 3FP",
-            "lvl": "Quest",
-            "links": [
-              "Impact"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "Pole": [
-          {
-            "name": "Floor sweep",
-            "desc": "Attempt at -3+L to sweep opponent to ground. 1FP",
-            "lvl": 24,
-            "links": [
-              "Pole"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Distant strike",
-            "desc": "Maintain distance such that you are able to attack but opponent must move to attack you. 1FP",
-            "lvl": 4,
-            "links": [
-              "Pole"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Twirl",
-            "desc": "Attack at -2, but gain +4 parry until your next turn. 1FP",
-            "lvl": 4,
-            "links": [
-              "Pole"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Whirlwind",
-            "desc": "Sweep in a full circle, rolling at against all enemies in range. Enemies must also roll DX to not fall to floor. Costs 1FP.",
-            "lvl": "Quest",
-            "links": [
-              "Pole"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "Sword": [
-          {
-            "name": "Forward thrust",
-            "desc": "+1+L damage. 2FP",
-            "lvl": "24",
-            "links": [
-              "Sword"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Parry and strike",
-            "desc": "Successful parries can be immediately followed up by an attack at -3+L for 1FP. Parry attacks cannot use other bonuses/upgrades.",
-            "lvl": 44,
-            "links": [
-              "Sword"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Wide swing",
-            "desc": "Can roll an additional L targets in range for 1FP each",
-            "lvl": 234,
-            "links": [
-              "Sword"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Execute",
-            "desc": "Launch a masterful attack. -3 opponent defend. Ignores armor. 2FP",
-            "lvl": "Quest",
-            "links": [
-              "Sword"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "Dagger": [
-          {
-            "name": "Rapid strike",
-            "desc": "Attempt up to L extra strikes at target on miss/defend. 1FP per extra strike. Cannot combine.",
-            "lvl": 234,
-            "links": [
-              "Dagger"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Deft cuts",
-            "desc": "Quickly and silently slice through many materials. Can be used as a moving attack if undetected.",
-            "lvl": 3,
-            "links": [
-              "Dagger"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Weak point",
-            "desc": "Attempt an attack that ignores armor. 2FP",
-            "lvl": 4,
-            "links": [
-              "Dagger"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Silent takedown",
-            "desc": "If undetected, attempt an attack that is lethal to all but the toughest opponents. 3FP",
-            "lvl": "Quest",
-            "links": [
-              "Dagger"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "Ranged combat": [
-          {
-            "name": "Ranged specialist",
-            "desc": "+1 to ranged attacks. Cannot have melee skills other than Dagger",
-            "lvl": "3",
-            "links": [
-              "Ranged combat"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Distant threat",
-            "desc": "Act as if lvl L on all ranged weapons, even if you do not have the skill",
-            "lvl": 24,
-            "links": [
-              "Ranged combat"
-            ],
-            "type": "U2"
-          }
-        ],
-        "Blowpipe": [],
-        "Bow": [
-          {
-            "name": "Steady hand (bow)",
-            "desc": "+1+L to immobile targets",
-            "lvl": 222,
-            "links": [
-              "Bow"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Quickdraw (bow)",
-            "desc": "Bypass unsheath / reload time for 1FP.",
-            "lvl": 4,
-            "links": [
-              "Bow"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Multi-shot",
-            "desc": "Fire L additional arrows in broadly the same direction. -2 for first extra arrow, -3 for second. Cannot combine.",
-            "lvl": 44,
-            "links": [
-              "Bow"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Nimble bowmaster",
-            "desc": "No penalty if moving and firing. +2 against all targets. 2FP",
-            "lvl": "Quest",
-            "links": [
-              "Bow"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "Crossbow": [
-          {
-            "name": "Steady hand (x-bow)",
-            "desc": "+1+L to immobile targets",
-            "lvl": 222,
-            "links": [
-              "Crossbow"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Quickdraw (x-bow)",
-            "desc": "Bypass unsheath / reload time for 1FP.",
-            "lvl": 4,
-            "links": [
-              "Crossbow"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Parry trigger",
-            "desc": "After successful parry, fire an arrow at -2 for 1FP",
-            "lvl": 4,
-            "links": [
-              "Crossbow"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Stronghold",
-            "desc": "+3 to defense if not moving. No range damage penalty. Can wield shield with crossbow (-2 attack)",
-            "lvl": "Quest",
-            "links": [
-              "Crossbow"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "Thrown weapon": [
-          {
-            "name": "Wind-up",
-            "desc": "",
-            "lvl": "",
-            "links": [
-              "Thrown weapon"
-            ],
-            "type": "U1"
-          }
-        ],
-        "Shield": [
-          {
-            "name": "Cover",
-            "desc": "No attack this turn, but +7 to block until your next turn",
-            "lvl": 4,
-            "links": [
-              "Shield"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Charge",
-            "desc": "As an attack, run at opponent (must be in move range). If opponent fails dodge, falls to floor. 2FP",
-            "lvl": 2,
-            "links": [
-              "Shield"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Vanguard",
-            "desc": "Slowly advance, with +4 to block. Can cover up to two other people (they inherit your blocking ability). 1FP, additional 1FP every two turns. Cannot attack.",
-            "lvl": 4,
-            "links": [
-              "Shield"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Defensive offence",
-            "desc": "Attack at -2, but gain +4 block until next turn. 1FP",
-            "lvl": 5,
-            "links": [
-              "Shield"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "Climbing": [
-          {
-            "name": "Speed (climb.)",
-            "desc": "Climb L times faster",
-            "lvl": 224,
-            "links": [
-              "Climbing"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Endurance",
-            "desc": "Increase time between FP drain by 2L",
-            "lvl": 224,
-            "links": [
-              "Climbing"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Hanging",
-            "desc": "Hang from a position with 5L times less FP drain",
-            "lvl": 22,
-            "links": [
-              "Climbing"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Shadows above",
-            "desc": "If at a height advantage, remain hidden if unmoving",
-            "lvl": 4,
-            "links": [
-              "Climbing",
-              "Sneak"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "Acrobatics": [
-          {
-            "name": "Combative acrobatics",
-            "desc": "Advanced movement possible in combat. Reduce standard 'Move and Attack' penalty by 2L",
-            "lvl": 44,
-            "links": [
-              "Acrobatics"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Distracting flair",
-            "desc": "Perform stunts that may distract individuals / crowds, at -4+2L",
-            "lvl": 44,
-            "links": [
-              "Acrobatics"
-            ],
-            "type": "U2"
-          }
-        ],
-        "Jumping": [
-          {
-            "name": "Height",
-            "desc": "Jump L times higher",
-            "lvl": 24,
-            "links": [
-              "Jumping"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Length",
-            "desc": "Jump L times further",
-            "lvl": 24,
-            "links": [
-              "Jumping"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Smash",
-            "desc": "1FP. Jump whilst attacking to reduce opponent defence by 2L and increase damage by L.",
-            "lvl": 24,
-            "links": [
-              "Jumping"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Featherfoot",
-            "desc": "Must be fully upgraded. Easily clear almost all jumps. Jump whilst in combat to clear large distances and gain +3 damage if attacking in the same turn (no move penalty).",
-            "lvl": 0,
-            "links": [
-              "Jumping"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "Throwing": [
-          {
-            "name": "Velocity",
-            "desc": "Throw L times faster",
-            "lvl": 222,
-            "links": [
-              "Throwing"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Weight",
-            "desc": "Throw L times more weight effectively",
-            "lvl": 222,
-            "links": [
-              "Throwing"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Accuracy",
-            "desc": "Increase accurate range by L times",
-            "lvl": 222,
-            "links": [
-              "Throwing"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Bullseye",
-            "desc": "Must be fully upgraded. Throw most handheld objects as weapons.",
-            "lvl": 0,
-            "links": [
-              "Throwing"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "Riding": [
-          {
-            "name": "Combat steed",
-            "desc": "+3 dodge, +2 attack, +2 damage whilst mounted during combat. Move and Attack penalty reduced by 2.",
-            "lvl": "4",
-            "links": [
-              "Riding"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Wild tamer",
-            "desc": "2FP. Requires Animal handling & Acrobatics. Attempt to mount wild animal: sucess by X = X seconds on animal. Can use broadly dictate direction of animal, or deal guaranteed damage against animal. Exceptionally large animals may be at penalty",
-            "lvl": 4,
-            "links": [
-              "Riding",
-              "Animal handling",
-              "Acrobatics"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "The Meaning of Haste",
-            "desc": "Increase your ability to travel long distances mounted by L times",
-            "lvl": 24,
-            "links": [
-              "Riding"
-            ],
-            "type": "U3"
-          }
-        ],
-        "Speed": [
-          {
-            "name": "Initiative",
-            "desc": "Increase your Basic Move, for the sake of order of combat, by 2L",
-            "lvl": 333,
-            "links": [
-              "Speed"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Sprinting",
-            "desc": "Improve your sprinting: L1 = 1/2 standard FP penalty, L2 = no FP cost",
-            "lvl": 24,
-            "links": [
-              "Speed"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Traveller",
-            "desc": "Increase your ability to travel long distances by 50% * L",
-            "lvl": 24,
-            "links": [
-              "Speed"
-            ],
-            "type": "U3"
-          }
-        ],
-        "Pickpocket": [
-          {
-            "name": "Deposit",
-            "desc": "At -3+L, plant a item on an unwitting victim. May be penalised for large objects. 1FP",
-            "lvl": 224,
-            "links": [
-              "Pickpocket"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Slippery",
-            "desc": "Attempt to sneak away on fail, at -4+2L",
-            "lvl": 24,
-            "links": [
-              "Pickpocket"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Into the crowd",
-            "desc": "+2L when in crowded area, and +2L to get away if caught",
-            "lvl": 44,
-            "links": [
-              "Pickpocket"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Sleight of hand",
-            "desc": "In face-to-face, attempt to pickpocket via any impromptu contact without penalty",
-            "lvl": 4,
-            "links": [
-              "Pickpocket"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "Sneak": [
-          {
-            "name": "Misdirect",
-            "desc": "Whilst undetected, distract victims to other locations at -4+L. 1FP",
-            "lvl": 2448,
-            "links": [
-              "Sneak"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Slip away",
-            "desc": "After being detected, roll to return to being hidden. Costs 2FP (even if fail)",
-            "lvl": 4,
-            "links": [
-              "Sneak"
-            ],
-            "type": "U2"
-          }
-        ],
-        "Escape": [
-          {
-            "name": "Premptive resist",
-            "desc": "When you are first being restrained, even if unconscious, roll DX-2: success = your restaints are faulty. Escaping from faulty restraints takes 10 seconds.",
-            "lvl": 4,
-            "links": [
-              "Escape"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Flexible",
-            "desc": "Reduce time per attempt. L1: 50%; L2: 5%",
-            "lvl": 24,
-            "links": [
-              "Escape"
-            ],
-            "type": "U2"
-          }
-        ],
-        "Smithing": [
-          {
-            "name": "Design",
-            "desc": "Construct intermediate devices and weaponry. Complex designs are a Mechanics upgrade.",
-            "lvl": 5,
-            "links": [
-              "Smithing",
-              "Mechanics"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Marketable (Smithing)",
-            "desc": "Can sell services for money. Target must be interested in purchase. Use lower of this skill and Bartering.",
-            "lvl": 4,
-            "links": [
-              "Smithing",
-              "Bartering"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Mystic smithing",
-            "desc": "Requires Mystics II, Smithing IV. Work with mystic substances.",
-            "lvl": "Quest",
-            "links": [
-              "Smithing",
-              "Basic Mystics"
-            ],
-            "type": "U3"
-          }
-        ],
-        "Lumberjack": [],
-        "Carpentry": [
-          {
-            "name": "Design",
-            "desc": "Construct intermediate devices and weaponry. Complex designs are a Mechanics upgrade.",
-            "lvl": "",
-            "links": [
-              "Carpentry"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Marketable",
-            "desc": "Can sell services for money. Target must be interested in purchase. Use lower of this skill and Bartering.",
-            "lvl": "",
-            "links": [
-              "Carpentry",
-              "Bartering"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Mystic carpentry",
-            "desc": "Requires Mystics II, Carpentry IV. Work with mystic materials.",
-            "lvl": "Quest",
-            "links": [
-              "Carpentry",
-              "Basic Mystics"
-            ],
-            "type": "U3"
-          }
-        ],
-        "Interrogation": [
-          {
-            "name": "Violent methods",
-            "desc": "+2L bonus if violence inflicted on victim. 10% chance of causing Bloodlust.",
-            "lvl": 44,
-            "links": [
-              "Interrogation"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Pacifist methods (inter.)",
-            "desc": "Can interrogate even without immediate credible threat at -2+L. Cannot be used if violence has been inflicted on victim.",
-            "lvl": 44,
-            "links": [
-              "Interrogation"
-            ],
-            "type": "U2"
-          }
-        ],
-        "Diplomacy": [
-          {
-            "name": "Combat negotiations",
-            "desc": "-4+2L to attempt to stop a fight long enough to talk",
-            "lvl": 44,
-            "links": [
-              "Diplomacy"
-            ],
-            "type": "U1"
-          }
-        ],
-        "Fast-Talk": [
-          {
-            "name": "Backtrack",
-            "desc": "On first failure, people will not distrust you",
-            "lvl": 5,
-            "links": [
-              "Fast-Talk"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "On a roll",
-            "desc": "Successive lies to the same listener become +L easier each time",
-            "lvl": 48,
-            "links": [
-              "Fast-Talk"
-            ],
-            "type": "U2"
-          }
-        ],
-        "Intimidation": [
-          {
-            "name": "Violent methods",
-            "desc": "+2L bonus if violence inflicted on victim. 10% chance of causing Bloodlust.",
-            "lvl": 44,
-            "links": [
-              "Intimidation"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Pacifist methods (intim.)",
-            "desc": "Can intimidate even without immediate credible threat at -2+L. Cannot be used if violence has been inflicted on victim.",
-            "lvl": 44,
-            "links": [
-              "Intimidation"
-            ],
-            "type": "U2"
-          }
-        ],
-        "Savoir-Faire": [
-          {
-            "name": "Elegance",
-            "desc": "Ability to pass of as a much richer/more powerful person than you really are. Still requires roll.",
-            "lvl": 4,
-            "links": [
-              "Savoir-Faire"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Friends in high places",
-            "desc": "1FP. Roll -4+2L to gain access to powerful authority figures, bypassing standard channels.",
-            "lvl": 4,
-            "links": [
-              "Savoir-Faire"
-            ],
-            "type": "U2"
-          }
-        ],
-        "Streetwise": [
-          {
-            "name": "Air of trouble",
-            "desc": "Ability to pass of as a much more dangerous person than you really are. Still requires roll.",
-            "lvl": 4,
-            "links": [
-              "Streetwise"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Friends in low places",
-            "desc": "1FP. Roll -4+2L to gain access to powerful criminal/underworld figures, bypassing standard channels.",
-            "lvl": 4,
-            "links": [
-              "Streetwise"
-            ],
-            "type": "U2"
-          }
-        ],
-        "Public speaking": [],
-        "Bartering": [
-          {
-            "name": "Unusual find",
-            "desc": "1FP. Roll -4+2L to find unusual, overlooked items",
-            "lvl": 24,
-            "links": [
-              "Bartering"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Selling",
-            "desc": "1FP. +L when selling, to increase the price.",
-            "lvl": 44,
-            "links": [
-              "Bartering"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Buying",
-            "desc": "1FP. +L when buying, to lower the price.",
-            "lvl": 44,
-            "links": [
-              "Bartering"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Master Haggler",
-            "desc": "Must be fully upgraded. No FP cost for upgrades, reroll once on fail",
-            "lvl": 5,
-            "links": [
-              "Bartering"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "Business": [],
-        "Leadership": [
-          {
-            "name": "Rally",
-            "desc": "During combat, give +2 attack to all nearby allies, but cannot attack, or defend this turn. Recommended to be in cover or not in direct danger.",
-            "lvl": 4,
-            "links": [
-              "Leadership"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Authoritive",
-            "desc": "+L to communication checks. To use, must roll successful Leadership first.",
-            "lvl": 44,
-            "links": [
-              "Leadership"
-            ],
-            "type": "U2"
-          }
-        ],
-        "Acting": [
-          {
-            "name": "Impersonation",
-            "desc": "Mimic specific individuals' voices. Pairs well with Disguise upgrade. Acting check required at -6+2L every time someone grows suspiscious.",
-            "lvl": 468,
-            "links": [
-              "Acting"
-            ],
-            "type": "U1"
-          }
-        ],
-        "Animal handling": [
-          {
-            "name": "Empathy",
-            "desc": "Understand behaviour & emotion",
-            "lvl": 4,
-            "links": [
-              "Animal handling"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Communication",
-            "desc": "L1: basic (very short) commands. L2: more complex interaction",
-            "lvl": 48,
-            "links": [
-              "Animal handling"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Combat",
-            "desc": "Instruct animals whilst in combat. L1: companions. L2: all non-hostile animals",
-            "lvl": 48,
-            "links": [
-              "Animal handling"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Wild whisperer",
-            "desc": "In many situations, can instruct companion animal to fulfil actions on your behalf",
-            "lvl": 4,
-            "links": [
-              "Animal handling"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "Camouflage": [],
-        "Naturalist": [
-          {
-            "name": "Natural defences",
-            "desc": "Make use of natural environment as cover during combat. +4 to dodge. 1FP",
-            "lvl": 4,
-            "links": [
-              "Naturalist"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Revival",
-            "desc": "Roll to attempt to regain 2FP when in wilderness. Lose 1FP if fail. May perform once per hour.",
-            "lvl": 4,
-            "links": [
-              "Naturalist"
-            ],
-            "type": "U2"
-          }
-        ],
-        "Hunting": [
-          {
-            "name": "Marketable",
-            "desc": "Can sell services for money. Target must be interested in purchase. Use lower of this skill and Bartering.",
-            "lvl": 4,
-            "links": [
-              "Hunting"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Killshot",
-            "desc": "+3 to attacks & damage against wild animals if undetected",
-            "lvl": "4",
-            "links": [
-              "Hunting",
-              "Ranged combat"
-            ],
-            "type": "U2"
-          }
-        ],
-        "Area knowledge": [
-          {
-            "name": "Unfamiliar bearings",
-            "desc": "Even in unfamiliar territory, quickly gain useful sense of the environment and potential points of interest",
-            "lvl": 4,
-            "links": [
-              "Area knowledge"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Marketable",
-            "desc": "Can sell services for money. Target must be interested in purchase. Use lower of this skill and Bartering.",
-            "lvl": 4,
-            "links": [
-              "Area knowledge",
-              "Bartering"
-            ],
-            "type": "U2"
-          }
-        ],
-        "Navigation": [],
-        "Survival": [
-          {
-            "name": "Down with a fight",
-            "desc": "+2+L to rolls to remain conscious",
-            "lvl": 24,
-            "links": [
-              "Survival"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Fast recovery",
-            "desc": "Gain 1HP per 15 minute self-conducted therapy for 1FP cost. Can be done up to L times per day",
-            "lvl": 234,
-            "links": [
-              "Survival"
-            ],
-            "type": "U2"
-          }
-        ],
-        "Crewman": [],
-        "Traps": [
-          {
-            "name": "Defusal",
-            "desc": "Attempt to defuse traps at -4+2L",
-            "lvl": 24,
-            "links": [
-              "Traps"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Creation",
-            "desc": "Set your own basic traps at -4+2L",
-            "lvl": 44,
-            "links": [
-              "Traps"
-            ],
-            "type": "U2"
-          }
-        ],
-        "Shadowing": [
-          {
-            "name": "Marketable",
-            "desc": "Can sell services for money. Target must be interested in purchase. Use lower of this skill and Bartering.",
-            "lvl": 4,
-            "links": [
-              "Shadowing"
-            ],
-            "type": "U1"
-          }
-        ],
-        "Observation": [
-          {
-            "name": "Intuition",
-            "desc": "Roll for gut feeling of important things to be looking at",
-            "lvl": 3,
-            "links": [
-              "Observation"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Eavesdropping",
-            "desc": "Discretely overhear conversations at -3+L. Requires Sneak in public areas. +1 for acute hearing",
-            "lvl": 44,
-            "links": [
-              "Observation"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Eye for value",
-            "desc": "Identify most valuable items on target at -2+L",
-            "lvl": 24,
-            "links": [
-              "Observation"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Sharp ears, sharp eyes",
-            "desc": "+1 to Ranged Combat & Empathy",
-            "lvl": "4",
-            "links": [
-              "Observation"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "Empathy": [
-          {
-            "name": "Motivations",
-            "desc": "1FP. Read underlying motives at -2+L.",
-            "lvl": 24,
-            "links": [
-              "Empathy"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Lying",
-            "desc": "1FP. Attempt to discern if individual is lying at -2+L.",
-            "lvl": 44,
-            "links": [
-              "Empathy"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Emotions",
-            "desc": "1FP. Understand emotional state of individual at -2+L.",
-            "lvl": 22,
-            "links": [
-              "Empathy"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Soulreader",
-            "desc": "No FP cost to use empathy upgrades. Insights can be used to gain trust / intimidate.",
-            "lvl": 5,
-            "links": [
-              "Empathy"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "Scrounging": [
-          {
-            "name": "Lucky eye",
-            "desc": "Option to roll again",
-            "lvl": 4,
-            "links": [
-              "Scrounging"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Quick scan",
-            "desc": "Reduce time needed to scrounge. L1: 50%, L2: 25%",
-            "lvl": 24,
-            "links": [
-              "Scrounging"
-            ],
-            "type": "U2"
-          }
-        ],
-        "Searching": [],
-        "First aid": [
-          {
-            "name": "Major wounds",
-            "desc": "Can treat larger wounds at -6+2L",
-            "lvl": 48,
-            "links": [
-              "First aid"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Revival",
-            "desc": "Roll to revive unconscious individual. Cannot use on self",
-            "lvl": 4,
-            "links": [
-              "First aid"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Unconsciousness",
-            "desc": "Can attempt to revive an unconscious individual for 1FP at -8+2L",
-            "lvl": 44,
-            "links": [
-              "First aid"
-            ],
-            "type": "U3"
-          }
-        ],
-        "Basic Mystics": [
-          {
-            "name": "Identification",
-            "desc": "May only roll once per artifact. If failed, will require outside knowledge to identify artifact e.g. text research / expert",
-            "lvl": "4/Quest",
-            "links": [
-              "Basic Mystics",
-              "Research"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Divine principals I",
-            "desc": "Basic understanding of the mythic embedded in Lura",
-            "lvl": "Quest",
-            "links": [
-              "Basic Mystics",
-              "Mechanics"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Mystic knowledge I",
-            "desc": "Basic working knowledge of the principals of mystic arts.",
-            "lvl": "Quest",
-            "links": [
-              "Basic Mystics",
-              "Smithing",
-              "Carpentry"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Mystic Practitioner",
-            "desc": "Requires Mystic Carpentry and Mystic Smithing. Ability to create own rudimentary mystic devices. Sufficient skill to attract attention of more knowledgeable practioners\u2026",
-            "lvl": "",
-            "links": [
-              "Basic Mystics"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "Artifacts": [
-          {
-            "name": "Safe handling",
-            "desc": "May only roll once per artifact. If failed, will require outside knowledge to learn how to use artifact e.g. text research / expert",
-            "lvl": "4/Quest",
-            "links": [
-              "Artifacts"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Combat use",
-            "desc": "Safe handling and Identification required. To use mystic capabilities, must roll at -4+2L before standard attack roll.",
-            "lvl": 24,
-            "links": [
-              "Artifacts"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Specialised use",
-            "desc": "Safe handling and Identification required. To use unusual specialised mystic capabilities, must roll at -4+2L",
-            "lvl": 48,
-            "links": [
-              "Artifacts"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Reconstitution",
-            "desc": "Requires: Mystic Technology & Safe Handling & either Combat use II or Specialised use II. May require Mystic Smithing. Ability to extract core technology from Artifact and repurpose into other devices.",
-            "lvl": 8,
-            "links": [
-              "Artifacts"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "Writing": [
-          {
-            "name": "Forgery",
-            "desc": "-6+2L to forge documents",
-            "lvl": 48,
-            "links": [
-              "Writing"
-            ],
-            "type": "U1"
-          }
-        ],
-        "Research": [
-          {
-            "name": "Professional publication",
-            "desc": "Requires Writing II. Can create lucrative research articles that can afford high prices in academic circles.",
-            "lvl": 5,
-            "links": [
-              "Research",
-              "Writing"
-            ],
-            "type": "U1"
-          }
-        ],
-        "Law": [
-          {
-            "name": "Legal obfuscation",
-            "desc": "Attempt to avoid punishment by law enforcement through legal knowledge at -4+2L",
-            "lvl": 44,
-            "links": [
-              "Law"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Court martial",
-            "desc": "Can attempt to intimidate individuals with threat of law intervention (even if no crime has been commited) at -4+2L",
-            "lvl": 48,
-            "links": [
-              "Law"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Marketable (Law)",
-            "desc": "Can sell services for money. Target must be interested in purchase. Use lower of this skill and Bartering.",
-            "lvl": 4,
-            "links": [
-              "Law",
-              "Bartering"
-            ],
-            "type": "U3"
-          }
-        ],
-        "Healing": [
-          {
-            "name": "Surgery",
-            "desc": "Undertake major surgical operations at -6+2L",
-            "lvl": 48,
-            "links": [
-              "Healing"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Mystic injuries",
-            "desc": "Treat allictions caused by mystic artifacts. Requires Mystics",
-            "lvl": 4,
-            "links": [
-              "Healing"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Marketable (Healing)",
-            "desc": "Can sell services for money. Target must be interested in purchase. Use lower of this skill and Bartering.",
-            "lvl": 4,
-            "links": [
-              "Healing",
-              "Bartering"
-            ],
-            "type": "U3"
-          }
-        ],
-        "Humanities": [],
-        "Maths": [],
-        "History": [
-          {
-            "name": "Continent",
-            "desc": "In depth knowledge of single continent. Possible to have this upgrade without skill: assume level 0 History",
-            "lvl": 5,
-            "links": [
-              "History"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Major event",
-            "desc": "In depth knowledge of specific event, that may be of prolonged duration",
-            "lvl": 5,
-            "links": [
-              "History"
-            ],
-            "type": "U2"
-          }
-        ],
-        "Mechanics": [
-          {
-            "name": "Repair",
-            "desc": "Repair damaged weaponry / devices",
-            "lvl": 4,
-            "links": [
-              "Mechanics"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Repurpose",
-            "desc": "Extract core mechanisms from devices for use elsewhere",
-            "lvl": 4,
-            "links": [
-              "Mechanics"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Creation",
-            "desc": "Create rudimentary devices and weaponry. Some will require successful Smithing.",
-            "lvl": 8,
-            "links": [
-              "Mechanics"
-            ],
-            "type": "U3"
-          }
-        ],
-        "Artistry": [
-          {
-            "name": "Fiction & poetry",
-            "desc": "Low time commitment, but sells cheaply. Requires Writing III. Takes 1 day, consumes 2FP. Roll at -3+L upon completion: greater success produces greater work.",
-            "lvl": 244,
-            "links": [
-              "Artistry"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Painting & drawing",
-            "desc": "Moderate prices, moderate effort. Takes 3 days, consumes 2FP per day until completion. Roll at -3+L upon completion: greater success produces greater work.",
-            "lvl": 244,
-            "links": [
-              "Artistry"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Sculpture",
-            "desc": "Affords high prices, but time consuming. Takes 7 days, consumes 2FP per day until completion. Roll at -3+L upon completion: greater success produces greater work.",
-            "lvl": 244,
-            "links": [
-              "Artistry"
-            ],
-            "type": "U3"
-          }
-        ],
-        "Engineer": [
-          {
-            "name": "Construction",
-            "desc": "Can plan and oversee construction of major structures (e.g. houses, small bridges)",
-            "lvl": 4,
-            "links": [
-              "Engineer"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Destruction",
-            "desc": "Can identify weak points in structures, enabling easier destruction",
-            "lvl": 4,
-            "links": [
-              "Engineer"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Advanced design",
-            "desc": "Create advanced mechanical devices and weaponry. Requires Design upgrade in both Carpentry and Smithing",
-            "lvl": 8,
-            "links": [
-              "Engineer",
-              "Carpentry",
-              "Smithing"
-            ],
-            "type": "U3"
-          }
-        ],
-        "Armoury": [
-          {
-            "name": "Fashion",
-            "desc": "1FP. Create aesthetic clothing. Takes one day. Roll on completion at -2+L: greater success means greater work. Fail means clothing is non-marketable",
-            "lvl": 33,
-            "links": [
-              "Armoury"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Armour",
-            "desc": "Create armour. Takes two days to complete, 2FP per day. Roll on completion at -2+L: greater success means better armour. Fail means armour is useless. May require successful Smithing.",
-            "lvl": 55,
-            "links": [
-              "Armoury",
-              "Smithing"
-            ],
-            "type": "U2"
-          }
-        ],
-        "Performance": [
-          {
-            "name": "Musician",
-            "desc": "1FP per attempt. Ability to compentently perform chosen instrument(s). Roll -6+2L. Easy to find gigs, but pay is often poor.",
-            "lvl": 444,
-            "links": [
-              "Performance"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Stage",
-            "desc": "1FP per attempt. Requires Acting. Ability to compentently perform in theatrical productions. Roll -6+2L. Harder to find roles, but better and more stable income.",
-            "lvl": 444,
-            "links": [
-              "Performance",
-              "Acting"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Dancer",
-            "desc": "1FP per attempt. Requires Acrobatics. Ability to compentently perform in dance productions. Roll -6+2L. Very hard to find roles, but high income.",
-            "lvl": 444,
-            "links": [
-              "Performance",
-              "Acrobatics"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Triple threat",
-            "desc": "Access extremely lucrative roles in courts & cities. No FP cost to performing.",
-            "lvl": 8,
-            "links": [
-              "Performance"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "Disguise": [
-          {
-            "name": "Improvisation",
-            "desc": "Reduce the time it takes to create a disguise. L1 = 50%; L2 = 25%",
-            "lvl": 44,
-            "links": [
-              "Disguise"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Impersonation",
-            "desc": "Visually mimic specific individuals. Pairs well with Acting upgrade. Disguise check required at -6+2L every time someone grows suspiscious.",
-            "lvl": 468,
-            "links": [
-              "Disguise"
-            ],
-            "type": "U2"
-          }
-        ],
-        "Conceal": [],
-        "Lockpicking": [
-          {
-            "name": "Nimble fingers",
-            "desc": "Reduces time per attempt. L1: 50%, L2: 10%",
-            "lvl": 24,
-            "links": [
-              "Lockpicking"
-            ],
-            "type": "U1"
-          }
-        ],
-        "The Investigator (Lewis)": [
-          {
-            "name": "Reconstruction",
-            "desc": "Special ability.",
-            "lvl": "",
-            "links": [
-              "The Investigator (Lewis)"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Commissioner-General",
-            "desc": "Special quest. Requires all upgrades.",
-            "lvl": 40,
-            "links": [
-              "The Investigator (Lewis)"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "The Industrial (Tawa)": [
-          {
-            "name": "Guildmaster-on-High",
-            "desc": "Special quest. Requires all upgrades.",
-            "lvl": 40,
-            "links": [
-              "The Industrial (Tawa)"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "The Fist (Buzze)": [
-          {
-            "name": "Fury",
-            "desc": "Special ability.",
-            "lvl": "",
-            "links": [
-              "The Fist (Buzze)"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Focus",
-            "desc": "Special ability.",
-            "lvl": "",
-            "links": [
-              "The Fist (Buzze)"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Fear",
-            "desc": "Special ability.",
-            "lvl": "",
-            "links": [
-              "The Fist (Buzze)"
-            ],
-            "type": "U3"
-          },
-          {
-            "name": "Warrior of the Fourth",
-            "desc": "Special quest. Requires all upgrades.",
-            "lvl": 40,
-            "links": [
-              "The Fist (Buzze)",
-              "Brawling",
-              "Impact"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "The Inquisitor (Ramon)": [
-          {
-            "name": "Emotion reader",
-            "desc": "Special ability.",
-            "lvl": "",
-            "links": [
-              "The Inquisitor (Ramon)"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "The Ear to All",
-            "desc": "Special quest. Requires all upgrades.",
-            "lvl": 40,
-            "links": [
-              "The Inquisitor (Ramon)",
-              "Empathy"
-            ],
-            "type": "UMAX"
-          }
-        ],
-        "The Socialite (Uda)": [
-          {
-            "name": "Smooth-talk",
-            "desc": "Special ability.",
-            "lvl": "",
-            "links": [
-              "The Socialite (Uda)"
-            ],
-            "type": "U1"
-          },
-          {
-            "name": "Influence",
-            "desc": "Special ability.",
-            "lvl": "",
-            "links": [
-              "The Socialite (Uda)"
-            ],
-            "type": "U2"
-          },
-          {
-            "name": "Court of the Gods",
-            "desc": "Special quest. Requires all upgrades.",
-            "lvl": 40,
-            "links": [
-              "The Socialite (Uda)",
-              "Diplomacy",
-              "Savoir-Faire",
-              "Streetwise"
-            ],
-            "type": "UMAX"
-          }
-        ]
-      }
+upgrades = {
+  "Brawling": [
+    {
+      "name": "Heavy swing",
+      "desc": "+1+L damage. 2FP",
+      "lvl": 22.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Charging tackle",
+      "desc": "Attempt to take opponent down to ground at lower of -4+2L or tackle skill. Deal sw damage. 1FP",
+      "lvl": 44,
+      "required": "Tackle",
+      "type": "U2"
+    },
+    {
+      "name": "Furious fists",
+      "desc": "Attempt up to L extra strikes at target on miss/defend. 1FP per extra strike. Cannot stack.",
+      "lvl": 22,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Beserker",
+      "desc": "Extra action at 1FP each, either whilst attacking or defending. Up to 4 extra actions per turn",
+      "lvl": 6,
+      "required": "All upgrades, ",
+      "type": "UMAX"
+    }
+  ],
+  "Pin": [
+    {
+      "name": "Scuffler",
+      "desc": "Can roll any standard combat roll whilst pinning someone. ",
+      "lvl": 4.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Subdue",
+      "desc": "4/L consecutive turns of pin will stun opponent for 2 rounds.",
+      "lvl": 24,
+      "required": "",
+      "type": "U2"
+    }
+  ],
+  "Tackle": [
+    {
+      "name": "Unawares",
+      "desc": "If not in direct line of sight, roll Sneak to take to ground without resistance.",
+      "lvl": 5.0,
+      "required": "",
+      "type": "U1"
+    }
+  ],
+  "Acquatics": [
+    {
+      "name": "Seafare",
+      "desc": "Working knowledge of sailing, rowing",
+      "lvl": 4.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Swim speed",
+      "desc": "Increase swim speed by L times",
+      "lvl": 24,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Endurance",
+      "desc": "Holding breath, and prolonged swimming, each by L times",
+      "lvl": 24,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Terror of the Sea",
+      "desc": "Must be fully upgraded. Can stealth easily underwater, and no penalty to attacks.",
+      "lvl": 0,
+      "required": "All upgrades, ",
+      "type": "UMAX"
+    }
+  ],
+  "Energy": [
+    {
+      "name": "Adrenaline",
+      "desc": "Roll to regain L FP when combat initiates. 5% chance of gaining bloodlust until combat finishes",
+      "lvl": 44.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Pacifist",
+      "desc": "Regain an extra LFP if you go a whole day without fighting. Lose 1FP every time you enter combat",
+      "lvl": 44,
+      "required": "",
+      "type": "U2"
+    }
+  ],
+  "Willpower": [
+    {
+      "name": "Meditation",
+      "desc": "Regain 2FP for every 15 minute meditation. Can perform up to L times per day.",
+      "lvl": 44.0,
+      "required": "",
+      "type": "U1"
+    }
+  ],
+  "Martial arts": [
+    {
+      "name": "Non-lethal takedown",
+      "desc": "-8+2L to immediately incapicitate opponent. 2FP. Crit fails may kill opponent",
+      "lvl": 48.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Stealth subdue",
+      "desc": "If undetected, incapicitate opponent at -2+L",
+      "lvl": 48,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Brutalise",
+      "desc": "Attempt to inflict maximum pain. 1FP. Opponent rolls Willpower to avoid stun. Nearby enemies roll Will+2",
+      "lvl": 4,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Fighting Master",
+      "desc": "If opponent has weapon, +2 to all defence rolls. Roll -2 to disarm and take enemy to the ground. 1FP",
+      "lvl": "Q",
+      "required": "All upgrades, Fully upgraded",
+      "type": "UMAX"
+    }
+  ],
+  "Melee combat": [
+    {
+      "name": "Melee specialist",
+      "desc": "+1 to melee attacks. Cannot have ranged skills.",
+      "lvl": 5.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Close-quarter expert",
+      "desc": "Act as if lvl L on all melee weapons, even if you do not have the skill",
+      "lvl": 44,
+      "required": "",
+      "type": "U2"
+    }
+  ],
+  "Fencing": [
+    {
+      "name": "Rapid strike",
+      "desc": "Attempt up to L extra strikes at target on miss/defend. 1FP per extra strike. Cannot combine.",
+      "lvl": 44.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Parry and strike (fencing)",
+      "desc": "Successful parries can be immediately followed up by an attack at -3+L for 1FP. Cannot stack other bonuses/upgrades.",
+      "lvl": 44,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Overextend",
+      "desc": "+3 damage on success, but no defense roll next turn. 1FP",
+      "lvl": "4",
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Breakthrough",
+      "desc": "Attempt a strike, opponent does not get defence roll. Costs 2FP",
+      "lvl": "Q",
+      "required": "All upgrades, ",
+      "type": "UMAX"
+    }
+  ],
+  "Flail": [
+    {
+      "name": "Overhead swing",
+      "desc": "+1+L damage. 2FP",
+      "lvl": 24.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Overextend",
+      "desc": "+3 damage on success, but no defense roll next turn. 1FP",
+      "lvl": "4",
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Disarm",
+      "desc": "Attempt to disarm opponent's weapon at -4+L. Opponent cannot use parry. 2FP",
+      "lvl": 44,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Round and round",
+      "desc": "On successful hit, attempt another hit at -1 for 1FP. Further hits after that cost 2FP.",
+      "lvl": "Q",
+      "required": "All upgrades, ",
+      "type": "UMAX"
+    }
+  ],
+  "Impact": [
+    {
+      "name": "Crushing blow",
+      "desc": "+1+L damage. 2FP",
+      "lvl": 24.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Wide swing (impact)",
+      "desc": "Can roll an additional L targets in range for 1FP each",
+      "lvl": 234,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Disorientate",
+      "desc": "Attempt hit - if successful, opponent must roll Willpower-L to not be stunned. 1FP",
+      "lvl": 44,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Bonebreaker",
+      "desc": "Attempt a devestating blow at -2 that incapitates a limb if successful. 2FP",
+      "lvl": "Q",
+      "required": "All upgrades, ",
+      "type": "UMAX"
+    }
+  ],
+  "Pole": [
+    {
+      "name": "Floor sweep",
+      "desc": "Attempt at -3+L to sweep opponent to ground. 1FP",
+      "lvl": 24.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Distant strike",
+      "desc": "Maintain distance such that you are able to attack but opponent must move to attack you. 1FP",
+      "lvl": 4,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Twirl",
+      "desc": "Attack at -2, but gain +4 parry until your next turn. 1FP",
+      "lvl": 4,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Whirlwind",
+      "desc": "Sweep in a full circle, rolling against all enemies in range. Enemies roll DX to not fall to floor. 1FP.",
+      "lvl": "Q",
+      "required": "All upgrades, ",
+      "type": "UMAX"
+    }
+  ],
+  "Sword": [
+    {
+      "name": "Forward thrust",
+      "desc": "+1+L damage. 2FP",
+      "lvl": 24.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Parry and strike (sword)",
+      "desc": "Successful parries can be immediately followed up by an attack at -3+L for 1FP. Cannot stack other bonuses/upgrades.",
+      "lvl": 44,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Wide swing (sword)",
+      "desc": "Can roll an additional L targets in range for 1FP each",
+      "lvl": 234,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Execute",
+      "desc": "Launch a masterful attack. -3 opponent defend. Ignores armor. 2FP",
+      "lvl": "Q",
+      "required": "All upgrades, ",
+      "type": "UMAX"
+    }
+  ],
+  "Dagger": [
+    {
+      "name": "Rapid strike",
+      "desc": "Attempt up to L extra strikes at target on miss/defend. 1FP per extra strike. Cannot combine.",
+      "lvl": 234.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Deft cuts",
+      "desc": "Quickly and silently slice through many materials. Can be used as a moving attack if undetected.",
+      "lvl": 3,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Weak point",
+      "desc": "Attempt an attack that ignores armor. 2FP",
+      "lvl": 4,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Silent takedown",
+      "desc": "If undetected, attempt an attack that is lethal to all but the toughest opponents. 2FP",
+      "lvl": "Q",
+      "required": "All upgrades, Sneak II",
+      "type": "UMAX"
+    }
+  ],
+  "Ranged combat": [
+    {
+      "name": "Ranged specialist",
+      "desc": "+1 to ranged attacks. Cannot have melee skills other than Dagger",
+      "lvl": 3.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Distant threat",
+      "desc": "Act as if lvl L on all ranged weapons, even if you do not have the skill",
+      "lvl": 24,
+      "required": "",
+      "type": "U2"
+    }
+  ],
+  "Blowpipe": [],
+  "Bow": [
+    {
+      "name": "Steady hand (bow)",
+      "desc": "+1+L to immobile targets",
+      "lvl": 222.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Quickdraw (bow)",
+      "desc": "Bypass unsheath / reload time for 1FP.",
+      "lvl": 4,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Multi-shot",
+      "desc": "Fire L additional arrows in broadly same direction. -2 for first extra arrow, -3 for second. Cannot combine.",
+      "lvl": 44,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Nimble bowmaster",
+      "desc": "No penalty if moving and firing. +2 against all targets. 2FP",
+      "lvl": "Q",
+      "required": "All upgrades, ",
+      "type": "UMAX"
+    }
+  ],
+  "Crossbow": [
+    {
+      "name": "Steady hand (crossbow)",
+      "desc": "+1+L to immobile targets",
+      "lvl": 222.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Quickdraw (crossbow)",
+      "desc": "Bypass unsheath / reload time for 1FP.",
+      "lvl": 4,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Parry trigger",
+      "desc": "After successful parry, fire an arrow at -2 for 1FP",
+      "lvl": 4,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Stronghold",
+      "desc": "+3 to defense if not moving. No range damage penalty. Can wield shield with crossbow (-2 attack)",
+      "lvl": "Q",
+      "required": "All upgrades, ",
+      "type": "UMAX"
+    }
+  ],
+  "Thrown weapon": [],
+  "Artillery": [],
+  "Shield": [
+    {
+      "name": "Cover",
+      "desc": "No attack this turn, but +7 to block until your next turn",
+      "lvl": 4.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Charge",
+      "desc": "As an attack, run at opponent (must be in move range). If opponent fails dodge, falls to floor. 1FP",
+      "lvl": 2,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Vanguard",
+      "desc": "Slowly advance, +4 to block. Cover up to two others (inherit your block). 1FP, +1FP every 2s. Cannot attack.",
+      "lvl": 4,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Defensive offence",
+      "desc": "Attack at -2, but gain +4 block until next turn. 1FP",
+      "lvl": 5,
+      "required": "All upgrades, ",
+      "type": "UMAX"
+    }
+  ],
+  "Climbing": [
+    {
+      "name": "Speed (climb.)",
+      "desc": "Climb L times faster",
+      "lvl": 224.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Endurance",
+      "desc": "Increase time between FP drain by 2L",
+      "lvl": 224,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Hanging",
+      "desc": "Hang from a position with 5L times less FP drain",
+      "lvl": 22,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Shadows above",
+      "desc": "If at a height advantage, remain hidden if unmoving",
+      "lvl": 4,
+      "required": "All upgrades, Sneak II",
+      "type": "UMAX"
+    }
+  ],
+  "Acrobatics": [
+    {
+      "name": "Combative acrobatics",
+      "desc": "Advanced movement possible in combat. Reduce standard 'Move and Attack' penalty by 2L",
+      "lvl": 44.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Distracting flair",
+      "desc": "Perform stunts that may distract individuals / crowds, at -4+2L",
+      "lvl": 44,
+      "required": "",
+      "type": "U2"
+    }
+  ],
+  "Jumping": [
+    {
+      "name": "Height",
+      "desc": "Jump L times higher",
+      "lvl": 24.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Length",
+      "desc": "Jump L times further",
+      "lvl": 24,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Smash",
+      "desc": "1FP. Jump whilst attacking to reduce opponent defence by 2L and increase damage by L.",
+      "lvl": 24,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Featherfoot",
+      "desc": "Easily clear almost all jumps. 1FP in combat to clear large distances, no move penalty, +3 dmg.",
+      "lvl": 0,
+      "required": "All upgrades, Fully upgraded",
+      "type": "UMAX"
+    }
+  ],
+  "Throwing": [
+    {
+      "name": "Velocity",
+      "desc": "Throw L times faster",
+      "lvl": 222.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Weight",
+      "desc": "Throw L times more weight effectively",
+      "lvl": 222,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Accuracy",
+      "desc": "Increase accurate range by L times",
+      "lvl": 222,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Bullseye",
+      "desc": "Must be fully upgraded. Throw most handheld objects as weapons.",
+      "lvl": 0,
+      "required": "All upgrades, Fully upgraded",
+      "type": "UMAX"
+    }
+  ],
+  "Riding": [
+    {
+      "name": "Combat steed",
+      "desc": "+3 dodge, +2 attack, +2 damage whilst mounted during combat. Move and Attack penalty reduced by 2.",
+      "lvl": 4.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Wild tamer",
+      "desc": "1FP. Attempt to mount wild animal: success by X = X sec. Can broadly direct of animal, or deal guaranteed damage. ",
+      "lvl": 4,
+      "required": "Animal handling II, Acrobatics",
+      "type": "U2"
+    },
+    {
+      "name": "The Meaning of Haste",
+      "desc": "Increase your ability to travel long distances mounted by L times",
+      "lvl": 24,
+      "required": "",
+      "type": "U3"
+    }
+  ],
+  "Speed": [
+    {
+      "name": "Initiative",
+      "desc": "Increase your Basic Move, for the sake of order of combat, by 2L",
+      "lvl": 333.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Sprinting",
+      "desc": "Improve your sprinting: L1 = 1/2 standard FP penalty, L2 = no FP cost",
+      "lvl": 24,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Traveller",
+      "desc": "Increase your ability to travel long distances by 50% * L",
+      "lvl": 24,
+      "required": "",
+      "type": "U3"
+    }
+  ],
+  "Pickpocket": [
+    {
+      "name": "Deposit",
+      "desc": "At -3+L, plant a item on an unwitting victim. May be penalised for large objects. 1FP",
+      "lvl": 224.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Slippery",
+      "desc": "Attempt to sneak away on fail, at -4+2L",
+      "lvl": 24,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Into the crowd",
+      "desc": "+2L when in crowded area, and +2L to get away if caught",
+      "lvl": 44,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Sleight of hand",
+      "desc": "In face-to-face, attempt to pickpocket via any impromptu contact without penalty",
+      "lvl": 4,
+      "required": "All upgrades, ",
+      "type": "UMAX"
+    }
+  ],
+  "Sneak": [
+    {
+      "name": "Misdirect",
+      "desc": "Whilst undetected, distract victims to other locations at -4+L. 1FP",
+      "lvl": 2448.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Slip away",
+      "desc": "After being detected, roll to return to being hidden. Costs 2FP (even if fail)",
+      "lvl": 4,
+      "required": "",
+      "type": "U2"
+    }
+  ],
+  "Escape": [
+    {
+      "name": "Premptive resist",
+      "desc": "When first being restrained, even unconscious, roll at -2. Can escape from faulty restraints in 10s",
+      "lvl": 4.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Flexible",
+      "desc": "Reduce time per attempt. L1: 50%; L2: 5%",
+      "lvl": 24,
+      "required": "",
+      "type": "U2"
+    }
+  ],
+  "Smithing": [
+    {
+      "name": "Metalcraft",
+      "desc": "Construct intermediate devices and weaponry. Complex designs are a Mechanics upgrade.",
+      "lvl": 5.0,
+      "required": "Mechanics II",
+      "type": "U1"
+    },
+    {
+      "name": "Marketable (Smither)",
+      "desc": "Can sell services for money. Target must be interested in purchase. Use lower of this skill and Bartering.",
+      "lvl": 4,
+      "required": "Bartering",
+      "type": "U2"
+    },
+    {
+      "name": "Mystic smithing",
+      "desc": "Requires Mystics II, Smithing IV. Work with mystic substances.",
+      "lvl": "Quest",
+      "required": "Basic Mystics II, Smithing IV",
+      "type": "U3"
+    }
+  ],
+  "Lumberjack": [],
+  "Carpentry": [
+    {
+      "name": "Woodcraft",
+      "desc": "Construct intermediate devices and weaponry. Complex designs are a Mechanics upgrade.",
+      "lvl": 3.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Marketable (Carpenter)",
+      "desc": "Can sell services for money. Target must be interested in purchase. Use lower of this skill and Bartering.",
+      "lvl": 4,
+      "required": "Bartering",
+      "type": "U2"
+    },
+    {
+      "name": "Mystic woodcraft",
+      "desc": "Requires Mystics II, Carpentry IV. Work with mystic materials.",
+      "lvl": "Quest",
+      "required": "Basic Mystics II, Carpentry IV, Naturalist",
+      "type": "U3"
+    }
+  ],
+  "Interrogation": [
+    {
+      "name": "Violent methods (interrogation)",
+      "desc": "+2L bonus if violence inflicted on victim. 10% chance of causing Bloodlust.",
+      "lvl": 44.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Pacifist methods (interrogation)",
+      "desc": "Can interrogate even without immediate credible threat at -2+L. Cannot be used if violence has been inflicted.",
+      "lvl": 44,
+      "required": "",
+      "type": "U2"
+    }
+  ],
+  "Diplomacy": [
+    {
+      "name": "Combat negotiations",
+      "desc": "-4+2L to attempt to stop a fight long enough to talk",
+      "lvl": 44.0,
+      "required": "",
+      "type": "U1"
+    }
+  ],
+  "Fast-Talk": [
+    {
+      "name": "Backtrack",
+      "desc": "On first failure, people will not distrust you",
+      "lvl": 5.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "On a roll",
+      "desc": "Successive lies to the same listener become +L easier each time",
+      "lvl": 48,
+      "required": "",
+      "type": "U2"
+    }
+  ],
+  "Intimidation": [
+    {
+      "name": "Violent methods (intimidation)",
+      "desc": "+2L bonus if violence inflicted on victim. 10% chance of causing Bloodlust.",
+      "lvl": 44.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Pacifist methods (intimidation)",
+      "desc": "Can intimidate even without immediate credible threat at -2+L. Cannot be used if violence has been inflicted.",
+      "lvl": 44,
+      "required": "",
+      "type": "U2"
+    }
+  ],
+  "Savoir-Faire": [
+    {
+      "name": "Elegance",
+      "desc": "Ability to pass of as a much richer/more powerful person than you really are. Still requires roll.",
+      "lvl": 4.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Friends in high places",
+      "desc": "1FP. Roll -4+2L to gain access to powerful authority figures, bypassing standard channels.",
+      "lvl": 4,
+      "required": "",
+      "type": "U2"
+    }
+  ],
+  "Streetwise": [
+    {
+      "name": "Air of trouble",
+      "desc": "Ability to pass of as a much more dangerous person than you really are. Still requires roll.",
+      "lvl": 4.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Friends in low places",
+      "desc": "1FP. Roll -4+2L to gain access to powerful criminal/underworld figures, bypassing standard channels.",
+      "lvl": 4,
+      "required": "",
+      "type": "U2"
+    }
+  ],
+  "Public speaking": [],
+  "Bartering": [
+    {
+      "name": "Unusual find",
+      "desc": "1FP. Roll -4+2L to find unusual, overlooked items",
+      "lvl": 24.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Selling",
+      "desc": "1FP. +L when selling, to increase the price.",
+      "lvl": 44,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Buying",
+      "desc": "1FP. +L when buying, to lower the price.",
+      "lvl": 44,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Master Haggler",
+      "desc": "Must be fully upgraded. No FP cost for upgrades, reroll once on fail",
+      "lvl": 5,
+      "required": "All upgrades, ",
+      "type": "UMAX"
+    }
+  ],
+  "Business": [],
+  "Leadership": [
+    {
+      "name": "Rally",
+      "desc": "+2 attack to all nearby allies, but cannot attack / defend this turn. Recommended to be in cover.",
+      "lvl": 4.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Authoritive",
+      "desc": "+L to communication checks. To use, must roll successful Leadership first.",
+      "lvl": 44,
+      "required": "",
+      "type": "U2"
+    }
+  ],
+  "Acting": [
+    {
+      "name": "Impersonation",
+      "desc": "Mimic specific individuals' voices. Acting check required at -6+2L every time someone grows suspiscious.",
+      "lvl": 468.0,
+      "required": "",
+      "type": "U1"
+    }
+  ],
+  "Carousing": [
+    {
+      "name": "Heavy drinker",
+      "desc": "Drink most others under the table without major exertion. Heavy drinking has 5% chance of alcoholism",
+      "lvl": 4.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Life of the party",
+      "desc": "Exhude charisma at social events, improving all attendee's opinions of you",
+      "lvl": 3,
+      "required": "",
+      "type": "U2"
+    }
+  ],
+  "Sex appeal": [
+    {
+      "name": "Homoerotic",
+      "desc": "Even those not normally attracted to your gender can be influenced at -4+2L",
+      "lvl": 44.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "All things to all",
+      "desc": "Even those not normally attracted to your race can be influenced at -4+2L",
+      "lvl": 4,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "The Oldest Profession",
+      "desc": "Can sell services for money. Target must be interested in purchase. Use lower of this skill and Bartering.",
+      "lvl": 4,
+      "required": "Bartering",
+      "type": "U3"
+    }
+  ],
+  "Animal handling": [
+    {
+      "name": "Empathy",
+      "desc": "Understand behaviour & emotion",
+      "lvl": 4.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Communication",
+      "desc": "L1: basic (very short) commands. L2: more complex interaction",
+      "lvl": 48,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Combat",
+      "desc": "Instruct animals whilst in combat. L1: companions. L2: all non-hostile animals",
+      "lvl": 48,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Wild whisperer",
+      "desc": "In many situations, can instruct companion animal to fulfil actions on your behalf",
+      "lvl": 4,
+      "required": "All upgrades, ",
+      "type": "UMAX"
+    }
+  ],
+  "Camouflage": [],
+  "Naturalist": [
+    {
+      "name": "Natural defences",
+      "desc": "Make use of natural environment as cover during combat. +4 to dodge. 1FP",
+      "lvl": 4.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Revival",
+      "desc": "Roll to attempt to regain 2FP when in wilderness. Lose 1FP if fail. May perform once per hour.",
+      "lvl": 4,
+      "required": "",
+      "type": "U2"
+    }
+  ],
+  "Hunting": [
+    {
+      "name": "Marketable",
+      "desc": "Can sell services for money. Target must be interested in purchase. Use lower of this skill and Bartering.",
+      "lvl": 4.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Killshot",
+      "desc": "+3 to attacks & damage against wild animals if undetected",
+      "lvl": "4",
+      "required": "Ranged combat",
+      "type": "U2"
+    }
+  ],
+  "Area knowledge": [
+    {
+      "name": "Unfamiliar bearings",
+      "desc": "Even in unfamiliar territory, quickly gain useful sense of the environment and potential points of interest",
+      "lvl": 4.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Marketable (Tourer)",
+      "desc": "Can sell services for money. Target must be interested in purchase. Use lower of this skill and Bartering.",
+      "lvl": 4,
+      "required": "Bartering",
+      "type": "U2"
+    }
+  ],
+  "Navigation": [],
+  "Survival": [
+    {
+      "name": "Down with a fight",
+      "desc": "+2+L to rolls to remain conscious",
+      "lvl": 24.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Fast recovery",
+      "desc": "Gain 1HP per 15 minute self-conducted therapy for 1FP cost. Can be done up to L times per day",
+      "lvl": 234,
+      "required": "",
+      "type": "U2"
+    }
+  ],
+  "Crewman": [],
+  "Traps": [
+    {
+      "name": "Defusal",
+      "desc": "Attempt to defuse traps at -4+2L",
+      "lvl": 24.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Creation",
+      "desc": "Set your own basic traps at -4+2L",
+      "lvl": 44,
+      "required": "",
+      "type": "U2"
+    }
+  ],
+  "Shadowing": [
+    {
+      "name": "Marketable",
+      "desc": "Can sell services for money. Target must be interested in purchase. Use lower of this skill and Bartering.",
+      "lvl": 4.0,
+      "required": "",
+      "type": "U1"
+    }
+  ],
+  "Observation": [
+    {
+      "name": "Intuition",
+      "desc": "Roll for gut feeling of important things to be looking at",
+      "lvl": 3.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Eavesdropping",
+      "desc": "Discretely overhear conversations at -3+L. Requires Sneak in public areas. +1 for acute hearing",
+      "lvl": 44,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Eye for value",
+      "desc": "Identify most valuable items on target at -2+L",
+      "lvl": 24,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Sharp ears, sharp eyes",
+      "desc": "+1 to Ranged Combat & Empathy",
+      "lvl": "4",
+      "required": "All upgrades, ",
+      "type": "UMAX"
+    }
+  ],
+  "Empathy": [
+    {
+      "name": "Motivations",
+      "desc": "1FP. Read underlying motives at -2+L.",
+      "lvl": 24.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Lying",
+      "desc": "1FP. Attempt to discern if individual is lying at -2+L.",
+      "lvl": 44,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Emotions",
+      "desc": "1FP. Understand emotional state of individual at -2+L.",
+      "lvl": 22,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Soulreader",
+      "desc": "No FP cost to use empathy upgrades. Insights can be used to gain trust / intimidate.",
+      "lvl": 5,
+      "required": "All upgrades, ",
+      "type": "UMAX"
+    }
+  ],
+  "Scrounging": [
+    {
+      "name": "Lucky eye",
+      "desc": "Option to roll again",
+      "lvl": 4.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Quick scan",
+      "desc": "Reduce time needed to scrounge. L1: 50%, L2: 25%",
+      "lvl": 24,
+      "required": "",
+      "type": "U2"
+    }
+  ],
+  "Searching": [],
+  "First aid": [
+    {
+      "name": "Major wounds",
+      "desc": "Can treat larger wounds at -6+2L",
+      "lvl": 48.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Revival",
+      "desc": "Roll to revive unconscious individual. Cannot use on self",
+      "lvl": 4,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Unconsciousness",
+      "desc": "Can attempt to revive an unconscious individual for 1FP at -8+2L",
+      "lvl": 44,
+      "required": "",
+      "type": "U3"
+    }
+  ],
+  "Basic Mystics": [
+    {
+      "name": "Identification",
+      "desc": "May only roll once per artifact. If failed, will require outside knowledge e.g. text research / expert",
+      "lvl": 4.0,
+      "required": "Research/Quest",
+      "type": "U1"
+    },
+    {
+      "name": "Divine principals I",
+      "desc": "Basic understanding of the mythic embedded in Lura",
+      "lvl": "Q",
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Mystic knowledge I",
+      "desc": "Basic working knowledge of the principals of mystic arts.",
+      "lvl": "Q",
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Mystic Practitioner",
+      "desc": "Create rudimentary mystic devices. Sufficient skill to attract attention of more knowledgeable practioners\u2026",
+      "lvl": "",
+      "required": "All upgrades, Mystic Smithing, Mystic Carpentry",
+      "type": "UMAX"
+    }
+  ],
+  "Artifacts": [
+    {
+      "name": "Safe handling",
+      "desc": "May only roll once per artifact. If failed, will require outside knowledge e.g. text research / expert",
+      "lvl": 4.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Combat use",
+      "desc": "Safe handling and Identification required. To use capabilities, must roll at -4+2L before standard attack roll.",
+      "lvl": 22244,
+      "required": "Identification, Safe handling",
+      "type": "U2"
+    },
+    {
+      "name": "Specialised use",
+      "desc": "Safe handling and Identification required. To use unusual specialised mystic capabilities, must roll at -4+2L",
+      "lvl": 48,
+      "required": "Identification, Safe handling",
+      "type": "U3"
+    },
+    {
+      "name": "Reconstitution",
+      "desc": "Ability to extract core technology from Artifact and repurpose into other devices.",
+      "lvl": 8,
+      "required": "All upgrades, Safe Handling, Combat or Specialised Use, Mystic Smithing or Woodcraft",
+      "type": "UMAX"
+    }
+  ],
+  "Writing": [
+    {
+      "name": "Forgery",
+      "desc": "-6+2L to forge documents",
+      "lvl": 48.0,
+      "required": "",
+      "type": "U1"
+    }
+  ],
+  "Research": [
+    {
+      "name": "Professional publication",
+      "desc": "Create lucrative research articles that can afford high prices and prestige in academic circles.",
+      "lvl": 5.0,
+      "required": "Writing",
+      "type": "U1"
+    }
+  ],
+  "Law": [
+    {
+      "name": "Legal obfuscation",
+      "desc": "Attempt to avoid punishment by law enforcement through legal knowledge at -4+2L",
+      "lvl": 44.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Court martial",
+      "desc": "Can attempt to intimidate individuals with threat of law intervention (even if no crime commited) at -4+2L",
+      "lvl": 48,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Marketable (Law)",
+      "desc": "Can sell services for money. Target must be interested in purchase. Use lower of this skill and Bartering.",
+      "lvl": 4,
+      "required": "Bartering",
+      "type": "U3"
+    }
+  ],
+  "Healing": [
+    {
+      "name": "Surgery",
+      "desc": "Undertake major surgical operations at -6+2L",
+      "lvl": 48.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Mystic injuries",
+      "desc": "Treat allictions caused by mystic artifacts. Requires Mystics",
+      "lvl": 4,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Marketable (Healing)",
+      "desc": "Can sell services for money. Target must be interested in purchase. Use lower of this skill and Bartering.",
+      "lvl": 4,
+      "required": "Bartering",
+      "type": "U3"
+    }
+  ],
+  "Humanities": [],
+  "Maths": [],
+  "History": [
+    {
+      "name": "Continent",
+      "desc": "In-depth knowledge of single continent. Possible to have this upgrade without skill: assume level 0 History",
+      "lvl": 5.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Major event",
+      "desc": "In depth knowledge of specific event, that may be of prolonged duration",
+      "lvl": 5,
+      "required": "",
+      "type": "U2"
+    }
+  ],
+  "Mechanics": [
+    {
+      "name": "Repairer",
+      "desc": "Repair damaged weaponry / devices",
+      "lvl": 4.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Retooler",
+      "desc": "Extract core mechanisms from devices for use elsewhere",
+      "lvl": 4,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Machiner",
+      "desc": "Create rudimentary devices and weaponry. Some will require successful Smithing.",
+      "lvl": 8,
+      "required": "",
+      "type": "U3"
+    }
+  ],
+  "Artistry": [
+    {
+      "name": "Fiction & poetry",
+      "desc": "Low time commitment, but sells cheaply. Takes 1 day, consumes 2FP. Roll at -3+L on completion.",
+      "lvl": 244.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Painting & drawing",
+      "desc": "Moderate prices, moderate effort. Takes 3 days, 2FP per day until complete. Roll at -3+L upon completion",
+      "lvl": 244,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Sculpture",
+      "desc": "High prices, but time consuming. Takes 7 days, consumes 2FP per day. Roll at -3+L upon completion",
+      "lvl": 244,
+      "required": "",
+      "type": "U3"
+    }
+  ],
+  "Engineer": [
+    {
+      "name": "Construction",
+      "desc": "Can plan and oversee construction of major structures (e.g. houses, small bridges)",
+      "lvl": 4.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Destruction",
+      "desc": "Can identify weak points in structures, enabling easier destruction",
+      "lvl": 4,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Advanced design",
+      "desc": "Create advanced mechanical devices and weaponry.",
+      "lvl": 8,
+      "required": "Carpentry, Smithing",
+      "type": "U3"
+    }
+  ],
+  "Armoury": [
+    {
+      "name": "Fashion",
+      "desc": "1FP. Create aesthetic clothing. Takes one day. Roll on completion at -2+L. Fail = clothing non-marketable",
+      "lvl": 33.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Armour",
+      "desc": "Create armour. Two days to complete, 2FP per day. Roll on completion at -2+L: greater success = better armour.",
+      "lvl": 55,
+      "required": "Smithing",
+      "type": "U2"
+    }
+  ],
+  "Performance": [
+    {
+      "name": "Musician",
+      "desc": "1FP. Ability to compentently perform chosen instrument(s) at -6+2L. Easy to find gigs, but pay is often poor.",
+      "lvl": 444.0,
+      "required": "Writing II",
+      "type": "U1"
+    },
+    {
+      "name": "Stage",
+      "desc": "1FP. Ability to perform in theatrical productions. Roll -6+2L. Harder to find roles, but better and more stable income.",
+      "lvl": 444,
+      "required": "Acting II",
+      "type": "U2"
+    },
+    {
+      "name": "Dancer",
+      "desc": "1FP. Competently perform in dance productions. Roll -6+2L. Very hard to find roles, but high income.",
+      "lvl": 444,
+      "required": "Acrobatics II",
+      "type": "U3"
+    },
+    {
+      "name": "Triple threat",
+      "desc": "Access extremely lucrative roles in courts & cities. No FP cost to performing.",
+      "lvl": 8,
+      "required": "All upgrades, ",
+      "type": "UMAX"
+    }
+  ],
+  "Disguise": [
+    {
+      "name": "Improvisation",
+      "desc": "Reduce the time it takes to create a disguise. L1 = 50%; L2 = 25%",
+      "lvl": 44.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Impersonation",
+      "desc": "Visually mimic individuals. Disguise check required at -6+2L every time someone grows suspiscious.",
+      "lvl": 468,
+      "required": "",
+      "type": "U2"
+    }
+  ],
+  "Conceal": [],
+  "Lockpicking": [
+    {
+      "name": "Nimble fingers",
+      "desc": "Reduces time per attempt. L1: 50%, L2: 10%",
+      "lvl": 24.0,
+      "required": "",
+      "type": "U1"
+    }
+  ],
+  "The Investigator (Lewis)": [
+    {
+      "name": "Work in progress",
+      "desc": "",
+      "lvl": "",
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Work in progress",
+      "desc": "",
+      "lvl": "",
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Work in progress",
+      "desc": "",
+      "lvl": "",
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Commissioner-General",
+      "desc": "Special quest. Requires all upgrades.",
+      "lvl": 40,
+      "required": "All upgrades, ",
+      "type": "UMAX"
+    }
+  ],
+  "The Industrial (Tawa)": [
+    {
+      "name": "Work in progress",
+      "desc": "",
+      "lvl": "",
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Work in progress",
+      "desc": "",
+      "lvl": "",
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Work in progress",
+      "desc": "",
+      "lvl": "",
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Guildmaster-on-High",
+      "desc": "Special quest. Requires all upgrades.",
+      "lvl": 40,
+      "required": "All upgrades, ",
+      "type": "UMAX"
+    }
+  ],
+  "The Fist (Buzze)": [
+    {
+      "name": "Work in progress",
+      "desc": "",
+      "lvl": "",
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Work in progress",
+      "desc": "",
+      "lvl": "",
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Work in progress",
+      "desc": "",
+      "lvl": "",
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Warrior of the Fourth",
+      "desc": "Special quest. Requires all upgrades.",
+      "lvl": 40,
+      "required": "All upgrades, Brawling, Impact",
+      "type": "UMAX"
+    }
+  ],
+  "The Inquisitor (Ramon)": [
+    {
+      "name": "Work in progress",
+      "desc": "",
+      "lvl": "",
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Work in progress",
+      "desc": "",
+      "lvl": "",
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Work in progress",
+      "desc": "",
+      "lvl": "",
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "The Ear to All",
+      "desc": "Special quest. Requires all upgrades.",
+      "lvl": 40,
+      "required": "All upgrades, Empathy",
+      "type": "UMAX"
+    }
+  ],
+  "The Socialite (Uda)": [
+    {
+      "name": "Work in progress",
+      "desc": "",
+      "lvl": "",
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Work in progress",
+      "desc": "",
+      "lvl": "",
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Work in progress",
+      "desc": "",
+      "lvl": "",
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Court of the Gods",
+      "desc": "Special quest. Requires all upgrades.",
+      "lvl": 40,
+      "required": "All upgrades, Diplomacy, Savoir-Faire, Streetwise",
+      "type": "UMAX"
+    }
+  ]
+}
 
       // dragging a node invalidates the Diagram.layout, causing a layout during the drag
       myDiagram.toolManager.draggingTool.doMouseMove = function() {
@@ -2018,12 +1668,8 @@
           document.getElementById(prefix + "description").innerHTML = u.desc;
           document.getElementById(prefix + "cost").innerHTML = u.lvl
 
-          var reqs = u["links"].slice(1,)
-          if (ux == "UMAX") {
-            reqs.unshift("All upgrades")
-          }
-          var requirement = reqs.join(", ")
-          document.getElementById(prefix + "require").innerHTML = requirement
+          var required = u["required"]
+          document.getElementById(prefix + "require").innerHTML = required
         }
       }
 
@@ -2067,7 +1713,7 @@
             toolTip:  // define a tooltip for each node that displays the color as text
             $("ToolTip",
               $(go.TextBlock, { 
-                margin: 4, width: 200, font: "15pt helvetica, arial, sans-serif" },
+                margin: 4, width: 200},
                 new go.Binding("text", "desc"))
               )  // end of Adornment
           }
@@ -2102,7 +1748,7 @@
             new go.Binding("fill", "color")
             ),
           $(go.TextBlock,
-            { font: "bold 30pt helvetica, bold arial, sans-serif", textAlign: "center", maxSize: new go.Size(300, NaN) },
+            { font: "bold 30pt helvetica, bold arial, sans-serif", textAlign: "center", maxSize: new go.Size(400, NaN) },
             new go.Binding("text", "text"),
             ),
           {
@@ -2195,6 +1841,8 @@
 
       // create the model for the concept map
 
+
+
       var nodeDataArray = [
         { key: 0, text: "SKILL TREE", desc: "Start here.", color: "white", category: "h1" },
         { key: 1, text: "STR", desc: "Strength. Feats of raw power. 10pts to increase", category: "h1", color: "lightcoral" },
@@ -2202,103 +1850,105 @@
         { key: 3, text: "DEX", desc: "Dexterity. Movement, athleticism, physical feats beyond sheer strength. 20pts to increase.", category: "h1", color: "skyblue" },
         { key: 4, text: "INT", desc: "Intelligence. Feats that involve mental agility, experience, capability. 20pts to increase.", category: "h1", color: "thistle" },
         { key: 5, text: "SPC", desc: "Special. Unique skills not tied to a base stat.", category: "h1", color: "bisque" },
-        { key: 6, text: "Fighting", desc: "Fighting", category: "h2", color: "lightcoral" },
-        { key: 7, text: "Social", desc: "Social", category: "h2", color: "palegreen" },
+        { key: 6, text: "CHR", desc: "Charisma. Communication and sociaciability. 10pts to increase.", category: "h1", color: "khaki" },
+        { key: 7, text: "Fighting", desc: "Fighting", category: "h2", color: "lightcoral" },
         { key: 8, text: "Fitness", desc: "Fitness", category: "h2", color: "palegreen" },
         { key: 9, text: "Combat", desc: "Combat", category: "h2", color: "skyblue" },
         { key: 10, text: "Movement", desc: "Movement", category: "h2", color: "skyblue" },
         { key: 11, text: "Stealth", desc: "Stealth", category: "h2", color: "skyblue" },
         { key: 12, text: "Crafting", desc: "Crafting", category: "h2", color: "skyblue" },
-        { key: 13, text: "Communication", desc: "Communication", category: "h2", color: "thistle" },
-        { key: 14, text: "Nature", desc: "Nature", category: "h2", color: "thistle" },
-        { key: 15, text: "Travel", desc: "Travel", category: "h2", color: "thistle" },
-        { key: 16, text: "Perception", desc: "Perception", category: "h2", color: "thistle" },
-        { key: 17, text: "Knowledge", desc: "Knowledge", category: "h2", color: "thistle" },
-        { key: 18, text: "Subjects", desc: "Subjects", category: "h2", color: "thistle" },
-        { key: 19, text: "Professions", desc: "Professions", category: "h2", color: "thistle" },
-        { key: 20, text: "Deception", desc: "Deception", category: "h2", color: "thistle" },
-        { key: 21, text: "Character", desc: "Character", category: "h2", color: "bisque" },
-        { key: 22, text: "Brawling", desc: "Unsophisticated melee combat. Can only be used when unarmed / with fist-wielded weapons." , color: "lightcoral", lvl: "12446" }, 
-        { key: 27, text: "Pin", desc: "Attempt to restrain opponent, who must be on floor. Cannot damage whilst pinning without upgrade." , color: "lightcoral", lvl: "2224" }, 
-        { key: 30, text: "Carousing", desc: "Endurance at social gatherings" , color: "palegreen", lvl: "124" }, 
-        { key: 33, text: "Sex appeal", desc: "Without upgrades, only works on those who are attracted to your gender/race" , color: "palegreen", lvl: "124" }, 
-        { key: 37, text: "Acquatics", desc: "Ability to swim" , color: "palegreen", lvl: "0" }, 
-        { key: 42, text: "Energy", desc: "Measure of how much can be done in a day" , color: "palegreen", lvl: "0" }, 
-        { key: 45, text: "Willpower", desc: "Roll during concentration, interrogation, etc. Note you get Willpower = HT for free (i.e. lvl 3)" , color: "palegreen", lvl: "2" }, 
-        { key: 47, text: "Martial arts", desc: "Advanced unarmed combat / use of specialised equipment" , color: "skyblue", lvl: "24468" }, 
-        { key: 52, text: "Melee combat", desc: "Characters get one of melee or ranged combat for free." , color: "skyblue", lvl: "10" }, 
-        { key: 55, text: "Fencing", desc: "e.g. sabres" , color: "skyblue", lvl: "24468" }, 
-        { key: 60, text: "Flail", desc: "e.g. morningstars" , color: "skyblue", lvl: "24468" }, 
-        { key: 65, text: "Impact", desc: "e.g. clubs" , color: "skyblue", lvl: "24468" }, 
-        { key: 70, text: "Pole", desc: "e.g. polearms" , color: "skyblue", lvl: "24468" }, 
-        { key: 75, text: "Sword", desc: "e.g. rapier, broadsword" , color: "skyblue", lvl: "24468" }, 
-        { key: 80, text: "Dagger", desc: "Includes all small blades" , color: "skyblue", lvl: "1224" }, 
-        { key: 85, text: "Ranged combat", desc: "Characters get one of melee or ranged combat for free." , color: "skyblue", lvl: "10" }, 
-        { key: 88, text: "Blowpipe", desc: "Darts and stealth air-propelled weaponry" , color: "skyblue", lvl: "2" }, 
-        { key: 89, text: "Bow", desc: "All manually drawn ranged weapons" , color: "skyblue", lvl: "24468" }, 
-        { key: 94, text: "Crossbow", desc: "All mechanised range weapons" , color: "skyblue", lvl: "24468" }, 
-        { key: 99, text: "Thrown weapon", desc: "e.g. throwing knives" , color: "skyblue", lvl: "2" }, 
-        { key: 101, text: "Shield", desc: "All items held for blocking damage" , color: "skyblue", lvl: "24468" }, 
-        { key: 106, text: "Climbing", desc: "1FP every 15s without upgrades. A footholded wall is scaled at 1m / 10s" , color: "skyblue", lvl: "1224" }, 
-        { key: 111, text: "Acrobatics", desc: "Coordinated physical feats" , color: "skyblue", lvl: "1224" }, 
-        { key: 114, text: "Jumping", desc: "Without upgrades, jump your BM/2 far and BM/4 high" , color: "skyblue", lvl: "0" }, 
-        { key: 119, text: "Throwing", desc: "Without upgrades, throw 15m/s, max effective 0.5kl, accurate to a breadbox within 5m" , color: "skyblue", lvl: "0" }, 
-        { key: 124, text: "Riding", desc: "1FP per minute of riding. Roll to mount" , color: "skyblue", lvl: "1224" }, 
-        { key: 128, text: "Speed", desc: "Note, without upgrade, sprinting costs 1FP per 100m" , color: "skyblue", lvl: "0" }, 
-        { key: 132, text: "Pickpocket", desc: "Much more difficult if observed, and if in sparsely populated area" , color: "skyblue", lvl: "H448" }, 
-        { key: 137, text: "Sneak", desc: "Roll every 5s if within 5 metres, 15s in close proximity, 60s if further. Bonus if not in line of sight." , color: "skyblue", lvl: "12468" }, 
-        { key: 140, text: "Escape", desc: "1FP. Restraints, rope-ties. Takes about 10 minutes per attempt." , color: "skyblue", lvl: "2446" }, 
-        { key: 143, text: "Smithing", desc: "Metalworking. Fashion crude items without upgrades." , color: "skyblue", lvl: "12248" }, 
-        { key: 147, text: "Lumberjack", desc: "Felling wood" , color: "skyblue", lvl: "224" }, 
-        { key: 148, text: "Carpentry", desc: "Crafting wood" , color: "skyblue", lvl: "244" }, 
-        { key: 152, text: "Interrogation", desc: "1FP. Roll vs. victim's willpower. Note repeated failure may cause victim to lie or become useless. Requires credible threat if not upgraded." , color: "thistle", lvl: "H4468" }, 
-        { key: 155, text: "Diplomacy", desc: "1FP." , color: "thistle", lvl: "H12468" }, 
-        { key: 157, text: "Fast-Talk", desc: "1FP. Quick lies, verbal deception. Note failures significantly reduce person's opinion of you" , color: "thistle", lvl: "H12468" }, 
-        { key: 160, text: "Intimidation", desc: "1FP. Roll vs. victim's willpower for each intimidating action. Note repeated intimidation may cause victim become useless. Requires credible threat if not upgraded." , color: "thistle", lvl: "H24468" }, 
-        { key: 163, text: "Savoir-Faire", desc: "Knowledge of etiquette, cultural expectations" , color: "thistle", lvl: "12446" }, 
-        { key: 166, text: "Streetwise", desc: "Ability to appear as one of criminal / shady group" , color: "thistle", lvl: "12446" }, 
-        { key: 169, text: "Public speaking", desc: "1FP. Roll vs. victim's willpower for each intimidating action. Note repeated intimidation may cause victim become useless. Requires credible threat if not upgraded." , color: "thistle", lvl: "H12468" }, 
-        { key: 170, text: "Bartering", desc: "Trading goods and services. Many marketable skills require good Bartering to command a decent price." , color: "thistle", lvl: "24468" }, 
-        { key: 175, text: "Business", desc: "Run a store, manage operations" , color: "thistle", lvl: "H2448" }, 
-        { key: 176, text: "Leadership", desc: "Giving orders, strategising, managing individuals" , color: "thistle", lvl: "12446" }, 
-        { key: 179, text: "Acting", desc: "1FP per 15 minutes. Longer-term ruses and feigning behaviour." , color: "thistle", lvl: "H12468" }, 
-        { key: 181, text: "Animal handling", desc: "Understsanding of animal behaviour, basic communications if trained." , color: "thistle", lvl: "H12468" }, 
-        { key: 186, text: "Camouflage", desc: "Both for beings and inanimate objects. 1FP per attempt." , color: "thistle", lvl: "124" }, 
-        { key: 187, text: "Naturalist", desc: "Understanding and ability to harness natural resources." , color: "thistle", lvl: "124" }, 
-        { key: 190, text: "Hunting", desc: "Tracking and killing animals" , color: "thistle", lvl: "12446" }, 
-        { key: 193, text: "Area knowledge", desc: "Understanding of local area beyond what would be known to wandering traveller, usually applies to specific area" , color: "thistle", lvl: "112" }, 
-        { key: 196, text: "Navigation", desc: "Use of maps, or basic intuition on landscape if available." , color: "thistle", lvl: "124" }, 
-        { key: 197, text: "Survival", desc: "Ability to withstand challenging environments" , color: "thistle", lvl: "12446" }, 
-        { key: 200, text: "Crewman", desc: "Helping on ship, army, large organisation" , color: "thistle", lvl: "112" }, 
-        { key: 201, text: "Traps", desc: "Indentification of traps." , color: "thistle", lvl: "12446" }, 
-        { key: 204, text: "Shadowing", desc: "Discretely following a person. 1FP and one roll every 60s, half if in close proximity, half if in uncrowded area, double if unsuspecting" , color: "thistle", lvl: "12468" }, 
-        { key: 206, text: "Observation", desc: "Discrete observation of situations, people, etc. Assume level 0 if does not have skill / upgarde" , color: "thistle", lvl: "12446" }, 
-        { key: 211, text: "Empathy", desc: "Read intelligent emotion. Assume level 0 if does not have skill / upgrade" , color: "thistle", lvl: "12468" }, 
-        { key: 216, text: "Scrounging", desc: "1FP. Find items in local area. Usually takes 30 minutes" , color: "thistle", lvl: "12446" }, 
-        { key: 219, text: "Searching", desc: "1FP. Look for concealed items on person / in environment" , color: "thistle", lvl: "1124" }, 
-        { key: 220, text: "First aid", desc: "Treatment of other's small wounds. Easier if there is access to equipment" , color: "thistle", lvl: "12446" }, 
-        { key: 224, text: "Basic Mystics", desc: "Rudimentary knowledge of mysic arts. Opens door to several more potential mystic paths." , color: "thistle", lvl: "248" }, 
-        { key: 229, text: "Artifacts", desc: "One per owned artifact. This skill cannot be gained on an unidentified artifact." , color: "thistle", lvl: "248" }, 
-        { key: 234, text: "Writing", desc: "Ability to write fluently beyond basic communication" , color: "thistle", lvl: "12446" }, 
-        { key: 236, text: "Research", desc: "Read formal documents and records, find information amongst a large collection." , color: "thistle", lvl: "12446" }, 
-        { key: 238, text: "Law", desc: "Knowledge of basic protections afforded in different societies" , color: "thistle", lvl: "248" }, 
-        { key: 242, text: "Healing", desc: "Longer term diagnosis and treatment of injuries and maladies. Doctors will have Healing skill." , color: "thistle", lvl: "248" }, 
-        { key: 246, text: "Humanities", desc: "Studies of races, history, societies, organisation" , color: "thistle", lvl: "12468" }, 
-        { key: 247, text: "Maths", desc: "Numerical intepretation. Required base for other subjects." , color: "thistle", lvl: "12468" }, 
-        { key: 248, text: "History", desc: "Specific knowledge of a region / race / major event. Each of these would be one skill. This can be leveled via research." , color: "thistle", lvl: "Quest" }, 
-        { key: 251, text: "Mechanics", desc: "Understanding of machinery, weapons, and devices. Interaction requires upgrades." , color: "thistle", lvl: "12468" }, 
-        { key: 255, text: "Artistry", desc: "Ability to create beautiful works that can be sold for money. Assume Lvl 0 if does not have upgrade." , color: "thistle", lvl: "12446" }, 
-        { key: 259, text: "Engineer", desc: "Can sell services for money. Target must be interested in purchase. Use lower of this skill and Bartering." , color: "thistle", lvl: "248" }, 
-        { key: 263, text: "Armoury", desc: "Creation of clothing & armour. Good items may be sold" , color: "thistle", lvl: "12468" }, 
-        { key: 266, text: "Performance", desc: "Entertainment as a profession." , color: "thistle", lvl: "12468" }, 
-        { key: 271, text: "Disguise", desc: "1 FP. Create disguises to blend better into crowds / avoid detection. Normally requires about 30 minutes to create a workable disguise." , color: "thistle", lvl: "12468" }, 
-        { key: 274, text: "Conceal", desc: "1FP per attempt. Hide items, either in specific place or on specific individual." , color: "thistle", lvl: "12446" }, 
-        { key: 275, text: "Lockpicking", desc: "1FP per attempt. Takes around 5 minutes." , color: "thistle", lvl: "H12468" }, 
-        { key: 277, text: "The Investigator (Lewis)", desc: "" , color: "bisque", lvl: "Quest" }, 
-        { key: 280, text: "The Industrial (Tawa)", desc: "" , color: "bisque", lvl: "Quest" }, 
-        { key: 282, text: "The Fist (Buzze)", desc: "" , color: "bisque", lvl: "Quest" }, 
-        { key: 287, text: "The Inquisitor (Ramon)", desc: "" , color: "bisque", lvl: "Quest" }, 
-        { key: 290, text: "The Socialite (Uda)", desc: "" , color: "bisque", lvl: "Quest" }, 
+        { key: 13, text: "Communication", desc: "Communication", category: "h2", color: "khaki" },
+        { key: 14, text: "Social", desc: "Social", category: "h2", color: "khaki" },
+        { key: 15, text: "Nature", desc: "Nature", category: "h2", color: "thistle" },
+        { key: 16, text: "Travel", desc: "Travel", category: "h2", color: "thistle" },
+        { key: 17, text: "Perception", desc: "Perception", category: "h2", color: "thistle" },
+        { key: 18, text: "Knowledge", desc: "Knowledge", category: "h2", color: "thistle" },
+        { key: 19, text: "Subjects", desc: "Subjects", category: "h2", color: "thistle" },
+        { key: 20, text: "Professions", desc: "Professions", category: "h2", color: "thistle" },
+        { key: 21, text: "Deception", desc: "Deception", category: "h2", color: "thistle" },
+        { key: 22, text: "Character", desc: "Character", category: "h2", color: "bisque" },
+        { key: 23, text: "Brawling", desc: "Unsophisticated melee combat. Can only be used when unarmed / with fist-wielded weapons." , color: "lightcoral", lvl: "12446" }, 
+        { key: 24, text: "Pin", desc: "Attempt to restrain opponent, who must be on floor. Cannot damage whilst pinning without upgrade." , color: "lightcoral", lvl: "2224" }, 
+        { key: 25, text: "Acquatics", desc: "Ability to swim. Unupgraded can swim for 10 minutes at 1m/s, hold breath for 30s" , color: "palegreen", lvl: "2" }, 
+        { key: 26, text: "Energy", desc: "Measure of how much can be done in a day" , color: "palegreen", lvl: "0" }, 
+        { key: 27, text: "Willpower", desc: "Roll during concentration, interrogation, etc. Note you get Willpower = HT for free (i.e. lvl 3)" , color: "palegreen", lvl: "2" }, 
+        { key: 28, text: "Martial arts", desc: "Advanced unarmed combat / use of specialised equipment" , color: "skyblue", lvl: "24468" }, 
+        { key: 29, text: "Melee combat", desc: "Characters start with one of melee or ranged combat." , color: "skyblue", lvl: "10" }, 
+        { key: 30, text: "Fencing", desc: "e.g. sabres" , color: "skyblue", lvl: "24468" }, 
+        { key: 31, text: "Flail", desc: "e.g. morningstars" , color: "skyblue", lvl: "24468" }, 
+        { key: 32, text: "Impact", desc: "e.g. clubs" , color: "skyblue", lvl: "24468" }, 
+        { key: 33, text: "Pole", desc: "e.g. polearms" , color: "skyblue", lvl: "24468" }, 
+        { key: 34, text: "Sword", desc: "e.g. rapier, broadsword" , color: "skyblue", lvl: "24468" }, 
+        { key: 35, text: "Dagger", desc: "Includes all small blades" , color: "skyblue", lvl: "1224" }, 
+        { key: 36, text: "Ranged combat", desc: "Characters start with one of melee or ranged combat." , color: "skyblue", lvl: "10" }, 
+        { key: 37, text: "Blowpipe", desc: "Darts and stealth air-propelled weaponry" , color: "skyblue", lvl: "2" }, 
+        { key: 38, text: "Bow", desc: "All manually drawn ranged weapons" , color: "skyblue", lvl: "24468" }, 
+        { key: 39, text: "Crossbow", desc: "All mechanised range weapons" , color: "skyblue", lvl: "24468" }, 
+        { key: 40, text: "Thrown weapon", desc: "e.g. throwing knives" , color: "skyblue", lvl: "2" }, 
+        { key: 41, text: "Artillery", desc: "Large-scale ranged devices. E.g. catapults, ballistas, trebuchets" , color: "skyblue", lvl: "4" }, 
+        { key: 42, text: "Shield", desc: "All items held for blocking damage" , color: "skyblue", lvl: "24468" }, 
+        { key: 43, text: "Climbing", desc: "1FP every 15s without upgrades. A footholded wall is scaled at 1m / 10s" , color: "skyblue", lvl: "1224" }, 
+        { key: 44, text: "Acrobatics", desc: "Coordinated physical feats" , color: "skyblue", lvl: "1224" }, 
+        { key: 45, text: "Jumping", desc: "Without upgrades, jump your BM/2 far and BM/4 high" , color: "skyblue", lvl: "0" }, 
+        { key: 46, text: "Throwing", desc: "Without upgrades, throw 15m/s, max effective 0.5kl, accurate to a breadbox within 5m" , color: "skyblue", lvl: "0" }, 
+        { key: 47, text: "Riding", desc: "1FP per minute of riding. Roll to mount" , color: "skyblue", lvl: "1224" }, 
+        { key: 48, text: "Speed", desc: "Note, without upgrade, sprinting costs 1FP per 100m" , color: "skyblue", lvl: "0" }, 
+        { key: 49, text: "Pickpocket", desc: "Much more difficult if observed, and if in sparsely populated area" , color: "skyblue", lvl: "H448" }, 
+        { key: 50, text: "Sneak", desc: "Roll every 5s if within 5 metres, 15s in close proximity, 60s if further. Bonus if not in line of sight." , color: "skyblue", lvl: "12468" }, 
+        { key: 51, text: "Escape", desc: "1FP. Restraints, rope-ties. Takes about 10 minutes per attempt." , color: "skyblue", lvl: "2446" }, 
+        { key: 52, text: "Smithing", desc: "Metalworking. Fashion crude items without upgrades." , color: "skyblue", lvl: "12248" }, 
+        { key: 53, text: "Lumberjack", desc: "Felling wood" , color: "skyblue", lvl: "224" }, 
+        { key: 54, text: "Carpentry", desc: "Crafting wood" , color: "skyblue", lvl: "244" }, 
+        { key: 55, text: "Interrogation", desc: "1FP. Roll vs. victim's willpower. Note repeated failure may cause victim to lie or become useless. Requires credible threat if not upgraded." , color: "khaki", lvl: "H4468" }, 
+        { key: 56, text: "Diplomacy", desc: "1FP." , color: "khaki", lvl: "H12468" }, 
+        { key: 57, text: "Fast-Talk", desc: "1FP. Quick lies, verbal deception. Note failures significantly reduce person's opinion of you" , color: "khaki", lvl: "H12468" }, 
+        { key: 58, text: "Intimidation", desc: "1FP. Roll vs. victim's willpower for each intimidating action. Note repeated intimidation may cause victim become useless. Requires credible threat if not upgraded." , color: "khaki", lvl: "H24468" }, 
+        { key: 59, text: "Savoir-Faire", desc: "Knowledge of etiquette, cultural expectations" , color: "khaki", lvl: "12446" }, 
+        { key: 60, text: "Streetwise", desc: "Ability to appear as one of criminal / shady group" , color: "khaki", lvl: "12446" }, 
+        { key: 61, text: "Public speaking", desc: "1FP. Roll vs. victim's willpower for each intimidating action. Note repeated intimidation may cause victim become useless. Requires credible threat if not upgraded." , color: "khaki", lvl: "H12468" }, 
+        { key: 62, text: "Bartering", desc: "Trading goods and services. Many marketable skills require good Bartering to command a decent price." , color: "khaki", lvl: "24468" }, 
+        { key: 63, text: "Business", desc: "Run a store, manage operations" , color: "khaki", lvl: "H2448" }, 
+        { key: 64, text: "Leadership", desc: "Giving orders, strategising, managing individuals" , color: "khaki", lvl: "12446" }, 
+        { key: 65, text: "Acting", desc: "1FP per 15 minutes. Longer-term ruses and feigning behaviour." , color: "khaki", lvl: "H12468" }, 
+        { key: 66, text: "Carousing", desc: "Endurance at social gatherings" , color: "khaki", lvl: "124" }, 
+        { key: 67, text: "Sex appeal", desc: "Without upgrades, only works on those who are attracted to your gender/race" , color: "khaki", lvl: "124" }, 
+        { key: 68, text: "Animal handling", desc: "Understsanding of animal behaviour, basic communications if trained." , color: "thistle", lvl: "H12468" }, 
+        { key: 69, text: "Camouflage", desc: "Both for beings and inanimate objects. 1FP per attempt." , color: "thistle", lvl: "124" }, 
+        { key: 70, text: "Naturalist", desc: "Understanding and ability to harness natural resources." , color: "thistle", lvl: "124" }, 
+        { key: 71, text: "Hunting", desc: "Tracking and killing animals" , color: "thistle", lvl: "12446" }, 
+        { key: 72, text: "Area knowledge", desc: "Understanding of local area beyond what would be known to wandering traveller, usually applies to specific area" , color: "thistle", lvl: "112" }, 
+        { key: 73, text: "Navigation", desc: "Use of maps, or basic intuition on landscape if available." , color: "thistle", lvl: "124" }, 
+        { key: 74, text: "Survival", desc: "Ability to withstand challenging environments" , color: "thistle", lvl: "12446" }, 
+        { key: 75, text: "Crewman", desc: "Helping on ship, army, large organisation" , color: "thistle", lvl: "112" }, 
+        { key: 76, text: "Traps", desc: "Indentification of traps." , color: "thistle", lvl: "12446" }, 
+        { key: 77, text: "Shadowing", desc: "Discretely following a person. 1FP and one roll every 60s, half if in close proximity, half if in uncrowded area, double if unsuspecting" , color: "thistle", lvl: "12468" }, 
+        { key: 78, text: "Observation", desc: "Discrete observation of situations, people, etc. Assume level 0 if does not have skill / upgarde" , color: "thistle", lvl: "12446" }, 
+        { key: 79, text: "Empathy", desc: "Read intelligent emotion. Assume level 0 if does not have skill / upgrade" , color: "thistle", lvl: "12468" }, 
+        { key: 80, text: "Scrounging", desc: "1FP. Find items in local area. Usually takes 30 minutes" , color: "thistle", lvl: "12446" }, 
+        { key: 81, text: "Searching", desc: "1FP. Look for concealed items on person / in environment" , color: "thistle", lvl: "1124" }, 
+        { key: 82, text: "First aid", desc: "Treatment of other's small wounds. Easier if there is access to equipment" , color: "thistle", lvl: "12446" }, 
+        { key: 83, text: "Basic Mystics", desc: "Rudimentary knowledge of mysic arts. Opens door to several more potential mystic paths." , color: "thistle", lvl: "248" }, 
+        { key: 84, text: "Artifacts", desc: "One per owned artifact. This skill cannot be gained on an unidentified artifact." , color: "thistle", lvl: "248" }, 
+        { key: 85, text: "Writing", desc: "Ability to write fluently beyond basic communication" , color: "thistle", lvl: "12446" }, 
+        { key: 86, text: "Research", desc: "Read formal documents and records, find information amongst a large collection." , color: "thistle", lvl: "12446" }, 
+        { key: 87, text: "Law", desc: "Knowledge of basic protections afforded in different societies" , color: "thistle", lvl: "248" }, 
+        { key: 88, text: "Healing", desc: "Longer term diagnosis and treatment of injuries and maladies. Doctors will have Healing skill." , color: "thistle", lvl: "248" }, 
+        { key: 89, text: "Humanities", desc: "Studies of races, history, societies, organisation" , color: "thistle", lvl: "12468" }, 
+        { key: 90, text: "Maths", desc: "Numerical intepretation. Required base for other subjects." , color: "thistle", lvl: "12468" }, 
+        { key: 91, text: "History", desc: "Specific knowledge of a region / race / major event. Each of these would be one skill. This can be leveled via research." , color: "thistle", lvl: "Quest" }, 
+        { key: 92, text: "Mechanics", desc: "Understanding of machinery, weapons, and devices. Interaction requires upgrades." , color: "thistle", lvl: "12468" }, 
+        { key: 93, text: "Artistry", desc: "Ability to create beautiful works that can be sold for money. Assume Lvl 0 if does not have upgrade." , color: "thistle", lvl: "12446" }, 
+        { key: 94, text: "Engineer", desc: "Can sell services for money. Target must be interested in purchase. Use lower of this skill and Bartering." , color: "thistle", lvl: "448" }, 
+        { key: 95, text: "Armoury", desc: "Creation of clothing & armour. Good items may be sold" , color: "thistle", lvl: "12468" }, 
+        { key: 96, text: "Performance", desc: "Entertainment as a profession." , color: "thistle", lvl: "12468" }, 
+        { key: 97, text: "Disguise", desc: "1 FP. Create disguises to blend better into crowds / avoid detection. Normally requires about 30 minutes to create a workable disguise." , color: "thistle", lvl: "12468" }, 
+        { key: 98, text: "Conceal", desc: "1FP per attempt. Hide items, either in specific place or on specific individual." , color: "thistle", lvl: "12446" }, 
+        { key: 99, text: "Lockpicking", desc: "1FP per attempt. Takes around 5 minutes." , color: "thistle", lvl: "H12468" }, 
+        { key: 100, text: "The Investigator (Lewis)", desc: "" , color: "bisque", lvl: "Quest" }, 
+        { key: 101, text: "The Industrial (Tawa)", desc: "" , color: "bisque", lvl: "Quest" }, 
+        { key: 102, text: "The Fist (Buzze)", desc: "" , color: "bisque", lvl: "Quest" }, 
+        { key: 103, text: "The Inquisitor (Ramon)", desc: "" , color: "bisque", lvl: "Quest" }, 
+        { key: 104, text: "The Socialite (Uda)", desc: "" , color: "bisque", lvl: "Quest" }, 
 
       ];
 
@@ -2308,107 +1958,112 @@
         { from: 0, to: 3},
         { from: 0, to: 4},
         { from: 0, to: 5},
-        { from: 1, to: 6}, 
-        { from: 2, to: 7}, 
+        { from: 0, to: 6},
+        { from: 1, to: 7}, 
         { from: 2, to: 8}, 
         { from: 3, to: 9}, 
         { from: 3, to: 10}, 
         { from: 3, to: 11}, 
         { from: 3, to: 12}, 
-        { from: 4, to: 13}, 
-        { from: 4, to: 14}, 
+        { from: 6, to: 13}, 
+        { from: 6, to: 14}, 
         { from: 4, to: 15}, 
         { from: 4, to: 16}, 
         { from: 4, to: 17}, 
         { from: 4, to: 18}, 
         { from: 4, to: 19}, 
         { from: 4, to: 20}, 
-        { from: 5, to: 21}, 
-        { from: 6, to: 22}, 
-        { from: 6, to: 27}, 
-        { from: 7, to: 30}, 
-        { from: 7, to: 33}, 
-        { from: 8, to: 37}, 
-        { from: 8, to: 42}, 
-        { from: 8, to: 45}, 
-        { from: 52, to: 47}, 
-        { from: 22, to: 47}, 
-        { from: 9, to: 52}, 
-        { from: 52, to: 55}, 
-        { from: 52, to: 60}, 
-        { from: 52, to: 65}, 
-        { from: 52, to: 70}, 
-        { from: 52, to: 75}, 
-        { from: 52, to: 80}, 
-        { from: 9, to: 85}, 
-        { from: 85, to: 88}, 
+        { from: 4, to: 21}, 
+        { from: 5, to: 22}, 
+        { from: 7, to: 23}, 
+        { from: 7, to: 24}, 
+        { from: 8, to: 25}, 
+        { from: 8, to: 26}, 
+        { from: 8, to: 27}, 
+        { from: 29, to: 28}, 
+        { from: 23, to: 28}, 
+        { from: 9, to: 29}, 
+        { from: 29, to: 30}, 
+        { from: 29, to: 31}, 
+        { from: 29, to: 32}, 
+        { from: 29, to: 33}, 
+        { from: 29, to: 34}, 
+        { from: 29, to: 35}, 
+        { from: 9, to: 36}, 
+        { from: 36, to: 37}, 
+        { from: 36, to: 38}, 
+        { from: 36, to: 39}, 
+        { from: 36, to: 40}, 
+        { from: 9, to: 41}, 
+        { from: 9, to: 42}, 
+        { from: 10, to: 43}, 
+        { from: 10, to: 44}, 
+        { from: 10, to: 45}, 
+        { from: 10, to: 46}, 
+        { from: 10, to: 47}, 
+        { from: 10, to: 48}, 
+        { from: 11, to: 49}, 
+        { from: 11, to: 50}, 
+        { from: 11, to: 51}, 
+        { from: 12, to: 52}, 
+        { from: 12, to: 53}, 
+        { from: 53, to: 54}, 
+        { from: 13, to: 55}, 
+        { from: 13, to: 56}, 
+        { from: 13, to: 57}, 
+        { from: 13, to: 58}, 
+        { from: 13, to: 59}, 
+        { from: 13, to: 60}, 
+        { from: 13, to: 61}, 
+        { from: 13, to: 62}, 
+        { from: 62, to: 63}, 
+        { from: 13, to: 64}, 
+        { from: 13, to: 65}, 
+        { from: 14, to: 66}, 
+        { from: 14, to: 67}, 
+        { from: 15, to: 68}, 
+        { from: 15, to: 69}, 
+        { from: 15, to: 70}, 
+        { from: 15, to: 71}, 
+        { from: 16, to: 72}, 
+        { from: 16, to: 73}, 
+        { from: 16, to: 74}, 
+        { from: 16, to: 75}, 
+        { from: 16, to: 76}, 
+        { from: 17, to: 77}, 
+        { from: 17, to: 78}, 
+        { from: 78, to: 79}, 
+        { from: 17, to: 80}, 
+        { from: 17, to: 81}, 
+        { from: 18, to: 82}, 
+        { from: 18, to: 83}, 
+        { from: 83, to: 84}, 
+        { from: 18, to: 85}, 
+        { from: 85, to: 86}, 
+        { from: 85, to: 87}, 
+        { from: 82, to: 88}, 
         { from: 85, to: 89}, 
-        { from: 85, to: 94}, 
-        { from: 85, to: 99}, 
-        { from: 9, to: 101}, 
-        { from: 10, to: 106}, 
-        { from: 10, to: 111}, 
-        { from: 10, to: 114}, 
-        { from: 10, to: 119}, 
-        { from: 10, to: 124}, 
-        { from: 10, to: 128}, 
-        { from: 11, to: 132}, 
-        { from: 11, to: 137}, 
-        { from: 11, to: 140}, 
-        { from: 12, to: 143}, 
-        { from: 12, to: 147}, 
-        { from: 147, to: 148}, 
-        { from: 13, to: 152}, 
-        { from: 13, to: 155}, 
-        { from: 13, to: 157}, 
-        { from: 13, to: 160}, 
-        { from: 13, to: 163}, 
-        { from: 13, to: 166}, 
-        { from: 13, to: 169}, 
-        { from: 13, to: 170}, 
-        { from: 170, to: 175}, 
-        { from: 13, to: 176}, 
-        { from: 13, to: 179}, 
-        { from: 14, to: 181}, 
-        { from: 14, to: 186}, 
-        { from: 14, to: 187}, 
-        { from: 14, to: 190}, 
-        { from: 15, to: 193}, 
-        { from: 15, to: 196}, 
-        { from: 15, to: 197}, 
-        { from: 15, to: 200}, 
-        { from: 15, to: 201}, 
-        { from: 16, to: 204}, 
-        { from: 16, to: 206}, 
-        { from: 206, to: 211}, 
-        { from: 16, to: 216}, 
-        { from: 16, to: 219}, 
-        { from: 17, to: 220}, 
-        { from: 17, to: 224}, 
-        { from: 224, to: 229}, 
-        { from: 17, to: 234}, 
-        { from: 234, to: 236}, 
-        { from: 234, to: 238}, 
-        { from: 220, to: 242}, 
-        { from: 234, to: 246}, 
-        { from: 18, to: 247}, 
-        { from: 18, to: 248}, 
-        { from: 247, to: 251}, 
-        { from: 19, to: 255}, 
-        { from: 251, to: 259}, 
-        { from: 19, to: 263}, 
-        { from: 19, to: 266}, 
-        { from: 20, to: 271}, 
-        { from: 20, to: 274}, 
-        { from: 20, to: 275}, 
-        { from: 21, to: 277}, 
-        { from: 21, to: 280}, 
-        { from: 21, to: 282}, 
-        { from: 21, to: 287}, 
-        { from: 21, to: 290}, 
+        { from: 19, to: 90}, 
+        { from: 19, to: 91}, 
+        { from: 90, to: 92}, 
+        { from: 20, to: 93}, 
+        { from: 92, to: 94}, 
+        { from: 20, to: 95}, 
+        { from: 20, to: 96}, 
+        { from: 21, to: 97}, 
+        { from: 21, to: 98}, 
+        { from: 21, to: 99}, 
+        { from: 22, to: 100}, 
+        { from: 22, to: 101}, 
+        { from: 22, to: 102}, 
+        { from: 22, to: 103}, 
+        { from: 22, to: 104}, 
       ];
       
       myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+
+      global_diagram = myDiagram;
+      import_layout();
     }
 
     function reload() {
@@ -2419,57 +2074,75 @@
       //  go.GraphObject.make(ContinuousForceDirectedLayout,  // automatically spread nodes apart while dragging
       //    { defaultSpringLength: 30, defaultElectricalCharge: 100 });
     }
+
+    function export_layout() {
+      locations = [];
+      global_diagram.nodes.each(function(n) {locations.push(n.location)});
+      var text = JSON.stringify(locations);
+      console.log(text);
+    }
+
+    function import_layout() {
+      text = '[{"x":134.80857782229242,"y":281.4131303519788,"s":false},{"x":-99.86600195838932,"y":450.8395142526787,"s":true},{"x":242.03626802812457,"y":145.9788111071767,"s":true},{"x":-576.4944751941067,"y":-25.242630941033006,"s":false},{"x":988.9052288804061,"y":603.9014181051832,"s":false},{"x":112.84499935576618,"y":566.4047165879065,"s":true},{"x":214.612876376154,"y":-25.765453088367718,"s":false},{"x":-275.42898759787215,"y":611.0182710806102,"s":true},{"x":441.94137580305954,"y":98.77272856637514,"s":true},{"x":-831.3380007317828,"y":302.7695215556572,"s":true},{"x":-539.4760784780142,"y":-347.88174261817153,"s":true},{"x":-846.7644973136504,"y":-19.62999405257525,"s":true},{"x":-963.5898935368483,"y":-224.26289841437844,"s":true},{"x":317.84849082776424,"y":-384.9702356151438,"s":false},{"x":10.628386246038021,"y":-31.040196187787192,"s":true},{"x":694.1850079913888,"y":672.2779088848638,"s":true},{"x":937.3128490927504,"y":292.4007473762989,"s":true},{"x":730.5748692699578,"y":995.1036468412757,"s":true},{"x":1498.4753664338389,"y":634.1014235332477,"s":true},{"x":1211.351058401214,"y":934.8250862403402,"s":true},{"x":1185.2926705476284,"y":438.6115196840571,"s":true},{"x":1161.6035094584745,"y":719.6365377150763,"s":true},{"x":-38.56460663964136,"y":903.7270497083391,"s":true},{"x":-502.93884640073327,"y":684.1819961275975,"s":true},{"x":-43.43737095501314,"y":661.5697683725372,"s":true},{"x":440.3066147265764,"y":221.44365505633004,"s":true},{"x":441.0990717603225,"y":-50.43071917990885,"s":true},{"x":654.4741338274596,"y":-20.740209434703317,"s":true},{"x":-760.6314587553557,"y":678.5834889698859,"s":true},{"x":-1021.3205686802819,"y":615.3394014306879,"s":true},{"x":-1053.2392918767362,"y":458.9319982977842,"s":true},{"x":-886.9054656493272,"y":820.9170132098773,"s":true},{"x":-1234.6158182965085,"y":573.3236062396044,"s":true},{"x":-834.6065520687562,"y":504.26699602876505,"s":true},{"x":-1060.9203619891557,"y":822.8163592416013,"s":true},{"x":-1253.5917201426553,"y":722.9770942067422,"s":true},{"x":-573.6791713424844,"y":292.0957560726688,"s":true},{"x":-632.9455153472062,"y":476.352498551845,"s":true},{"x":-555.1293078448214,"y":143.93747765630948,"s":true},{"x":-371.24075672931644,"y":214.47272765550653,"s":true},{"x":-373.4502515811161,"y":393.54706281258257,"s":true},{"x":-1033.85194126682,"y":272.8958427405539,"s":true},{"x":-791.44686992464,"y":155.22425374228325,"s":true},{"x":-256.7613307098745,"y":-323.55215259448266,"s":true},{"x":-522.5535363152474,"y":-229.17935655325252,"s":true},{"x":-481.9553105599096,"y":-502.33800012598954,"s":true},{"x":-271.12688708044595,"y":-499.28290071783516,"s":true},{"x":-658.0620830542088,"y":-548.9583121598445,"s":true},{"x":-721.2631687868387,"y":-387.5390646621214,"s":true},{"x":-1102.505613843742,"y":-78.79147603741035,"s":true},{"x":-731.6266466625184,"y":-167.7503288185215,"s":true},{"x":-1032.9109897325795,"y":80.32851296911701,"s":true},{"x":-975.563918410799,"y":-386.8160430298394,"s":true},{"x":-1255.7483256084106,"y":-279.864438150587,"s":true},{"x":-1484.5731913501997,"y":-382.7861114890904,"s":true},{"x":647.6507862528111,"y":-584.4985919157954,"s":true},{"x":63.01841218812329,"y":-326.85994805161306,"s":true},{"x":479.6533930473635,"y":-269.86743204193414,"s":true},{"x":697.9349558690906,"y":-274.4793353040876,"s":true},{"x":378.89937961691885,"y":-511.51292664504433,"s":true},{"x":396.52140473973725,"y":-651.7166503875055,"s":true},{"x":169.44926986654008,"y":-669.6910594427104,"s":true},{"x":792.038193485715,"y":-432.0209872842865,"s":true},{"x":1017.9618368926363,"y":-513.6358213931611,"s":true},{"x":61.62757807107659,"y":-480.2760598484895,"s":true},{"x":304.651690170869,"y":-259.8212711980994,"s":true},{"x":-96.02907920656821,"y":88.49474724004851,"s":true},{"x":-237.57985332813567,"y":-104.09279701077918,"s":true},{"x":471.61049558806747,"y":705.3168688662428,"s":true},{"x":700.1843071028891,"y":792.6347245106916,"s":true},{"x":478.1604963457345,"y":537.7462978320788,"s":true},{"x":746.551205426553,"y":531.4878289745791,"s":true},{"x":920.4880437257041,"y":23.01116714665815,"s":true},{"x":699.686429117078,"y":363.2426865091247,"s":true},{"x":1127.6642713369042,"y":197.0605888019076,"s":true},{"x":709.0752535614712,"y":203.7228528139977,"s":true},{"x":982.816680146251,"y":406.5666249461096,"s":true},{"x":1017.2952768817096,"y":1079.44459981953,"s":true},{"x":499.34873769027206,"y":1191.3417305524829,"s":true},{"x":477.17895325012995,"y":1346.2099354231395,"s":true},{"x":766.708206113822,"y":1122.4501117300456,"s":true},{"x":494.80528875490324,"y":1000.5437833313654,"s":true},{"x":1810.7469532467662,"y":613.7415323352188,"s":true},{"x":1771.101540993846,"y":407.6293859667224,"s":true},{"x":1920.772250745391,"y":258.0583655066147,"s":true},{"x":1778.0725219080168,"y":823.1523672631258,"s":true},{"x":1966.1965975902906,"y":960.0799800702417,"s":true},{"x":1973.0729380472628,"y":792.637955740667,"s":true},{"x":2021.1389044847094,"y":573.0596842440045,"s":true},{"x":1690.3294257449697,"y":981.4982566788187,"s":true},{"x":1294.7609090207695,"y":1111.259421101439,"s":true},{"x":1458.1871412488517,"y":958.5630196289557,"s":true},{"x":1330.910762038065,"y":1280.5518320733051,"s":true},{"x":1321.6221182361141,"y":294.68037728441493,"s":true},{"x":1400.7429492877657,"y":1433.5024757339745,"s":true},{"x":1503.1439629629524,"y":294.2214017381017,"s":true},{"x":1486.8091274103433,"y":470.8863771181843,"s":true},{"x":984.1454933284531,"y":824.1743845813776,"s":true},{"x":1434.5233385882805,"y":770.444726520497,"s":true},{"x":1178.9751769128793,"y":578.1300946786428,"s":true},{"x":-252.72966910946755,"y":1051.5987889682372,"s":true},{"x":233.88845169793302,"y":926.4507557398983,"s":true},{"x":168.7619108016556,"y":719.5149945696646,"s":true},{"x":9.456039695409519,"y":1050.6486759012453,"s":true},{"x":-252.8180586103762,"y":815.7259844260564,"s":true}]'
+
+      var locations = JSON.parse(text);
+      var i = 0;
+      global_diagram.nodes.each(function(n) {
+        n.location = new go.Point(locations[i].x, locations[i].y);
+        i += 1;
+      });
+
+      
+    }
   </script>
 </head>
 <body onload="init()">
-  <div id="sample">
-    <div id="myDiagramDiv" style="background-color: whitesmoke; width: 70%; height: 95vh; float: left; position: relative; -webkit-tap-highlight-color: rgba(255, 255, 255, 0); cursor: auto;"><canvas tabindex="0" width="1331" height="890" style="position: absolute; top: 0px; left: 0px; z-index: 2; user-select: none; width: 1331px; height: 890px; cursor: auto;">This text is displayed if your browser does not support the Canvas HTML element.</canvas><div style="position: absolute; overflow: auto; width: 1331px; height: 890px; z-index: 1;"><div style="position: absolute; width: 1px; height: 1px;"></div></div></div>
-</div>
+    <div id="myDiagramDiv" style="background-color: whitesmoke; width: 79%; height: 95vh; float: left; position: relative; -webkit-tap-highlight-color: rgba(255, 255, 255, 0); cursor: auto;"><canvas tabindex="0" width="1504" height="844" style="position: absolute; top: 0px; left: 0px; z-index: 2; user-select: none; width: 1504px; height: 844px; cursor: auto;">This text is displayed if your browser does not support the Canvas HTML element.</canvas><div style="position: absolute; overflow: auto; width: 1504px; height: 844px; z-index: 1;"><div style="position: absolute; width: 1px; height: 1px;"></div></div></div>
 <div id="info-panel" ,="" style="width: 20%; height: 95vh; background: white; float: left">
   
   <div class="info-title">
-    <p id="info-skill-title">Artifacts</p>
+    <p id="info-skill-title">Riding</p>
   </div>
   <div class="info-skill-description">
-    <p class="info-cost" ,="" id="info-skill-cost">248</p>
+    <p class="info-cost" ,="" id="info-skill-cost">1224</p>
     <p class="info-require" ,="" id="info-skill-require"></p>
-    <p id="info-skill-description">One per owned artifact. This skill cannot be gained on an unidentified artifact.</p>
+    <p id="info-skill-description">1FP per minute of riding. Roll to mount</p>
   </div>
   
   <div class="info-title">
-    <p id="info-U1-title" ,="" class="info-u-title">U1: Safe handling</p>
+    <p id="info-U1-title" ,="" class="info-u-title">U1: Combat steed</p>
   </div>
   <div class="info-u-description">
-    <p class="info-cost" ,="" id="info-U1-cost">4/Quest</p>
+    <p class="info-cost" ,="" id="info-U1-cost">4</p>
     <p class="info-require" ,="" id="info-U1-require"></p>
-    <p id="info-U1-description">May only roll once per artifact. If failed, will require outside knowledge to learn how to use artifact e.g. text research / expert</p>
+    <p id="info-U1-description">+3 dodge, +2 attack, +2 damage whilst mounted during combat. Move and Attack penalty reduced by 2.</p>
   </div>
   
   <div class="info-title">
-    <p id="info-U2-title" ,="" class="info-u-title">U2: Combat use</p>
+    <p id="info-U2-title" ,="" class="info-u-title">U2: Wild tamer</p>
   </div>
   <div class="info-u-description">
-    <p class="info-cost" ,="" id="info-U2-cost">24</p>
-    <p class="info-require" ,="" id="info-U2-require"></p>
-    <p id="info-U2-description">Safe handling and Identification required. To use mystic capabilities, must roll at -4+2L before standard attack roll.</p>
+    <p class="info-cost" ,="" id="info-U2-cost">4</p>
+    <p class="info-require" ,="" id="info-U2-require">Animal handling II, Acrobatics</p>
+    <p id="info-U2-description">1FP. Attempt to mount wild animal: success by X = X sec. Can broadly direct of animal, or deal guaranteed damage. </p>
   </div>  
 
   <div class="info-title">
-    <p id="info-U3-title" ,="" class="info-u-title">U3: Specialised use</p>
+    <p id="info-U3-title" ,="" class="info-u-title">U3: The Meaning of Haste</p>
   </div>
   <div class="info-u-description">
-    <p class="info-cost" ,="" id="info-U3-cost">48</p>
+    <p class="info-cost" ,="" id="info-U3-cost">24</p>
     <p class="info-require" ,="" id="info-U3-require"></p>
-    <p id="info-U3-description">Safe handling and Identification required. To use unusual specialised mystic capabilities, must roll at -4+2L</p>
+    <p id="info-U3-description">Increase your ability to travel long distances mounted by L times</p>
   </div>
 
   <div class="info-title">
-    <p id="info-UMAX-title" ,="" class="info-u-title">UMAX: Reconstitution</p>
+    <p id="info-UMAX-title" ,="" class="info-u-title"></p>
   </div>
   <div class="info-u-description">
-    <p class="info-cost" ,="" id="info-UMAX-cost">8</p>
-    <p class="info-require" ,="" id="info-UMAX-require">All upgrades</p>
-    <p id="info-UMAX-description">Requires: Mystic Technology &amp; Safe Handling &amp; either Combat use II or Specialised use II. May require Mystic Smithing. Ability to extract core technology from Artifact and repurpose into other devices.</p>
+    <p class="info-cost" ,="" id="info-UMAX-cost"></p>
+    <p class="info-require" ,="" id="info-UMAX-require"></p>
+    <p id="info-UMAX-description"></p>
   </div>
 </div>
 
