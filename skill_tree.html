@@ -79,11 +79,12 @@
 
 
       // Upgrades dictionary
-upgrades = {
+      
+      upgrades = {
   "Brawling": [
     {
       "name": "Heavy swing",
-      "desc": "+1+L damage. 2FP",
+      "desc": "+1+L damage. 1FP",
       "lvl": 22.0,
       "required": "",
       "type": "U1"
@@ -119,11 +120,25 @@ upgrades = {
       "type": "U1"
     },
     {
-      "name": "Subdue",
-      "desc": "4/L consecutive turns of pin will stun opponent for 2 rounds.",
+      "name": "Disorientate",
+      "desc": "4/L consecutive turns of pin will stun opponent for L rounds.",
       "lvl": 24,
       "required": "",
       "type": "U2"
+    },
+    {
+      "name": "Knockout",
+      "desc": "1FP per round. Roll Pin-2. 3 successful rounds of knockout incapacitates the enemy.",
+      "lvl": 4,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Mortal Threat",
+      "desc": "1FP. If armed, Intimidate +4 to threaten death if opponent does not relent.",
+      "lvl": 4,
+      "required": "All upgrades, ",
+      "type": "UMAX"
     }
   ],
   "Tackle": [
@@ -133,6 +148,27 @@ upgrades = {
       "lvl": 5.0,
       "required": "",
       "type": "U1"
+    },
+    {
+      "name": "Roll off",
+      "desc": "Even if tackle fails, 1FP to roll to a Move & Attack distance in the same turn.",
+      "lvl": 4,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Disarm",
+      "desc": "Tackled opponents also drop their weapon.",
+      "lvl": 6,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Stone Cold",
+      "desc": "Tackled enemy must roll Will - 5 to avoid stun, and DEX to avoid 2 damage (ignore armour).",
+      "lvl": 5,
+      "required": "All upgrades, ",
+      "type": "UMAX"
     }
   ],
   "Acquatics": [
@@ -175,7 +211,7 @@ upgrades = {
     },
     {
       "name": "Pacifist",
-      "desc": "Regain an extra LFP if you go a whole day without fighting. Lose 1FP every time you enter combat",
+      "desc": "Regain an extra 2*LFP if you go a whole day without fighting. Lose 1FP every time you enter combat",
       "lvl": 44,
       "required": "",
       "type": "U2"
@@ -188,6 +224,20 @@ upgrades = {
       "lvl": 44.0,
       "required": "",
       "type": "U1"
+    },
+    {
+      "name": "Metabolism",
+      "desc": "Gain an extra LFP when consuming an FP-restoring meal",
+      "lvl": 44,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Combat focus",
+      "desc": "Spend 1FP to use a skill and perform a regular combat move in the same turn.",
+      "lvl": 4,
+      "required": "",
+      "type": "U3"
     }
   ],
   "Martial arts": [
@@ -202,7 +252,7 @@ upgrades = {
       "name": "Stealth subdue",
       "desc": "If undetected, incapicitate opponent at -2+L",
       "lvl": 48,
-      "required": "",
+      "required": "Sneak",
       "type": "U2"
     },
     {
@@ -214,7 +264,7 @@ upgrades = {
     },
     {
       "name": "Fighting Master",
-      "desc": "If opponent has weapon, +2 to all defence rolls. Roll -2 to disarm and take enemy to the ground. 1FP",
+      "desc": "If opponent armed, +2 to all defence rolls. +1 to all Brawling, Pin, Tackle, Martial Arts rolls (incl. upgrades).",
       "lvl": "Q",
       "required": "All upgrades, Fully upgraded",
       "type": "UMAX"
@@ -569,6 +619,20 @@ upgrades = {
       "lvl": 44,
       "required": "",
       "type": "U2"
+    },
+    {
+      "name": "Marketable (Acrobat)",
+      "desc": "Can sell services for money. Target must be interested in purchase. Use lower of this skill and Bartering.",
+      "lvl": 4,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "As the River",
+      "desc": "+1 to Dodge, Jump, Ride, Climb, Sneak, Escape",
+      "lvl": 6,
+      "required": "All upgrades, ",
+      "type": "UMAX"
     }
   ],
   "Jumping": [
@@ -756,8 +820,8 @@ upgrades = {
     },
     {
       "name": "Mystic smithing",
-      "desc": "Requires Mystics II, Smithing IV. Work with mystic substances.",
-      "lvl": "Quest",
+      "desc": "Work with mystic substances.",
+      "lvl": "Q",
       "required": "Basic Mystics II, Smithing IV",
       "type": "U3"
     }
@@ -780,8 +844,8 @@ upgrades = {
     },
     {
       "name": "Mystic woodcraft",
-      "desc": "Requires Mystics II, Carpentry IV. Work with mystic materials.",
-      "lvl": "Quest",
+      "desc": "Work with mystic materials.",
+      "lvl": "Q",
       "required": "Basic Mystics II, Carpentry IV, Naturalist",
       "type": "U3"
     }
@@ -1627,7 +1691,6 @@ upgrades = {
     }
   ]
 }
-
       // dragging a node invalidates the Diagram.layout, causing a layout during the drag
       myDiagram.toolManager.draggingTool.doMouseMove = function() {
         go.DraggingTool.prototype.doMouseMove.call(this);
@@ -1840,9 +1903,6 @@ upgrades = {
           );
 
       // create the model for the concept map
-
-
-
       var nodeDataArray = [
         { key: 0, text: "SKILL TREE", desc: "Start here.", color: "white", category: "h1" },
         { key: 1, text: "STR", desc: "Strength. Feats of raw power. 10pts to increase", category: "h1", color: "lightcoral" },
@@ -1867,13 +1927,13 @@ upgrades = {
         { key: 20, text: "Professions", desc: "Professions", category: "h2", color: "thistle" },
         { key: 21, text: "Deception", desc: "Deception", category: "h2", color: "thistle" },
         { key: 22, text: "Character", desc: "Character", category: "h2", color: "bisque" },
-        { key: 23, text: "Brawling", desc: "Unsophisticated melee combat. Can only be used when unarmed / with fist-wielded weapons." , color: "lightcoral", lvl: "11224" }, 
-        { key: 24, text: "Pin", desc: "Attempt to restrain opponent (must be on floor). Cannot damage whilst pinning without upgrade." , color: "lightcoral", lvl: "11224" }, 
+        { key: 23, text: "Brawling", desc: "Unsophisticated melee combat. Can only be used when unarmed / with fist-wielded weapons." , color: "lightcoral", lvl: "12446" }, 
+        { key: 24, text: "Pin", desc: "Attempt to restrain opponent (must be on floor). Cannot damage whilst pinning without upgrade." , color: "lightcoral", lvl: "2224" }, 
         { key: 25, text: "Tackle", desc: "Take opponent to floor by brute force. DEX skills exist that can also achieve this. Roll vs victim STR." , color: "lightcoral", lvl: "2224" }, 
         { key: 26, text: "Acquatics", desc: "Ability to swim. Unupgraded can swim for 10 minutes at 1m/s, hold breath for 30s" , color: "palegreen", lvl: "2" }, 
         { key: 27, text: "Energy", desc: "Measure of how much can be done in a day" , color: "palegreen", lvl: "0" }, 
-        { key: 28, text: "Willpower", desc: "Roll during concentration, interrogation, etc. Note you get Willpower = HT for free (i.e. lvl 3)" , color: "palegreen", lvl: "2" }, 
-        { key: 29, text: "Martial arts", desc: "Advanced unarmed combat / use of specialised equipment. Can use to take opponent to floor." , color: "skyblue", lvl: "2446" }, 
+        { key: 28, text: "Willpower", desc: "Roll during concentration, interrogation, etc. Note you get Willpower = HT for free (i.e. lvl 3)" , color: "palegreen", lvl: "00224" }, 
+        { key: 29, text: "Martial arts", desc: "Advanced unarmed combat / use of specialised equipment. Can use to take opponent to floor." , color: "skyblue", lvl: "24468" }, 
         { key: 30, text: "Melee combat", desc: "Characters start with one of melee or ranged combat." , color: "skyblue", lvl: "10" }, 
         { key: 31, text: "Fencing", desc: "e.g. sabres" , color: "skyblue", lvl: "24468" }, 
         { key: 32, text: "Flail", desc: "e.g. morningstars" , color: "skyblue", lvl: "24468" }, 
@@ -1885,28 +1945,28 @@ upgrades = {
         { key: 38, text: "Blowpipe", desc: "Darts and stealth air-propelled weaponry" , color: "skyblue", lvl: "2" }, 
         { key: 39, text: "Bow", desc: "All manually drawn ranged weapons" , color: "skyblue", lvl: "24468" }, 
         { key: 40, text: "Crossbow", desc: "All mechanised range weapons" , color: "skyblue", lvl: "24468" }, 
-        { key: 41, text: "Thrown weapon", desc: "e.g. throwing knives" , color: "skyblue", lvl: "2" }, 
+        { key: 41, text: "Thrown weapon", desc: "Can have with melee combat without the base ranged stat" , color: "skyblue", lvl: "2" }, 
         { key: 42, text: "Artillery", desc: "Large-scale ranged devices. E.g. catapults, ballistas, trebuchets" , color: "skyblue", lvl: "4" }, 
         { key: 43, text: "Shield", desc: "All items held for blocking damage" , color: "skyblue", lvl: "24468" }, 
         { key: 44, text: "Climbing", desc: "1FP every 15s without upgrades. A footholded wall is scaled at 1m / 10s" , color: "skyblue", lvl: "1224" }, 
         { key: 45, text: "Acrobatics", desc: "Coordinated physical feats" , color: "skyblue", lvl: "1224" }, 
-        { key: 46, text: "Jumping", desc: "Without upgrades, jump your BM/2 far and BM/4 high" , color: "skyblue", lvl: "0" }, 
+        { key: 46, text: "Jumping", desc: "Without upgrades, jump your Move/2 far and Move/4 high" , color: "skyblue", lvl: "0" }, 
         { key: 47, text: "Throwing", desc: "Without upgrades, throw 15m/s, max effective 0.5kl, accurate to a breadbox within 5m" , color: "skyblue", lvl: "0" }, 
         { key: 48, text: "Riding", desc: "1FP per minute of riding. Roll to mount" , color: "skyblue", lvl: "1224" }, 
         { key: 49, text: "Speed", desc: "Note, without upgrade, sprinting costs 1FP per 100m" , color: "skyblue", lvl: "0" }, 
         { key: 50, text: "Pickpocket", desc: "Much more difficult if observed, and if in sparsely populated area" , color: "skyblue", lvl: "H448" }, 
-        { key: 51, text: "Sneak", desc: "Roll every 5s if within 5 metres, 15s in close proximity, 60s if further. Bonus if out of sight." , color: "skyblue", lvl: "12468" }, 
+        { key: 51, text: "Sneak", desc: "1/2FP. Roll every 5s if within 5 metres, 15s in close proximity, 60s if further. Bonus if out of sight." , color: "skyblue", lvl: "12468" }, 
         { key: 52, text: "Escape", desc: "1FP. Restraints, rope-ties. Takes about 10 minutes per attempt." , color: "skyblue", lvl: "2446" }, 
         { key: 53, text: "Smithing", desc: "Metalworking. Fashion crude items without upgrades." , color: "skyblue", lvl: "12248" }, 
         { key: 54, text: "Lumberjack", desc: "Felling wood" , color: "skyblue", lvl: "224" }, 
         { key: 55, text: "Carpentry", desc: "Crafting wood" , color: "skyblue", lvl: "244" }, 
         { key: 56, text: "Interrogation", desc: "1FP. Roll vs. victim's willpower. Failure may cause victim to lie / become useless. Requires credible threat." , color: "khaki", lvl: "H4468" }, 
-        { key: 57, text: "Diplomacy", desc: "1FP. Persuasion and de-escalation of tensions." , color: "khaki", lvl: "H12468" }, 
-        { key: 58, text: "Fast-Talk", desc: "1FP. Quick lies, verbal deception. Failures may significantly reduce person's opinion of you" , color: "khaki", lvl: "H12468" }, 
+        { key: 57, text: "Diplomacy", desc: "1/2FP. Persuasion and de-escalation of tensions." , color: "khaki", lvl: "H12468" }, 
+        { key: 58, text: "Fast-Talk", desc: "1/2FP. Quick lies, verbal deception. Failures may significantly reduce person's opinion of you" , color: "khaki", lvl: "H12468" }, 
         { key: 59, text: "Intimidation", desc: "1FP. Roll vs. victim's willpower. Failure may cause victim to lie / become useless. Requires credible threat." , color: "khaki", lvl: "H24468" }, 
         { key: 60, text: "Savoir-Faire", desc: "Knowledge of etiquette, cultural expectations, especially amongst upper-lcass" , color: "khaki", lvl: "12446" }, 
         { key: 61, text: "Streetwise", desc: "Knowledge of mannerisms of criminals / lowlife individuals" , color: "khaki", lvl: "12446" }, 
-        { key: 62, text: "Public speaking", desc: "1FP. Oratory and addressing en masse." , color: "khaki", lvl: "H12468" }, 
+        { key: 62, text: "Public speaking", desc: "1/2FP. Oratory and addressing en masse." , color: "khaki", lvl: "H12468" }, 
         { key: 63, text: "Bartering", desc: "Trading goods and services. Many marketable skills require good Bartering to command a decent price." , color: "khaki", lvl: "24468" }, 
         { key: 64, text: "Business", desc: "Run a store, manage operations" , color: "khaki", lvl: "H2448" }, 
         { key: 65, text: "Leadership", desc: "Giving orders, strategising, managing individuals" , color: "khaki", lvl: "12446" }, 
@@ -1923,11 +1983,11 @@ upgrades = {
         { key: 76, text: "Crewman", desc: "Helping on ship, army, large organisation" , color: "thistle", lvl: "112" }, 
         { key: 77, text: "Traps", desc: "Indentification of traps." , color: "thistle", lvl: "12446" }, 
         { key: 78, text: "Shadowing", desc: "1FP and one roll every 60s, half if in close proximity, half if in uncrowded area, double if unsuspecting" , color: "thistle", lvl: "12468" }, 
-        { key: 79, text: "Observation", desc: "Discrete observation of situations, people, etc. Assume level 0 if does not have skill / upgarde" , color: "thistle", lvl: "12446" }, 
+        { key: 79, text: "Observation", desc: "1/2FP. Discrete observation of situations, people, etc. Assume level 0 if does not have skill / upgarde" , color: "thistle", lvl: "12446" }, 
         { key: 80, text: "Empathy", desc: "Read intelligent emotion. Assume level 0 if does not have skill / upgrade" , color: "thistle", lvl: "12468" }, 
         { key: 81, text: "Scrounging", desc: "1FP. Find items in local area. Usually takes 30 minutes" , color: "thistle", lvl: "12446" }, 
         { key: 82, text: "Searching", desc: "1FP. Look for concealed items on person / in environment" , color: "thistle", lvl: "1124" }, 
-        { key: 83, text: "First aid", desc: "Treatment of other's small wounds. Easier if there is access to equipment" , color: "thistle", lvl: "12446" }, 
+        { key: 83, text: "First aid", desc: "1FP. Treatment of other's small wounds. Easier if there is access to equipment" , color: "thistle", lvl: "12446" }, 
         { key: 84, text: "Basic Mystics", desc: "Rudimentary knowledge of mysic arts. Opens door to several more potential mystic paths." , color: "thistle", lvl: "248" }, 
         { key: 85, text: "Artifacts", desc: "One per owned artifact. This skill cannot be gained on an unidentified artifact." , color: "thistle", lvl: "248" }, 
         { key: 86, text: "Writing", desc: "Ability to write fluently beyond basic communication" , color: "thistle", lvl: "12446" }, 
@@ -2061,7 +2121,7 @@ upgrades = {
         { from: 22, to: 104}, 
         { from: 22, to: 105}, 
       ];
-      
+
       myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
 
       global_diagram = myDiagram;
