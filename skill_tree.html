@@ -84,7 +84,7 @@
   "Brawling": [
     {
       "name": "Heavy swing",
-      "desc": "+1+L damage. 1FP",
+      "desc": "=+1+L damage. 1FP",
       "lvl": 22.0,
       "required": "",
       "type": "U1"
@@ -114,7 +114,7 @@
   "Pin": [
     {
       "name": "Scuffler",
-      "desc": "Can roll any standard combat roll whilst pinning someone. ",
+      "desc": "Can roll any standard combat roll whilst pinning someone.",
       "lvl": 4.0,
       "required": "",
       "type": "U1"
@@ -215,6 +215,13 @@
       "lvl": 44,
       "required": "",
       "type": "U2"
+    },
+    {
+      "name": "Intense focus",
+      "desc": "Spend 1HP to regain 4FP. Can use every 2 hours.",
+      "lvl": 3,
+      "required": "",
+      "type": "U3"
     }
   ],
   "Willpower": [
@@ -273,7 +280,7 @@
   "Melee combat": [
     {
       "name": "Melee specialist",
-      "desc": "+1 to melee attacks. Cannot have ranged skills.",
+      "desc": "=+1 to melee attacks. Cannot have ranged skills.",
       "lvl": 5.0,
       "required": "",
       "type": "U1"
@@ -281,7 +288,7 @@
     {
       "name": "Close-quarter expert",
       "desc": "Act as if lvl L on all melee weapons, even if you do not have the skill",
-      "lvl": 44,
+      "lvl": 2234,
       "required": "",
       "type": "U2"
     }
@@ -303,7 +310,7 @@
     },
     {
       "name": "Overextend",
-      "desc": "+3 damage on success, but no defense roll next turn. 1FP",
+      "desc": "=+3 damage on success, but no defense roll next turn. 1FP",
       "lvl": "4",
       "required": "",
       "type": "U3"
@@ -319,14 +326,14 @@
   "Flail": [
     {
       "name": "Overhead swing",
-      "desc": "+1+L damage. 2FP",
+      "desc": "=+1+L damage. 2FP",
       "lvl": 24.0,
       "required": "",
       "type": "U1"
     },
     {
       "name": "Overextend",
-      "desc": "+3 damage on success, but no defense roll next turn. 1FP",
+      "desc": "=+3 damage on success, but no defense roll next turn. 1FP",
       "lvl": "4",
       "required": "",
       "type": "U2"
@@ -349,7 +356,7 @@
   "Impact": [
     {
       "name": "Crushing blow",
-      "desc": "+1+L damage. 2FP",
+      "desc": "=+1+L damage. 2FP",
       "lvl": 24.0,
       "required": "",
       "type": "U1"
@@ -386,7 +393,7 @@
     },
     {
       "name": "Distant strike",
-      "desc": "Maintain distance such that you are able to attack but opponent must move to attack you. 1FP",
+      "desc": "Increase weapon reach to 4. 1FP",
       "lvl": 4,
       "required": "",
       "type": "U2"
@@ -400,7 +407,7 @@
     },
     {
       "name": "Whirlwind",
-      "desc": "Sweep in a full circle, rolling against all enemies in range. Enemies roll DX to not fall to floor. 1FP.",
+      "desc": "Sweep in a full circle, rolling against all enemies within 3 tiles. Enemies roll DX-3 to not fall to floor. 2FP.",
       "lvl": "Q",
       "required": "All upgrades, ",
       "type": "UMAX"
@@ -409,7 +416,7 @@
   "Sword": [
     {
       "name": "Forward thrust",
-      "desc": "+1+L damage. 2FP",
+      "desc": "=+1+L damage. 2FP",
       "lvl": 24.0,
       "required": "",
       "type": "U1"
@@ -445,14 +452,14 @@
       "type": "U1"
     },
     {
-      "name": "Deft cuts",
-      "desc": "Quickly and silently slice through many materials. Can be used as a moving attack if undetected.",
+      "name": "Swift offence (dagger)",
+      "desc": "1FP. No move and attack penalty",
       "lvl": 3,
       "required": "",
       "type": "U2"
     },
     {
-      "name": "Weak point",
+      "name": "Weak point (dagger)",
       "desc": "Attempt an attack that ignores armor. 2FP",
       "lvl": 4,
       "required": "",
@@ -460,7 +467,7 @@
     },
     {
       "name": "Silent takedown",
-      "desc": "If undetected, attempt an attack that is lethal to all but the toughest opponents. 2FP",
+      "desc": "If undetected, attempt an attack that is lethal to all but the toughest opponents. 4FP",
       "lvl": "Q",
       "required": "All upgrades, Sneak II",
       "type": "UMAX"
@@ -469,7 +476,7 @@
   "Ranged combat": [
     {
       "name": "Ranged specialist",
-      "desc": "+1 to ranged attacks. Cannot have melee skills other than Dagger",
+      "desc": "=+1 to ranged attacks. Cannot have melee skills other than Dagger",
       "lvl": 3.0,
       "required": "",
       "type": "U1"
@@ -482,11 +489,40 @@
       "type": "U2"
     }
   ],
-  "Blowpipe": [],
+  "Blowpipe": [
+    {
+      "name": "Steady hand (pipe)",
+      "desc": "1FP. Double your aim bonus",
+      "lvl": 2.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Weak point (pipe)",
+      "desc": "Attempt an attack that ignores armor. 1FP",
+      "lvl": 3,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Swift offence (pipe)",
+      "desc": "1FP. No move and attack penalty",
+      "lvl": 3,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Shadowshot",
+      "desc": "If undetected, +3 to attack, +1 to damage. Attacking does not affect stealth",
+      "lvl": "Q",
+      "required": "All upgrades, Sneak II",
+      "type": "UMAX"
+    }
+  ],
   "Bow": [
     {
       "name": "Steady hand (bow)",
-      "desc": "+1+L to immobile targets",
+      "desc": "",
       "lvl": 222.0,
       "required": "",
       "type": "U1"
@@ -516,7 +552,7 @@
   "Crossbow": [
     {
       "name": "Steady hand (crossbow)",
-      "desc": "+1+L to immobile targets",
+      "desc": "",
       "lvl": 222.0,
       "required": "",
       "type": "U1"
@@ -537,13 +573,42 @@
     },
     {
       "name": "Stronghold",
-      "desc": "+3 to defense if not moving. No range damage penalty. Can wield shield with crossbow (-2 attack)",
+      "desc": "=+3 to defense if not moving. No range damage penalty. Can wield shield with crossbow (-2 attack)",
       "lvl": "Q",
       "required": "All upgrades, ",
       "type": "UMAX"
     }
   ],
-  "Thrown weapon": [],
+  "Thrown weapon": [
+    {
+      "name": "Steady hand (thrown)",
+      "desc": "1FP. Double your aim bonus",
+      "lvl": 3.0,
+      "required": "",
+      "type": "U1"
+    },
+    {
+      "name": "Quickshot",
+      "desc": "On miss, attempt another L times in same turn. 1FP per re-attempt",
+      "lvl": 24,
+      "required": "",
+      "type": "U2"
+    },
+    {
+      "name": "Covered throw",
+      "desc": "Attack at -2 even during all-out defence. 1FP",
+      "lvl": 3,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Kill chain",
+      "desc": "2FP to activate. On successful hit, throw another weapon, up to 5x.",
+      "lvl": "Q",
+      "required": "All upgrades, ",
+      "type": "UMAX"
+    }
+  ],
   "Artillery": [],
   "Shield": [
     {
@@ -608,7 +673,7 @@
   "Acrobatics": [
     {
       "name": "Combative acrobatics",
-      "desc": "Advanced movement possible in combat. Reduce standard 'Move and Attack' penalty by 2L",
+      "desc": "Advanced movement possible in combat. For 1FP Reduce standard 'Move and Attack' penalty by 2L.",
       "lvl": 44.0,
       "required": "",
       "type": "U1"
@@ -629,8 +694,8 @@
     },
     {
       "name": "As the River",
-      "desc": "+1 to Dodge, Jump, Ride, Climb, Sneak, Escape",
-      "lvl": 6,
+      "desc": "=+1 to Dodge, Jump, Ride, Climb, Sneak, Escape",
+      "lvl": "6",
       "required": "All upgrades, ",
       "type": "UMAX"
     }
@@ -698,14 +763,14 @@
   "Riding": [
     {
       "name": "Combat steed",
-      "desc": "+3 dodge, +2 attack, +2 damage whilst mounted during combat. Move and Attack penalty reduced by 2.",
+      "desc": "=+3 dodge, +2 attack, +2 damage whilst mounted during combat. Move and Attack penalty reduced by 2.",
       "lvl": 4.0,
       "required": "",
       "type": "U1"
     },
     {
       "name": "Wild tamer",
-      "desc": "1FP. Attempt to mount wild animal: success by X = X sec. Can broadly direct of animal, or deal guaranteed damage. ",
+      "desc": "1FP. Attempt to mount wild animal: success by X = X sec. Can broadly direct of animal, or deal guaranteed damage.",
       "lvl": 4,
       "required": "Animal handling II, Acrobatics",
       "type": "U2"
@@ -758,7 +823,7 @@
     },
     {
       "name": "Into the crowd",
-      "desc": "+2L when in crowded area, and +2L to get away if caught",
+      "desc": "=+2L when in crowded area, and +2L to get away if caught",
       "lvl": 44,
       "required": "",
       "type": "U3"
@@ -785,6 +850,20 @@
       "lvl": 4,
       "required": "",
       "type": "U2"
+    },
+    {
+      "name": "Hidden master",
+      "desc": "No FP drain to remain undetected",
+      "lvl": 4,
+      "required": "",
+      "type": "U3"
+    },
+    {
+      "name": "Darkness is my ally",
+      "desc": "2FP. After an intentional action that breaks Sneak, roll to return to hiding.",
+      "lvl": 5,
+      "required": "All upgrades, ",
+      "type": "UMAX"
     }
   ],
   "Escape": [
@@ -853,7 +932,7 @@
   "Interrogation": [
     {
       "name": "Violent methods (interrogation)",
-      "desc": "+2L bonus if violence inflicted on victim. 10% chance of causing Bloodlust.",
+      "desc": "=+2L bonus if violence inflicted on victim. 10% chance of causing Bloodlust.",
       "lvl": 44.0,
       "required": "",
       "type": "U1"
@@ -894,7 +973,7 @@
   "Intimidation": [
     {
       "name": "Violent methods (intimidation)",
-      "desc": "+2L bonus if violence inflicted on victim. 10% chance of causing Bloodlust.",
+      "desc": "=+2L bonus if violence inflicted on victim. 10% chance of causing Bloodlust.",
       "lvl": 44.0,
       "required": "",
       "type": "U1"
@@ -966,7 +1045,7 @@
       "name": "Master Haggler",
       "desc": "Must be fully upgraded. No FP cost for upgrades, reroll once on fail",
       "lvl": 5,
-      "required": "All upgrades, ",
+      "required": "All upgrades, Fully upgraded",
       "type": "UMAX"
     }
   ],
@@ -974,15 +1053,15 @@
   "Leadership": [
     {
       "name": "Rally",
-      "desc": "+2 attack to all nearby allies, but cannot attack / defend this turn. Recommended to be in cover.",
+      "desc": "=+2 attack to all nearby allies, but cannot attack / defend this turn. Recommended to be in cover.",
       "lvl": 4.0,
       "required": "",
       "type": "U1"
     },
     {
       "name": "Authoritive",
-      "desc": "+L to communication checks. To use, must roll successful Leadership first.",
-      "lvl": 44,
+      "desc": "",
+      "lvl": "44",
       "required": "",
       "type": "U2"
     }
@@ -1092,7 +1171,7 @@
     },
     {
       "name": "Killshot",
-      "desc": "+3 to attacks & damage against wild animals if undetected",
+      "desc": "=+3 to attacks & damage against wild animals if undetected",
       "lvl": "4",
       "required": "Ranged combat",
       "type": "U2"
@@ -1118,7 +1197,7 @@
   "Survival": [
     {
       "name": "Down with a fight",
-      "desc": "+2+L to rolls to remain conscious",
+      "desc": "",
       "lvl": 24.0,
       "required": "",
       "type": "U1"
@@ -1167,7 +1246,7 @@
     },
     {
       "name": "Eavesdropping",
-      "desc": "Discretely overhear conversations at -3+L. Requires Sneak in public areas. +1 for acute hearing",
+      "desc": "Discretely overhear conversations at -2+L. Requires Sneak in public areas. +1 for acute hearing",
       "lvl": 44,
       "required": "",
       "type": "U2"
@@ -1181,7 +1260,7 @@
     },
     {
       "name": "Sharp ears, sharp eyes",
-      "desc": "+1 to Ranged Combat & Empathy",
+      "desc": "=+1 to Ranged Combat & Empathy",
       "lvl": "4",
       "required": "All upgrades, ",
       "type": "UMAX"
@@ -1539,158 +1618,8 @@
       "required": "",
       "type": "U1"
     }
-  ],
-  "The Investigator (Lewis)": [
-    {
-      "name": "Work in progress",
-      "desc": "",
-      "lvl": "",
-      "required": "",
-      "type": "U1"
-    },
-    {
-      "name": "Work in progress",
-      "desc": "",
-      "lvl": "",
-      "required": "",
-      "type": "U2"
-    },
-    {
-      "name": "Work in progress",
-      "desc": "",
-      "lvl": "",
-      "required": "",
-      "type": "U3"
-    },
-    {
-      "name": "Commissioner-General",
-      "desc": "Special quest. Requires all upgrades.",
-      "lvl": 40,
-      "required": "All upgrades, ",
-      "type": "UMAX"
-    }
-  ],
-  "The Industrial (Tawa)": [
-    {
-      "name": "Work in progress",
-      "desc": "",
-      "lvl": "",
-      "required": "",
-      "type": "U1"
-    },
-    {
-      "name": "Work in progress",
-      "desc": "",
-      "lvl": "",
-      "required": "",
-      "type": "U2"
-    },
-    {
-      "name": "Work in progress",
-      "desc": "",
-      "lvl": "",
-      "required": "",
-      "type": "U3"
-    },
-    {
-      "name": "Guildmaster-on-High",
-      "desc": "Special quest. Requires all upgrades.",
-      "lvl": 40,
-      "required": "All upgrades, ",
-      "type": "UMAX"
-    }
-  ],
-  "The Fist (Buzze)": [
-    {
-      "name": "Work in progress",
-      "desc": "",
-      "lvl": "",
-      "required": "",
-      "type": "U1"
-    },
-    {
-      "name": "Work in progress",
-      "desc": "",
-      "lvl": "",
-      "required": "",
-      "type": "U2"
-    },
-    {
-      "name": "Work in progress",
-      "desc": "",
-      "lvl": "",
-      "required": "",
-      "type": "U3"
-    },
-    {
-      "name": "Warrior of the Fourth",
-      "desc": "Special quest. Requires all upgrades.",
-      "lvl": 40,
-      "required": "All upgrades, Brawling, Impact",
-      "type": "UMAX"
-    }
-  ],
-  "The Inquisitor (Ramon)": [
-    {
-      "name": "Work in progress",
-      "desc": "",
-      "lvl": "",
-      "required": "",
-      "type": "U1"
-    },
-    {
-      "name": "Work in progress",
-      "desc": "",
-      "lvl": "",
-      "required": "",
-      "type": "U2"
-    },
-    {
-      "name": "Work in progress",
-      "desc": "",
-      "lvl": "",
-      "required": "",
-      "type": "U3"
-    },
-    {
-      "name": "The Ear to All",
-      "desc": "Special quest. Requires all upgrades.",
-      "lvl": 40,
-      "required": "All upgrades, Empathy",
-      "type": "UMAX"
-    }
-  ],
-  "The Socialite (Uda)": [
-    {
-      "name": "Work in progress",
-      "desc": "",
-      "lvl": "",
-      "required": "",
-      "type": "U1"
-    },
-    {
-      "name": "Work in progress",
-      "desc": "",
-      "lvl": "",
-      "required": "",
-      "type": "U2"
-    },
-    {
-      "name": "Work in progress",
-      "desc": "",
-      "lvl": "",
-      "required": "",
-      "type": "U3"
-    },
-    {
-      "name": "Court of the Gods",
-      "desc": "Special quest. Requires all upgrades.",
-      "lvl": 40,
-      "required": "All upgrades, Diplomacy, Savoir-Faire, Streetwise",
-      "type": "UMAX"
-    }
   ]
-}
+}      
       // dragging a node invalidates the Diagram.layout, causing a layout during the drag
       myDiagram.toolManager.draggingTool.doMouseMove = function() {
         go.DraggingTool.prototype.doMouseMove.call(this);
@@ -1903,12 +1832,13 @@
           );
 
       // create the model for the concept map
+
       var nodeDataArray = [
         { key: 0, text: "SKILL TREE", desc: "Start here.", color: "white", category: "h1" },
         { key: 1, text: "STR", desc: "Strength. Feats of raw power. 10pts to increase", category: "h1", color: "lightcoral" },
         { key: 2, text: "HLT", desc: "Health. Hit points, energy (FP), survival. 10pts to increase.", category: "h1", color: "palegreen" },
         { key: 3, text: "DEX", desc: "Dexterity. Movement, athleticism, physical feats beyond sheer strength. 20pts to increase.", category: "h1", color: "skyblue" },
-        { key: 4, text: "INT", desc: "Intelligence. Feats that involve mental agility, experience, capability. 20pts to increase.", category: "h1", color: "thistle" },
+        { key: 4, text: "INT", desc: "Intelligence. Feats that involve mental agility, experience, capability. 15pts to increase.", category: "h1", color: "thistle" },
         { key: 5, text: "SPC", desc: "Special. Unique skills not tied to a base stat.", category: "h1", color: "bisque" },
         { key: 6, text: "CHR", desc: "Charisma. Communication and sociaciability. 10pts to increase.", category: "h1", color: "khaki" },
         { key: 7, text: "Fighting", desc: "Fighting", category: "h2", color: "lightcoral" },
@@ -1926,90 +1856,84 @@
         { key: 19, text: "Subjects", desc: "Subjects", category: "h2", color: "thistle" },
         { key: 20, text: "Professions", desc: "Professions", category: "h2", color: "thistle" },
         { key: 21, text: "Deception", desc: "Deception", category: "h2", color: "thistle" },
-        { key: 22, text: "Character", desc: "Character", category: "h2", color: "bisque" },
-        { key: 23, text: "Brawling", desc: "Unsophisticated melee combat. Can only be used when unarmed / with fist-wielded weapons." , color: "lightcoral", lvl: "12446" }, 
-        { key: 24, text: "Pin", desc: "Attempt to restrain opponent (must be on floor). Cannot damage whilst pinning without upgrade." , color: "lightcoral", lvl: "2224" }, 
-        { key: 25, text: "Tackle", desc: "Take opponent to floor by brute force. DEX skills exist that can also achieve this. Roll vs victim STR." , color: "lightcoral", lvl: "2224" }, 
-        { key: 26, text: "Acquatics", desc: "Ability to swim. Unupgraded can swim for 10 minutes at 1m/s, hold breath for 30s" , color: "palegreen", lvl: "2" }, 
-        { key: 27, text: "Energy", desc: "Measure of how much can be done in a day" , color: "palegreen", lvl: "0" }, 
-        { key: 28, text: "Willpower", desc: "Roll during concentration, interrogation, etc. Note you get Willpower = HT for free (i.e. lvl 3)" , color: "palegreen", lvl: "00224" }, 
-        { key: 29, text: "Martial arts", desc: "Advanced unarmed combat / use of specialised equipment. Can use to take opponent to floor." , color: "skyblue", lvl: "24468" }, 
-        { key: 30, text: "Melee combat", desc: "Characters start with one of melee or ranged combat." , color: "skyblue", lvl: "10" }, 
-        { key: 31, text: "Fencing", desc: "e.g. sabres" , color: "skyblue", lvl: "24468" }, 
-        { key: 32, text: "Flail", desc: "e.g. morningstars" , color: "skyblue", lvl: "24468" }, 
-        { key: 33, text: "Impact", desc: "e.g. clubs" , color: "skyblue", lvl: "24468" }, 
-        { key: 34, text: "Pole", desc: "e.g. polearms" , color: "skyblue", lvl: "24468" }, 
-        { key: 35, text: "Sword", desc: "e.g. rapier, broadsword" , color: "skyblue", lvl: "24468" }, 
-        { key: 36, text: "Dagger", desc: "Includes all small blades" , color: "skyblue", lvl: "1224" }, 
-        { key: 37, text: "Ranged combat", desc: "Characters start with one of melee or ranged combat." , color: "skyblue", lvl: "10" }, 
-        { key: 38, text: "Blowpipe", desc: "Darts and stealth air-propelled weaponry" , color: "skyblue", lvl: "2" }, 
-        { key: 39, text: "Bow", desc: "All manually drawn ranged weapons" , color: "skyblue", lvl: "24468" }, 
-        { key: 40, text: "Crossbow", desc: "All mechanised range weapons" , color: "skyblue", lvl: "24468" }, 
-        { key: 41, text: "Thrown weapon", desc: "Can have with melee combat without the base ranged stat" , color: "skyblue", lvl: "2" }, 
-        { key: 42, text: "Artillery", desc: "Large-scale ranged devices. E.g. catapults, ballistas, trebuchets" , color: "skyblue", lvl: "4" }, 
-        { key: 43, text: "Shield", desc: "All items held for blocking damage" , color: "skyblue", lvl: "24468" }, 
-        { key: 44, text: "Climbing", desc: "1FP every 15s without upgrades. A footholded wall is scaled at 1m / 10s" , color: "skyblue", lvl: "1224" }, 
-        { key: 45, text: "Acrobatics", desc: "Coordinated physical feats" , color: "skyblue", lvl: "1224" }, 
-        { key: 46, text: "Jumping", desc: "Without upgrades, jump your Move/2 far and Move/4 high" , color: "skyblue", lvl: "0" }, 
-        { key: 47, text: "Throwing", desc: "Without upgrades, throw 15m/s, max effective 0.5kl, accurate to a breadbox within 5m" , color: "skyblue", lvl: "0" }, 
-        { key: 48, text: "Riding", desc: "1FP per minute of riding. Roll to mount" , color: "skyblue", lvl: "1224" }, 
-        { key: 49, text: "Speed", desc: "Note, without upgrade, sprinting costs 1FP per 100m" , color: "skyblue", lvl: "0" }, 
-        { key: 50, text: "Pickpocket", desc: "Much more difficult if observed, and if in sparsely populated area" , color: "skyblue", lvl: "H448" }, 
-        { key: 51, text: "Sneak", desc: "1/2FP. Roll every 5s if within 5 metres, 15s in close proximity, 60s if further. Bonus if out of sight." , color: "skyblue", lvl: "12468" }, 
-        { key: 52, text: "Escape", desc: "1FP. Restraints, rope-ties. Takes about 10 minutes per attempt." , color: "skyblue", lvl: "2446" }, 
-        { key: 53, text: "Smithing", desc: "Metalworking. Fashion crude items without upgrades." , color: "skyblue", lvl: "12248" }, 
-        { key: 54, text: "Lumberjack", desc: "Felling wood" , color: "skyblue", lvl: "224" }, 
-        { key: 55, text: "Carpentry", desc: "Crafting wood" , color: "skyblue", lvl: "244" }, 
-        { key: 56, text: "Interrogation", desc: "1FP. Roll vs. victim's willpower. Failure may cause victim to lie / become useless. Requires credible threat." , color: "khaki", lvl: "H4468" }, 
-        { key: 57, text: "Diplomacy", desc: "1/2FP. Persuasion and de-escalation of tensions." , color: "khaki", lvl: "H12468" }, 
-        { key: 58, text: "Fast-Talk", desc: "1/2FP. Quick lies, verbal deception. Failures may significantly reduce person's opinion of you" , color: "khaki", lvl: "H12468" }, 
-        { key: 59, text: "Intimidation", desc: "1FP. Roll vs. victim's willpower. Failure may cause victim to lie / become useless. Requires credible threat." , color: "khaki", lvl: "H24468" }, 
-        { key: 60, text: "Savoir-Faire", desc: "Knowledge of etiquette, cultural expectations, especially amongst upper-lcass" , color: "khaki", lvl: "12446" }, 
-        { key: 61, text: "Streetwise", desc: "Knowledge of mannerisms of criminals / lowlife individuals" , color: "khaki", lvl: "12446" }, 
-        { key: 62, text: "Public speaking", desc: "1/2FP. Oratory and addressing en masse." , color: "khaki", lvl: "H12468" }, 
-        { key: 63, text: "Bartering", desc: "Trading goods and services. Many marketable skills require good Bartering to command a decent price." , color: "khaki", lvl: "24468" }, 
-        { key: 64, text: "Business", desc: "Run a store, manage operations" , color: "khaki", lvl: "H2448" }, 
-        { key: 65, text: "Leadership", desc: "Giving orders, strategising, managing individuals" , color: "khaki", lvl: "12446" }, 
-        { key: 66, text: "Acting", desc: "1FP per 15 minutes. Longer-term ruses and feigning behaviour." , color: "khaki", lvl: "H12468" }, 
-        { key: 67, text: "Carousing", desc: "Endurance at social gatherings" , color: "khaki", lvl: "124" }, 
-        { key: 68, text: "Sex appeal", desc: "Without upgrades, only works on those who are attracted to your gender/race" , color: "khaki", lvl: "124" }, 
-        { key: 69, text: "Animal handling", desc: "Understsanding of animal behaviour, basic communications if trained." , color: "thistle", lvl: "H12468" }, 
-        { key: 70, text: "Camouflage", desc: "Both for beings and inanimate objects. 1FP per attempt." , color: "thistle", lvl: "124" }, 
-        { key: 71, text: "Naturalist", desc: "Understanding and ability to harness natural resources." , color: "thistle", lvl: "124" }, 
-        { key: 72, text: "Hunting", desc: "Tracking and killing animals" , color: "thistle", lvl: "12446" }, 
-        { key: 73, text: "Area knowledge", desc: "Understanding beyond what would be known to wandering traveller, usually applies to specific area" , color: "thistle", lvl: "112" }, 
-        { key: 74, text: "Navigation", desc: "Use of maps, or basic intuition on landscape if available." , color: "thistle", lvl: "124" }, 
-        { key: 75, text: "Survival", desc: "Ability to withstand challenging environments" , color: "thistle", lvl: "12446" }, 
-        { key: 76, text: "Crewman", desc: "Helping on ship, army, large organisation" , color: "thistle", lvl: "112" }, 
-        { key: 77, text: "Traps", desc: "Indentification of traps." , color: "thistle", lvl: "12446" }, 
-        { key: 78, text: "Shadowing", desc: "1FP and one roll every 60s, half if in close proximity, half if in uncrowded area, double if unsuspecting" , color: "thistle", lvl: "12468" }, 
-        { key: 79, text: "Observation", desc: "1/2FP. Discrete observation of situations, people, etc. Assume level 0 if does not have skill / upgarde" , color: "thistle", lvl: "12446" }, 
-        { key: 80, text: "Empathy", desc: "Read intelligent emotion. Assume level 0 if does not have skill / upgrade" , color: "thistle", lvl: "12468" }, 
-        { key: 81, text: "Scrounging", desc: "1FP. Find items in local area. Usually takes 30 minutes" , color: "thistle", lvl: "12446" }, 
-        { key: 82, text: "Searching", desc: "1FP. Look for concealed items on person / in environment" , color: "thistle", lvl: "1124" }, 
-        { key: 83, text: "First aid", desc: "1FP. Treatment of other's small wounds. Easier if there is access to equipment" , color: "thistle", lvl: "12446" }, 
-        { key: 84, text: "Basic Mystics", desc: "Rudimentary knowledge of mysic arts. Opens door to several more potential mystic paths." , color: "thistle", lvl: "248" }, 
-        { key: 85, text: "Artifacts", desc: "One per owned artifact. This skill cannot be gained on an unidentified artifact." , color: "thistle", lvl: "248" }, 
-        { key: 86, text: "Writing", desc: "Ability to write fluently beyond basic communication" , color: "thistle", lvl: "12446" }, 
-        { key: 87, text: "Research", desc: "Read formal documents and records, find information amongst a large collection." , color: "thistle", lvl: "12446" }, 
-        { key: 88, text: "Law", desc: "Knowledge of basic protections afforded in different societies" , color: "thistle", lvl: "248" }, 
-        { key: 89, text: "Healing", desc: "Longer term diagnosis and treatment of injuries and maladies. Doctors will have Healing skill." , color: "thistle", lvl: "248" }, 
-        { key: 90, text: "Humanities", desc: "Studies of races, history, societies, organisation" , color: "thistle", lvl: "12468" }, 
-        { key: 91, text: "Maths", desc: "Numerical intepretation. Required base for other subjects." , color: "thistle", lvl: "12468" }, 
-        { key: 92, text: "History", desc: "Specific knowledge of a region / race / major event. Each is one skill. Can be leveled via research." , color: "thistle", lvl: "Q" }, 
-        { key: 93, text: "Mechanics", desc: "Understanding of machinery, weapons, and devices. Interaction requires upgrades." , color: "thistle", lvl: "12468" }, 
-        { key: 94, text: "Artistry", desc: "Create works that can be sold. Higher success = better quality.  Assume Lvl 0 if does not have upgrade." , color: "thistle", lvl: "12446" }, 
-        { key: 95, text: "Engineer", desc: "Can sell services for money. Target must be interested in purchase. Use lower of this skill and Bartering." , color: "thistle", lvl: "448" }, 
-        { key: 96, text: "Armoury", desc: "Creation of clothing & armour. Good items may be sold" , color: "thistle", lvl: "12468" }, 
-        { key: 97, text: "Performance", desc: "Entertainment as a profession." , color: "thistle", lvl: "12468" }, 
-        { key: 98, text: "Disguise", desc: "1FP per attempt. Normally requires about 30 minutes to create a workable disguise." , color: "thistle", lvl: "12468" }, 
-        { key: 99, text: "Conceal", desc: "1FP per attempt. Hide items, either in specific place or on specific individual." , color: "thistle", lvl: "12446" }, 
-        { key: 100, text: "Lockpicking", desc: "1FP per attempt. Takes around 5 minutes." , color: "thistle", lvl: "H12468" }, 
-        { key: 101, text: "The Investigator (Lewis)", desc: "" , color: "bisque", lvl: "Q" }, 
-        { key: 102, text: "The Industrial (Tawa)", desc: "" , color: "bisque", lvl: "Q" }, 
-        { key: 103, text: "The Fist (Buzze)", desc: "" , color: "bisque", lvl: "Q" }, 
-        { key: 104, text: "The Inquisitor (Ramon)", desc: "" , color: "bisque", lvl: "Q" }, 
-        { key: 105, text: "The Socialite (Uda)", desc: "" , color: "bisque", lvl: "Q" }, 
+        { key: 22, text: "Brawling", desc: "Unsophisticated melee combat. Can only be used when unarmed / with fist-wielded weapons." , color: "lightcoral", lvl: "12224" }, 
+        { key: 23, text: "Pin", desc: "Attempt to restrain opponent (must be on floor). Cannot damage whilst pinning without upgrade." , color: "lightcoral", lvl: "2224" }, 
+        { key: 24, text: "Tackle", desc: "Take opponent to floor by brute force. DEX skills exist that can also achieve this. Roll vs victim STR." , color: "lightcoral", lvl: "2224" }, 
+        { key: 25, text: "Acquatics", desc: "Ability to swim. Unupgraded can swim for 10 minutes at 1m/s, hold breath for 30s" , color: "palegreen", lvl: "2" }, 
+        { key: 26, text: "Energy", desc: "Measure of how much can be done in a day" , color: "palegreen", lvl: "0" }, 
+        { key: 27, text: "Willpower", desc: "Roll during concentration, interrogation, etc. Note you get Willpower = HT for free (i.e. lvl 3)" , color: "palegreen", lvl: "224" }, 
+        { key: 28, text: "Martial arts", desc: "Advanced unarmed combat / use of specialised equipment. Can use to take opponent to floor." , color: "skyblue", lvl: "24468" }, 
+        { key: 29, text: "Melee combat", desc: "Characters start with one of melee or ranged combat." , color: "skyblue", lvl: "10" }, 
+        { key: 30, text: "Fencing", desc: "e.g. sabres" , color: "skyblue", lvl: "24468" }, 
+        { key: 31, text: "Flail", desc: "e.g. morningstars" , color: "skyblue", lvl: "24468" }, 
+        { key: 32, text: "Impact", desc: "e.g. clubs" , color: "skyblue", lvl: "24468" }, 
+        { key: 33, text: "Pole", desc: "e.g. polearms" , color: "skyblue", lvl: "24468" }, 
+        { key: 34, text: "Sword", desc: "e.g. rapier, broadsword" , color: "skyblue", lvl: "24468" }, 
+        { key: 35, text: "Dagger", desc: "Includes all small blades" , color: "skyblue", lvl: "1224" }, 
+        { key: 36, text: "Ranged combat", desc: "Characters start with one of melee or ranged combat." , color: "skyblue", lvl: "10" }, 
+        { key: 37, text: "Blowpipe", desc: "Darts and stealth air-propelled weaponry" , color: "skyblue", lvl: "2" }, 
+        { key: 38, text: "Bow", desc: "All manually drawn ranged weapons" , color: "skyblue", lvl: "24468" }, 
+        { key: 39, text: "Crossbow", desc: "All mechanised range weapons" , color: "skyblue", lvl: "24468" }, 
+        { key: 40, text: "Thrown weapon", desc: "Can have with melee combat without the base ranged stat" , color: "skyblue", lvl: "2" }, 
+        { key: 41, text: "Artillery", desc: "Large-scale ranged devices. E.g. catapults, ballistas, trebuchets" , color: "skyblue", lvl: "4" }, 
+        { key: 42, text: "Shield", desc: "All items held for blocking damage" , color: "skyblue", lvl: "24468" }, 
+        { key: 43, text: "Climbing", desc: "1FP every 15s without upgrades. A footholded wall is scaled at 1m / 10s" , color: "skyblue", lvl: "1224" }, 
+        { key: 44, text: "Acrobatics", desc: "Coordinated physical feats" , color: "skyblue", lvl: "1224" }, 
+        { key: 45, text: "Jumping", desc: "Without upgrades, jump your Move/2 far and Move/4 high" , color: "skyblue", lvl: "0" }, 
+        { key: 46, text: "Throwing", desc: "Without upgrades, throw 15m/s, max effective 0.5kl, accurate to a breadbox within 5m" , color: "skyblue", lvl: "0" }, 
+        { key: 47, text: "Riding", desc: "1FP per minute of riding. Roll to mount" , color: "skyblue", lvl: "1224" }, 
+        { key: 48, text: "Speed", desc: "Note, without upgrade, sprinting costs 1FP per 100m" , color: "skyblue", lvl: "0" }, 
+        { key: 49, text: "Pickpocket", desc: "Much more difficult if observed, and if in sparsely populated area" , color: "skyblue", lvl: "H448" }, 
+        { key: 50, text: "Sneak", desc: "1/2FP. Roll every 5s if within 5 metres, 15s in close proximity, 60s if further. Bonus if out of sight." , color: "skyblue", lvl: "12468" }, 
+        { key: 51, text: "Escape", desc: "1FP. Restraints, rope-ties. Takes about 10 minutes per attempt." , color: "skyblue", lvl: "2446" }, 
+        { key: 52, text: "Smithing", desc: "Metalworking. Fashion crude items without upgrades." , color: "skyblue", lvl: "12248" }, 
+        { key: 53, text: "Lumberjack", desc: "Felling wood" , color: "skyblue", lvl: "224" }, 
+        { key: 54, text: "Carpentry", desc: "Crafting wood" , color: "skyblue", lvl: "244" }, 
+        { key: 55, text: "Interrogation", desc: "1FP. Roll vs. victim's willpower. Failure may cause victim to lie / become useless. Requires credible threat." , color: "khaki", lvl: "H4468" }, 
+        { key: 56, text: "Diplomacy", desc: "1/2FP. Persuasion and de-escalation of tensions." , color: "khaki", lvl: "H12468" }, 
+        { key: 57, text: "Fast-Talk", desc: "1/2FP. Quick lies, verbal deception. Failures may significantly reduce person's opinion of you" , color: "khaki", lvl: "H12468" }, 
+        { key: 58, text: "Intimidation", desc: "1FP. Roll vs. victim's willpower. Failure may cause victim to lie / become useless. Requires credible threat." , color: "khaki", lvl: "H24468" }, 
+        { key: 59, text: "Savoir-Faire", desc: "Knowledge of etiquette, cultural expectations, especially amongst upper-class" , color: "khaki", lvl: "12446" }, 
+        { key: 60, text: "Streetwise", desc: "Knowledge of mannerisms of criminals / lowlife individuals" , color: "khaki", lvl: "12446" }, 
+        { key: 61, text: "Public speaking", desc: "1/2FP. Oratory and addressing en masse." , color: "khaki", lvl: "H12468" }, 
+        { key: 62, text: "Bartering", desc: "Trading goods and services. Many marketable skills require good Bartering to command a decent price." , color: "khaki", lvl: "24468" }, 
+        { key: 63, text: "Business", desc: "Run a store, manage operations" , color: "khaki", lvl: "H2448" }, 
+        { key: 64, text: "Leadership", desc: "Giving orders, strategising, managing individuals" , color: "khaki", lvl: "12446" }, 
+        { key: 65, text: "Acting", desc: "1FP per 15 minutes. Longer-term ruses and feigning behaviour." , color: "khaki", lvl: "H12468" }, 
+        { key: 66, text: "Carousing", desc: "Endurance at social gatherings" , color: "khaki", lvl: "124" }, 
+        { key: 67, text: "Sex appeal", desc: "Without upgrades, only works on those who are attracted to your gender/race" , color: "khaki", lvl: "124" }, 
+        { key: 68, text: "Animal handling", desc: "Understsanding of animal behaviour, basic communications if trained." , color: "thistle", lvl: "H12468" }, 
+        { key: 69, text: "Camouflage", desc: "Both for beings and inanimate objects. 1FP per attempt." , color: "thistle", lvl: "124" }, 
+        { key: 70, text: "Naturalist", desc: "Understanding and ability to harness natural resources." , color: "thistle", lvl: "124" }, 
+        { key: 71, text: "Hunting", desc: "Tracking and killing animals" , color: "thistle", lvl: "12446" }, 
+        { key: 72, text: "Area knowledge", desc: "Understanding beyond what would be known to wandering traveller, usually applies to specific area" , color: "thistle", lvl: "112" }, 
+        { key: 73, text: "Navigation", desc: "Use of maps, or basic intuition on landscape if available." , color: "thistle", lvl: "124" }, 
+        { key: 74, text: "Survival", desc: "Ability to withstand challenging environments" , color: "thistle", lvl: "12446" }, 
+        { key: 75, text: "Crewman", desc: "Helping on ship, army, large organisation" , color: "thistle", lvl: "112" }, 
+        { key: 76, text: "Traps", desc: "Indentification of traps." , color: "thistle", lvl: "12446" }, 
+        { key: 77, text: "Shadowing", desc: "1FP and one roll every 60s, half if in close proximity, half if in uncrowded area, double if unsuspecting" , color: "thistle", lvl: "12468" }, 
+        { key: 78, text: "Observation", desc: "1/2FP. Discrete observation of situations, people, etc. Assume level 0 if does not have skill / upgarde" , color: "thistle", lvl: "12446" }, 
+        { key: 79, text: "Empathy", desc: "Read intelligent emotion. Assume level 0 if does not have skill / upgrade" , color: "thistle", lvl: "12468" }, 
+        { key: 80, text: "Scrounging", desc: "1FP. Find items in local area. Usually takes 30 minutes" , color: "thistle", lvl: "12446" }, 
+        { key: 81, text: "Searching", desc: "1FP. Look for concealed items on person / in environment" , color: "thistle", lvl: "1124" }, 
+        { key: 82, text: "First aid", desc: "1FP. Treatment of other's small wounds. Easier if there is access to equipment" , color: "thistle", lvl: "12446" }, 
+        { key: 83, text: "Basic Mystics", desc: "Rudimentary knowledge of mysic arts. Opens door to several more potential mystic paths." , color: "thistle", lvl: "248" }, 
+        { key: 84, text: "Artifacts", desc: "One per owned artifact. This skill cannot be gained on an unidentified artifact." , color: "thistle", lvl: "248" }, 
+        { key: 85, text: "Writing", desc: "Ability to write fluently beyond basic communication" , color: "thistle", lvl: "12446" }, 
+        { key: 86, text: "Research", desc: "Read formal documents and records, find information amongst a large collection." , color: "thistle", lvl: "12446" }, 
+        { key: 87, text: "Law", desc: "Knowledge of basic protections afforded in different societies" , color: "thistle", lvl: "248" }, 
+        { key: 88, text: "Healing", desc: "Longer term diagnosis and treatment of injuries and maladies. Doctors will have Healing skill." , color: "thistle", lvl: "248" }, 
+        { key: 89, text: "Humanities", desc: "Studies of races, history, societies, organisation" , color: "thistle", lvl: "12468" }, 
+        { key: 90, text: "Maths", desc: "Numerical intepretation. Required base for other subjects." , color: "thistle", lvl: "12468" }, 
+        { key: 91, text: "History", desc: "Specific knowledge of a region / race / major event. Each is one skill. Can be leveled via research." , color: "thistle", lvl: "Q" }, 
+        { key: 92, text: "Mechanics", desc: "Understanding of machinery, weapons, and devices. Interaction requires upgrades." , color: "thistle", lvl: "12468" }, 
+        { key: 93, text: "Artistry", desc: "Create works that can be sold. Higher success = better quality. Assume Lvl 0 if does not have upgrade." , color: "thistle", lvl: "12446" }, 
+        { key: 94, text: "Engineer", desc: "Can sell services for money. Target must be interested in purchase. Use lower of this skill and Bartering." , color: "thistle", lvl: "448" }, 
+        { key: 95, text: "Armoury", desc: "Creation of clothing & armour. Good items may be sold" , color: "thistle", lvl: "12468" }, 
+        { key: 96, text: "Performance", desc: "Entertainment as a profession." , color: "thistle", lvl: "12468" }, 
+        { key: 97, text: "Disguise", desc: "1FP per attempt. Normally requires about 30 minutes to create a workable disguise." , color: "thistle", lvl: "12468" }, 
+        { key: 98, text: "Conceal", desc: "1FP per attempt. Hide items, either in specific place or on specific individual." , color: "thistle", lvl: "12446" }, 
+        { key: 99, text: "Lockpicking", desc: "1FP per attempt. Takes around 5 minutes." , color: "thistle", lvl: "H12468" }, 
 
       ];
 
@@ -2035,41 +1959,41 @@
         { from: 4, to: 19}, 
         { from: 4, to: 20}, 
         { from: 4, to: 21}, 
-        { from: 5, to: 22}, 
+        { from: 7, to: 22}, 
         { from: 7, to: 23}, 
         { from: 7, to: 24}, 
-        { from: 7, to: 25}, 
+        { from: 8, to: 25}, 
         { from: 8, to: 26}, 
         { from: 8, to: 27}, 
-        { from: 8, to: 28}, 
-        { from: 30, to: 29}, 
-        { from: 23, to: 29}, 
-        { from: 9, to: 30}, 
-        { from: 30, to: 31}, 
-        { from: 30, to: 32}, 
-        { from: 30, to: 33}, 
-        { from: 30, to: 34}, 
-        { from: 30, to: 35}, 
-        { from: 30, to: 36}, 
-        { from: 9, to: 37}, 
-        { from: 37, to: 38}, 
-        { from: 37, to: 39}, 
-        { from: 37, to: 40}, 
-        { from: 37, to: 41}, 
+        { from: 29, to: 28}, 
+        { from: 22, to: 28}, 
+        { from: 9, to: 29}, 
+        { from: 29, to: 30}, 
+        { from: 29, to: 31}, 
+        { from: 29, to: 32}, 
+        { from: 29, to: 33}, 
+        { from: 29, to: 34}, 
+        { from: 29, to: 35}, 
+        { from: 9, to: 36}, 
+        { from: 36, to: 37}, 
+        { from: 36, to: 38}, 
+        { from: 36, to: 39}, 
+        { from: 36, to: 40}, 
+        { from: 9, to: 41}, 
         { from: 9, to: 42}, 
-        { from: 9, to: 43}, 
+        { from: 10, to: 43}, 
         { from: 10, to: 44}, 
         { from: 10, to: 45}, 
         { from: 10, to: 46}, 
         { from: 10, to: 47}, 
         { from: 10, to: 48}, 
-        { from: 10, to: 49}, 
+        { from: 11, to: 49}, 
         { from: 11, to: 50}, 
         { from: 11, to: 51}, 
-        { from: 11, to: 52}, 
+        { from: 12, to: 52}, 
         { from: 12, to: 53}, 
-        { from: 12, to: 54}, 
-        { from: 54, to: 55}, 
+        { from: 53, to: 54}, 
+        { from: 13, to: 55}, 
         { from: 13, to: 56}, 
         { from: 13, to: 57}, 
         { from: 13, to: 58}, 
@@ -2077,51 +2001,45 @@
         { from: 13, to: 60}, 
         { from: 13, to: 61}, 
         { from: 13, to: 62}, 
-        { from: 13, to: 63}, 
-        { from: 63, to: 64}, 
+        { from: 62, to: 63}, 
+        { from: 13, to: 64}, 
         { from: 13, to: 65}, 
-        { from: 13, to: 66}, 
+        { from: 14, to: 66}, 
         { from: 14, to: 67}, 
-        { from: 14, to: 68}, 
+        { from: 15, to: 68}, 
         { from: 15, to: 69}, 
         { from: 15, to: 70}, 
         { from: 15, to: 71}, 
-        { from: 15, to: 72}, 
+        { from: 16, to: 72}, 
         { from: 16, to: 73}, 
         { from: 16, to: 74}, 
         { from: 16, to: 75}, 
         { from: 16, to: 76}, 
-        { from: 16, to: 77}, 
+        { from: 17, to: 77}, 
         { from: 17, to: 78}, 
-        { from: 17, to: 79}, 
-        { from: 79, to: 80}, 
+        { from: 78, to: 79}, 
+        { from: 17, to: 80}, 
         { from: 17, to: 81}, 
-        { from: 17, to: 82}, 
+        { from: 18, to: 82}, 
         { from: 18, to: 83}, 
-        { from: 18, to: 84}, 
-        { from: 84, to: 85}, 
-        { from: 18, to: 86}, 
-        { from: 86, to: 87}, 
-        { from: 86, to: 88}, 
-        { from: 83, to: 89}, 
-        { from: 86, to: 90}, 
+        { from: 83, to: 84}, 
+        { from: 18, to: 85}, 
+        { from: 85, to: 86}, 
+        { from: 85, to: 87}, 
+        { from: 82, to: 88}, 
+        { from: 85, to: 89}, 
+        { from: 19, to: 90}, 
         { from: 19, to: 91}, 
-        { from: 19, to: 92}, 
-        { from: 91, to: 93}, 
-        { from: 20, to: 94}, 
-        { from: 93, to: 95}, 
+        { from: 90, to: 92}, 
+        { from: 20, to: 93}, 
+        { from: 92, to: 94}, 
+        { from: 20, to: 95}, 
         { from: 20, to: 96}, 
-        { from: 20, to: 97}, 
+        { from: 21, to: 97}, 
         { from: 21, to: 98}, 
         { from: 21, to: 99}, 
-        { from: 21, to: 100}, 
-        { from: 22, to: 101}, 
-        { from: 22, to: 102}, 
-        { from: 22, to: 103}, 
-        { from: 22, to: 104}, 
-        { from: 22, to: 105}, 
-      ];
-
+      ];    
+      
       myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
 
       global_diagram = myDiagram;
@@ -2145,7 +2063,7 @@
     }
 
     function import_layout() {
-      text = '[{"x":806.4804621516537,"y":15.76342145944421,"s":false},{"x":764.8994341303078,"y":244.14575980473018,"s":false},{"x":905.2009135323979,"y":-144.70859202104015,"s":false},{"x":157.86357215915817,"y":29.15028488506156,"s":false},{"x":1598.8037823916375,"y":88.32257527516995,"s":false},{"x":952.7733762877315,"y":389.5894965512113,"s":false},{"x":707.0463070473573,"y":-321.5551721047984,"s":false},{"x":675.4970181036703,"y":447.0935994434498,"s":false},{"x":1050.7735894747977,"y":-303.1401917287579,"s":false},{"x":59.393424309253305,"y":368.5364295733936,"s":false},{"x":-69.22420449245305,"y":-250.2701066481231,"s":false},{"x":-59.01619959775865,"y":49.75276613095569,"s":false},{"x":-302.93646014570476,"y":-5.4409886176398565,"s":false},{"x":525.9349631622114,"y":-694.3409597028407,"s":false},{"x":648.2787856706735,"y":-189.8837647945614,"s":false},{"x":1290.408682034569,"y":161.9868327095539,"s":false},{"x":1685.4496306840726,"y":-297.62625527366174,"s":false},{"x":1615.0990554291575,"y":486.4612693494469,"s":false},{"x":2055.312791973144,"y":185.3233625471537,"s":false},{"x":1852.3598030169221,"y":-42.823260644151425,"s":false},{"x":1331.9236905243135,"y":-21.729890583140637,"s":false},{"x":1702.299735263094,"y":213.96787638268438,"s":false},{"x":1000.140247168809,"y":775.052039724402,"s":false},{"x":512.7457170112156,"y":599.2488764296144,"s":false},{"x":732.4909601362183,"y":561.3051135129236,"s":false},{"x":878.7860371401046,"y":555.1631630202266,"s":false},{"x":1105.3690082066457,"y":-487.512617192412,"s":false},{"x":907.8280381623638,"y":-440.285232533665,"s":false},{"x":1270.9110016623017,"y":-334.6073723895056,"s":false},{"x":252.2960514981373,"y":691.8312746454812,"s":false},{"x":24.805387373680045,"y":670.689635606219,"s":false},{"x":8.204703713017384,"y":876.7932150901394,"s":false},{"x":-119.22354525055421,"y":547.084301775847,"s":false},{"x":213.187993432886,"y":854.1389404620974,"s":false},{"x":-144.17779809338873,"y":849.6241236099258,"s":false},{"x":-171.4821865335493,"y":698.5105735030553,"s":false},{"x":55.927980007627795,"y":526.9280140540767,"s":false},{"x":300.1333317847274,"y":304.01044985127515,"s":false},{"x":458.43630739640577,"y":139.50337387769827,"s":false},{"x":304.81872603541643,"y":162.69997797649663,"s":false},{"x":492.50092983227074,"y":294.8474911616565,"s":false},{"x":295.54886536582814,"y":485.70234573859847,"s":false},{"x":-146.68470980712394,"y":360.0358199623124,"s":false},{"x":106.1156407315958,"y":226.1771107569726,"s":false},{"x":178.34813293429215,"y":-397.62415714598757,"s":false},{"x":-79.59457419089046,"y":-384.1396280456232,"s":false},{"x":-63.865189014535595,"y":-522.3468079366729,"s":false},{"x":-311.78738509312905,"y":-381.9357524154344,"s":false},{"x":-259.4684532775709,"y":-219.84776498561803,"s":false},{"x":208.37664698751303,"y":-210.78908152337306,"s":false},{"x":-65.12549240254357,"y":-106.64742113333885,"s":false},{"x":-78.52344291306449,"y":166.06973252139846,"s":false},{"x":-273.76409929181426,"y":128.49272736365663,"s":false},{"x":-521.6782433604566,"y":75.92830045197621,"s":false},{"x":-568.1617208012631,"y":-113.34038363836736,"s":false},{"x":-793.1142305882832,"y":-226.91437394910633,"s":false},{"x":418.26291031596537,"y":-980.7437590440945,"s":false},{"x":262.21379213943953,"y":-658.8370648461785,"s":false},{"x":712.4439191521536,"y":-587.3966230174534,"s":false},{"x":934.170753654785,"y":-685.0606990609344,"s":false},{"x":935.6027016474993,"y":-837.3179437325408,"s":false},{"x":696.8764587783583,"y":-837.7528136320892,"s":false},{"x":502.86123277545124,"y":-560.0544054328789,"s":false},{"x":705.3265364309274,"y":-979.2279869934363,"s":false},{"x":791.4237471712968,"y":-1135.4209295177338,"s":false},{"x":241.97178794726563,"y":-808.8402455909659,"s":false},{"x":490.125272290882,"y":-839.3158179546568,"s":false},{"x":433.00381916167345,"y":-316.4528241319383,"s":false},{"x":460.74275476635273,"y":-72.79642318277001,"s":false},{"x":1470.2679326506309,"y":258.1022926849197,"s":false},{"x":1207.0049691478603,"y":313.4291428883828,"s":false},{"x":1048.8598457985681,"y":169.05990965278878,"s":false},{"x":1119.581114216421,"y":18.404159214736296,"s":false},{"x":1773.0923480468362,"y":-550.9358226171868,"s":false},{"x":1861.9749714638365,"y":-207.88957023852404,"s":false},{"x":1890.0235296662702,"y":-363.3826953461292,"s":false},{"x":1542.1376698867884,"y":-484.495834460687,"s":false},{"x":1524.073985481152,"y":-331.6170594641796,"s":false},{"x":1572.8724148271087,"y":625.3308017403435,"s":false},{"x":1822.3018945999922,"y":680.9533782516805,"s":false},{"x":1910.2317173857248,"y":836.2733819366007,"s":false},{"x":1351.5551952542917,"y":482.82571172393244,"s":false},{"x":1904.1845766174729,"y":520.729888631341,"s":false},{"x":2183.1695110376277,"y":319.73845324815466,"s":false},{"x":2321.767916583214,"y":1.9567015028519306,"s":false},{"x":2516.5011042647184,"y":-106.35554405622689,"s":false},{"x":2425.315329552682,"y":263.0852848540469,"s":false},{"x":2644.722979796502,"y":274.41444320345084,"s":false},{"x":2553.208069591386,"y":108.81137134546766,"s":false},{"x":2206.081724741317,"y":478.74831821212103,"s":false},{"x":2438.9278361573924,"y":435.4764742038407,"s":false},{"x":2117.452499476874,"y":-185.06333777903686,"s":false},{"x":2096.6482652487116,"y":-1.7071426898062465,"s":false},{"x":2237.21887636295,"y":-342.95838541869966,"s":false},{"x":1637.1042983534753,"y":-127.64283540056296,"s":false},{"x":2414.839579705818,"y":-495.07126373880664,"s":false},{"x":1403.2739528552652,"y":-158.4972912277631,"s":false},{"x":1096.9423783675652,"y":-155.12646311651878,"s":false},{"x":1948.9909627353197,"y":325.82699181640936,"s":false},{"x":1816.0696595128677,"y":77.25268399864274,"s":false},{"x":1685.592157627745,"y":327.0839280136041,"s":false},{"x":1071.5934066554178,"y":947.8870449276486,"s":false},{"x":1298.7791583528012,"y":730.7593014766858,"s":false},{"x":791.574943797864,"y":743.0377239011137,"s":false},{"x":849.6801380266519,"y":934.5479443099575,"s":false},{"x":1077.9231414994242,"y":555.7881465798969,"s":true}]'
+      text = '[{"x":1224.1310059005611,"y":303.8970584724517,"s":false},{"x":1165.1072273897557,"y":526.7551922275496,"s":true},{"x":1458.5401812252262,"y":199.12236698970122,"s":true},{"x":522.7967050922539,"y":357.06523301040943,"s":false},{"x":1855.3628294787954,"y":842.1087787452801,"s":false},{"x":1451.9787925651679,"y":399.4282506009908,"s":true},{"x":1311.3670718433723,"y":-42.205823502186774,"s":false},{"x":955.9945211781641,"y":681.2013091266555,"s":true},{"x":1648.1003459514104,"y":111.08893891935918,"s":false},{"x":195.39852294119208,"y":478.5925936784557,"s":true},{"x":702.7751149691011,"y":176.41475656042718,"s":true},{"x":186.08856482257045,"y":592.7140791487236,"s":true},{"x":278.89355375827955,"y":127.26841313041656,"s":true},{"x":1465.0708596820907,"y":-419.95135539987024,"s":false},{"x":1110.5752397416475,"y":-166.00536704348661,"s":true},{"x":1553.6541921173045,"y":1242.5460621372488,"s":true},{"x":1488.568538253398,"y":823.3738984716671,"s":true},{"x":2122.8692290965346,"y":1180.5814444541681,"s":false},{"x":2188.122835965276,"y":550.3364308619828,"s":true},{"x":2272.985389488828,"y":861.2187881299135,"s":true},{"x":1760.47412393834,"y":671.4570386814165,"s":true},{"x":1810.7455555188253,"y":1006.9963774967011,"s":false},{"x":900.6666697698663,"y":837.8939106061987,"s":true},{"x":824.6074399494252,"y":592.3251917988609,"s":true},{"x":969.3369049272796,"y":529.930911240029,"s":true},{"x":1861.308658791683,"y":-3.0854032468937627,"s":true},{"x":1794.1135666336863,"y":231.1392892028382,"s":true},{"x":1575.8906283745384,"y":-38.24049222294593,"s":true},{"x":703.3427292044689,"y":999.8024003558288,"s":true},{"x":444.3986454639654,"y":828.1561872825664,"s":true},{"x":633.7716650164496,"y":849.8684292028041,"s":true},{"x":294.1171166996724,"y":882.149904903086,"s":true},{"x":628.4411996813226,"y":697.1800526424341,"s":true},{"x":515.918193473968,"y":1027.6046080258147,"s":true},{"x":328.2194436492418,"y":1041.3245258602476,"s":true},{"x":435.68002676597786,"y":672.3712361050458,"s":true},{"x":-182.53624947172813,"y":362.57757580529307,"s":true},{"x":-419.1217925937775,"y":307.69146283792367,"s":true},{"x":-183.5088546596566,"y":552.7872698021054,"s":true},{"x":-432.30817302430165,"y":472.469107826748,"s":true},{"x":-185.07252769946942,"y":165.95885089262995,"s":true},{"x":69.10550299083943,"y":328.2175456176401,"s":true},{"x":299.7787902990841,"y":331.26541099172067,"s":true},{"x":737.2313634143107,"y":299.9618245943597,"s":true},{"x":995.7873404091229,"y":105.54238382996375,"s":true},{"x":558.9945063440604,"y":6.525058579645201,"s":true},{"x":768.6363317203563,"y":19.63026022248001,"s":true},{"x":527.971522249309,"y":180.58093860673597,"s":true},{"x":966.8601938392414,"y":277.47674497431416,"s":true},{"x":180.5216533782455,"y":708.662175572867,"s":true},{"x":-1.0447854158617715,"y":566.2703977513055,"s":true},{"x":-17.050808048677432,"y":732.3984267427428,"s":true},{"x":60.35381048306593,"y":81.54047902511782,"s":true},{"x":256.5215133389031,"y":-77.84988523929867,"s":true},{"x":213.01024833862778,"y":-232.4394094974827,"s":true},{"x":1193.0085653815609,"y":-604.917177834476,"s":true},{"x":1666.063221434951,"y":-296.19496994100786,"s":true},{"x":1899.9630091338906,"y":-443.2488118058407,"s":true},{"x":1473.9901741458839,"y":-554.7487902037946,"s":true},{"x":1478.6144927424207,"y":-699.1395155429755,"s":true},{"x":1762.1855260519746,"y":-694.9834099543948,"s":true},{"x":1232.6367926935498,"y":-454.009700599234,"s":true},{"x":1913.8091013407122,"y":-285.02507273268515,"s":true},{"x":2138.7489158857416,"y":-261.5705045037158,"s":true},{"x":1419.1473719892651,"y":-273.974881165453,"s":true},{"x":1742.870446227606,"y":-558.6241510671432,"s":true},{"x":872.7380653888415,"y":-164.81020729910713,"s":true},{"x":953.8507923337526,"y":-328.41015333934297,"s":true},{"x":1309.9354579919325,"y":1297.4733370675885,"s":true},{"x":1524.515948353681,"y":1437.3321003921824,"s":true},{"x":1320.266770197466,"y":1140.5211741619312,"s":true},{"x":1761.614920054253,"y":1295.2911353163504,"s":true},{"x":1204.819889881142,"y":879.1858592469815,"s":true},{"x":1240.9094521233465,"y":717.6862708213415,"s":true},{"x":1488.5965409088185,"y":663.1778513574069,"s":true},{"x":1449.7394360856938,"y":941.8018729700813,"s":true},{"x":1678.1672440477073,"y":817.0526383086872,"s":true},{"x":1980.6032814895689,"y":1314.2219364276618,"s":true},{"x":2470.5133763656036,"y":1237.6603793107581,"s":true},{"x":2659.7112138191583,"y":1389.7492833109668,"s":true},{"x":2396.5267148759704,"y":1065.9624188427563,"s":true},{"x":2229.6583430316955,"y":1323.944129126353,"s":true},{"x":2357.8042228837207,"y":362.3033099705169,"s":true},{"x":2149.6816002678725,"y":333.5472832698074,"s":true},{"x":2128.7762365324484,"y":180.50754595432736,"s":true},{"x":2566.794851518514,"y":507.32162962708304,"s":true},{"x":2771.7082683611525,"y":477.5989959904507,"s":true},{"x":2621.332588413698,"y":349.7671096623963,"s":true},{"x":2408.847834521718,"y":200.20527467323893,"s":true},{"x":2722.2337547658717,"y":652.6039602416024,"s":true},{"x":2556.0737801874902,"y":884.4327101697759,"s":true},{"x":2389.1767465628063,"y":713.133427244213,"s":true},{"x":2748.7148602541984,"y":923.2051848465738,"s":true},{"x":1974.7720610760912,"y":525.0219527597376,"s":true},{"x":2994.0155651213945,"y":988.8398811583007,"s":true},{"x":2062.7652104948393,"y":718.3487679047078,"s":true},{"x":1689.7261260041653,"y":511.88279772308476,"s":true},{"x":1863.6329909464616,"y":1122.2968825599623,"s":true},{"x":2080.044718060848,"y":982.3352138993798,"s":true},{"x":1575.0647376426027,"y":1097.423740656424,"s":true}]'
 
       var locations = JSON.parse(text);
       var i = 0;
@@ -2153,8 +2071,6 @@
         n.location = new go.Point(locations[i].x, locations[i].y);
         i += 1;
       });
-
-      
     }
   </script>
 </head>
